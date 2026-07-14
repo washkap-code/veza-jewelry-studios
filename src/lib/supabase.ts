@@ -12,6 +12,19 @@ export type Profile = {
   created_at: string;
 };
 
+export type Collection = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  story: string | null;
+  hero_image_url: string | null;
+  sort_order: number;
+  published: boolean;
+};
+
+export type ProductImage = { url: string; alt?: string };
+
 export type Product = {
   id: string;
   collection_id: string | null;
@@ -20,27 +33,32 @@ export type Product = {
   description: string | null;
   price: number;
   currency: string;
-  images: Array<{ url: string; alt?: string }> | null;
+  stone: string | null;
+  materials: string | null;
+  dimensions: string | null;
+  weight: string | null;
+  care_instructions: string | null;
+  images: ProductImage[] | null;
+  published: boolean;
+  featured: boolean;
+  stock_quantity: number | null;
+};
+
+export type Gemstone = {
+  id: string;
+  name: string;
+  slug: string;
+  origin: string | null;
+  hardness: string | null;
+  symbolism: string | null;
+  description: string | null;
+  color_variations: string | null;
+  care_guide: string | null;
+  zimbabwe_sourcing: string | null;
+  images: ProductImage[] | null;
   published: boolean;
 };
 
-export type Order = {
-  id: string;
-  user_id: string;
-  status: string;
-  subtotal: number;
-  shipping: number;
-  total: number;
-  currency: string;
-  created_at: string;
-};
-
-export type Wishlist = {
-  id: string;
-  user_id: string;
-  product_id: string;
-  created_at: string;
-};
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
