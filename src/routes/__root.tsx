@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
+import { AuthProvider } from "../lib/auth";
 
 function NotFoundComponent() {
   return (
