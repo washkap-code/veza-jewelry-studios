@@ -7,7 +7,7 @@ import {
   productBySlugQuery,
   relatedProductsQuery,
 } from "../lib/queries";
-import { supabase } from "../lib/supabase";
+import { supabase, type Product } from "../lib/supabase";
 import { useAuth } from "../lib/auth";
 import { useCart, formatPrice } from "../lib/cart";
 import { FadeIn } from "../components/FadeIn";
@@ -15,6 +15,7 @@ import { PlaceholderImage } from "../components/PlaceholderImage";
 import { AuthLoader } from "../components/AuthLoader";
 import { ProductCard } from "./collections.$slug";
 import { fadeUp, staggerContainer, viewportOnce, LUXE_EASE } from "../lib/motion";
+
 
 export const Route = createFileRoute("/product/$slug")({
   component: ProductDetail,
