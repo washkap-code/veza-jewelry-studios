@@ -49,10 +49,22 @@ export function Footer() {
               </p>
             </address>
             <div className="mt-6 flex items-center gap-4 text-charcoal">
-              <a href="#" aria-label="Instagram" className="transition-colors hover:text-teal">
+              <a
+                href="https://www.instagram.com/veza_studios"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="transition-colors hover:text-teal"
+              >
                 <Instagram strokeWidth={1} size={18} />
               </a>
-              <a href="#" aria-label="Facebook" className="transition-colors hover:text-teal">
+              <a
+                href="https://www.facebook.com/people/VEZA-Studios/100087093636802/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="transition-colors hover:text-teal"
+              >
                 <Facebook strokeWidth={1} size={18} />
               </a>
             </div>
@@ -71,7 +83,15 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-8 text-xs font-light tracking-wide text-charcoal-soft md:flex-row md:items-center">
           <p>© {year} VEZA Jewelry Studios. All rights reserved.</p>
-          <p className="tracking-[0.22em] uppercase">Sculpted in Harare</p>
+          <p className="hidden tracking-[0.22em] uppercase md:block">Sculpted in Harare</p>
+          <a
+            href="https://jonomi.digital"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-light tracking-wide text-charcoal-soft transition-colors duration-500 hover:text-teal"
+          >
+            Built by Jonomi Digital Studios
+          </a>
         </div>
       </div>
     </footer>
