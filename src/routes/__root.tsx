@@ -79,10 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         property: "og:description",
         content:
-          "Contemporary African luxury jewelry, sculpted by nature and crafted in Harare, Zimbabwe.",
+          "VEZA Jewelry Studios — a contemporary African luxury jewelry design house from Harare, Zimbabwe. Sculpted by nature, crafted by hand.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "VEZA Jewelry Studios — Contemporary African Luxury" },
+      { name: "twitter:description", content: "VEZA Jewelry Studios — a contemporary African luxury jewelry design house from Harare, Zimbabwe. Sculpted by nature, crafted by hand." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/58caed31-2e41-475a-b762-09df987e0a33" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/58caed31-2e41-475a-b762-09df987e0a33" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
