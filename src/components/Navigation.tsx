@@ -86,9 +86,23 @@ export function Navigation() {
               />
             ) : null}
           </Link>
-          <Link to="/cart" aria-label="Shopping bag" className="transition-colors hover:text-teal">
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={count > 0 ? `Shopping bag (${count})` : "Shopping bag"}
+            className="relative transition-colors hover:text-teal"
+          >
             <ShoppingBag strokeWidth={1} size={20} />
-          </Link>
+            {count > 0 ? (
+              <span
+                aria-hidden
+                className="absolute -right-2 -top-2 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-teal px-1 text-[0.6rem] font-light text-ivory"
+              >
+                {count}
+              </span>
+            ) : null}
+          </button>
+
           <button
             aria-label="Menu"
             className="lg:hidden"
