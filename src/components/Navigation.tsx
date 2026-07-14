@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
 import { useAuth } from "../lib/auth";
+import { useCart } from "../lib/cart";
+
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
