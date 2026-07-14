@@ -124,8 +124,6 @@
   text-transform: uppercase;
   transition: background-color 700ms ease-out, color 700ms ease-out, border-color 700ms ease-out;
   cursor: pointer;
-}
-@utility btn-outline-charcoal-hover {
   &:hover {
     background-color: var(--color-teal);
     border-color: var(--color-teal);
