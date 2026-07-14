@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
+import { VezaLogo } from "./VezaLogo";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -16,6 +17,8 @@ const NAV_LINKS = [
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isHome = pathname === "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -23,6 +26,8 @@ export function Navigation() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const showMark = isHome && !scrolled;
 
   return (
     <header
@@ -35,10 +40,13 @@ export function Navigation() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10 md:py-6">
         <Link
           to="/"
-          className="font-serif text-2xl tracking-[0.35em] text-charcoal md:text-3xl"
+          className="flex items-center gap-3 text-charcoal"
           aria-label="VEZA — Home"
         >
-          VEZA
+          {showMark ? (
+            <VezaLogo variant="mark" className="h-7 w-7 text-teal transition-opacity duration-700" />
+          ) : null}
+          <VezaLogo variant="wordmark" className="h-5 w-auto md:h-6" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
