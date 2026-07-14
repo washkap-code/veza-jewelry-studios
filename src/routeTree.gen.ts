@@ -23,10 +23,17 @@ import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GemstonesIndexRouteImport } from './routes/gemstones.index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as GemstonesSlugRouteImport } from './routes/gemstones.$slug'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as AdminProductsRouteImport } from './routes/admin.products'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminJournalRouteImport } from './routes/admin.journal'
+import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
+import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions'
+import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
 
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
@@ -98,6 +105,11 @@ const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CollectionsRoute,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
@@ -118,11 +130,41 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CollectionsRoute,
 } as any)
+const AdminProductsRoute = AdminProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminJournalRoute = AdminJournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGemstonesRoute = AdminGemstonesRouteImport.update({
+  id: '/gemstones',
+  path: '/gemstones',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCommissionsRoute = AdminCommissionsRouteImport.update({
+  id: '/commissions',
+  path: '/commissions',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
+  id: '/collections',
+  path: '/collections',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRouteWithChildren
@@ -132,17 +174,23 @@ export interface FileRoutesByFullPath {
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gemstones': typeof AdminGemstonesRoute
+  '/admin/journal': typeof AdminJournalRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/gemstones/': typeof GemstonesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
@@ -150,10 +198,17 @@ export interface FileRoutesByTo {
   '/custom': typeof CustomRoute
   '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gemstones': typeof AdminGemstonesRoute
+  '/admin/journal': typeof AdminJournalRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/gemstones': typeof GemstonesIndexRoute
 }
@@ -161,7 +216,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRouteWithChildren
@@ -171,10 +226,17 @@ export interface FileRoutesById {
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
+  '/admin/collections': typeof AdminCollectionsRoute
+  '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gemstones': typeof AdminGemstonesRoute
+  '/admin/journal': typeof AdminJournalRoute
+  '/admin/orders': typeof AdminOrdersRoute
+  '/admin/products': typeof AdminProductsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/gemstones/': typeof GemstonesIndexRoute
 }
@@ -193,17 +255,23 @@ export interface FileRouteTypes {
     | '/gemstones'
     | '/journal'
     | '/story'
+    | '/admin/collections'
+    | '/admin/commissions'
+    | '/admin/gemstones'
+    | '/admin/journal'
+    | '/admin/orders'
+    | '/admin/products'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
     | '/product/$slug'
+    | '/admin/'
     | '/collections/'
     | '/gemstones/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/account'
-    | '/admin'
     | '/cart'
     | '/checkout'
     | '/contact'
@@ -211,10 +279,17 @@ export interface FileRouteTypes {
     | '/custom'
     | '/journal'
     | '/story'
+    | '/admin/collections'
+    | '/admin/commissions'
+    | '/admin/gemstones'
+    | '/admin/journal'
+    | '/admin/orders'
+    | '/admin/products'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
     | '/product/$slug'
+    | '/admin'
     | '/collections'
     | '/gemstones'
   id:
@@ -231,10 +306,17 @@ export interface FileRouteTypes {
     | '/gemstones'
     | '/journal'
     | '/story'
+    | '/admin/collections'
+    | '/admin/commissions'
+    | '/admin/gemstones'
+    | '/admin/journal'
+    | '/admin/orders'
+    | '/admin/products'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
     | '/product/$slug'
+    | '/admin/'
     | '/collections/'
     | '/gemstones/'
   fileRoutesById: FileRoutesById
@@ -242,7 +324,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
   CollectionsRoute: typeof CollectionsRouteWithChildren
@@ -355,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexRouteImport
       parentRoute: typeof CollectionsRoute
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
@@ -383,8 +472,72 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof CollectionsRoute
     }
+    '/admin/products': {
+      id: '/admin/products'
+      path: '/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AdminProductsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/journal': {
+      id: '/admin/journal'
+      path: '/journal'
+      fullPath: '/admin/journal'
+      preLoaderRoute: typeof AdminJournalRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/gemstones': {
+      id: '/admin/gemstones'
+      path: '/gemstones'
+      fullPath: '/admin/gemstones'
+      preLoaderRoute: typeof AdminGemstonesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/commissions': {
+      id: '/admin/commissions'
+      path: '/commissions'
+      fullPath: '/admin/commissions'
+      preLoaderRoute: typeof AdminCommissionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/collections': {
+      id: '/admin/collections'
+      path: '/collections'
+      fullPath: '/admin/collections'
+      preLoaderRoute: typeof AdminCollectionsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminCollectionsRoute: typeof AdminCollectionsRoute
+  AdminCommissionsRoute: typeof AdminCommissionsRoute
+  AdminGemstonesRoute: typeof AdminGemstonesRoute
+  AdminJournalRoute: typeof AdminJournalRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
+  AdminProductsRoute: typeof AdminProductsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminCollectionsRoute: AdminCollectionsRoute,
+  AdminCommissionsRoute: AdminCommissionsRoute,
+  AdminGemstonesRoute: AdminGemstonesRoute,
+  AdminJournalRoute: AdminJournalRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
+  AdminProductsRoute: AdminProductsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface CollectionsRouteChildren {
   CollectionsSlugRoute: typeof CollectionsSlugRoute
@@ -428,7 +581,7 @@ const JournalRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
   CollectionsRoute: CollectionsRouteWithChildren,
@@ -443,13 +596,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
