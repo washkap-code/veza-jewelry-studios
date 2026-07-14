@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
+import { AuthProvider } from "../lib/auth";
 
 function NotFoundComponent() {
   return (
@@ -121,23 +122,25 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-ivory text-charcoal">
-        <Navigation />
-        <main className={isHome ? "" : "pt-24 md:pt-28"}>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
-        </main>
-        <Footer />
-      </div>
+      <AuthProvider>
+        <div className="min-h-screen bg-ivory text-charcoal">
+          <Navigation />
+          <main className={isHome ? "" : "pt-24 md:pt-28"}>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={pathname}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
+              >
+                <Outlet />
+              </motion.div>
+            </AnimatePresence>
+          </main>
+          <Footer />
+        </div>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
