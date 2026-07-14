@@ -7,6 +7,6 @@ export const Route = createFileRoute("/product/$slug")({
 
 function Product() {
   const { slug } = Route.useParams();
-  const title = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const title = slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
   return <PageHeader eyebrow="Piece" title={title} />;
 }

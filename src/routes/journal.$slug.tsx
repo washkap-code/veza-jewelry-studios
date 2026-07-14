@@ -7,6 +7,6 @@ export const Route = createFileRoute("/journal/$slug")({
 
 function JournalEntry() {
   const { slug } = Route.useParams();
-  const title = slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  const title = slug.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
   return <PageHeader eyebrow="Journal" title={title} />;
 }
