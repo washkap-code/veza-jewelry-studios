@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
 import { useAuth } from "../lib/auth";
+import { useCart } from "../lib/cart";
+
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -20,6 +22,8 @@ export function Navigation() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useAuth();
+  const { count, openCart } = useCart();
+
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -82,9 +86,23 @@ export function Navigation() {
               />
             ) : null}
           </Link>
-          <Link to="/cart" aria-label="Shopping bag" className="transition-colors hover:text-teal">
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={count > 0 ? `Shopping bag (${count})` : "Shopping bag"}
+            className="relative transition-colors hover:text-teal"
+          >
             <ShoppingBag strokeWidth={1} size={20} />
-          </Link>
+            {count > 0 ? (
+              <span
+                aria-hidden
+                className="absolute -right-2 -top-2 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-teal px-1 text-[0.6rem] font-light text-ivory"
+              >
+                {count}
+              </span>
+            ) : null}
+          </button>
+
           <button
             aria-label="Menu"
             className="lg:hidden"
