@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Search, ShoppingBag, User, Menu, X } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
+import { useAuth } from "../lib/auth";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
@@ -18,6 +19,7 @@ export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { user } = useAuth();
   const isHome = pathname === "/";
 
   useEffect(() => {
@@ -67,8 +69,18 @@ export function Navigation() {
           <button aria-label="Search" className="transition-colors hover:text-teal">
             <Search strokeWidth={1} size={20} />
           </button>
-          <Link to="/account" aria-label="Account" className="transition-colors hover:text-teal">
+          <Link
+            to="/account"
+            aria-label={user ? "Account (signed in)" : "Account"}
+            className="relative transition-colors hover:text-teal"
+          >
             <User strokeWidth={1} size={20} />
+            {user ? (
+              <span
+                aria-hidden
+                className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-teal"
+              />
+            ) : null}
           </Link>
           <Link to="/cart" aria-label="Shopping bag" className="transition-colors hover:text-teal">
             <ShoppingBag strokeWidth={1} size={20} />
