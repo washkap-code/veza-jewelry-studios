@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StoryRouteImport } from './routes/story'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as GemstonesRouteImport } from './routes/gemstones'
 import { Route as CustomRouteImport } from './routes/custom'
 import { Route as CraftsmanshipRouteImport } from './routes/craftsmanship'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -35,6 +36,11 @@ const StoryRoute = StoryRouteImport.update({
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GemstonesRoute = GemstonesRouteImport.update({
+  id: '/gemstones',
+  path: '/gemstones',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomRoute = CustomRouteImport.update({
@@ -83,9 +89,9 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const GemstonesIndexRoute = GemstonesIndexRouteImport.update({
-  id: '/gemstones/',
-  path: '/gemstones/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => GemstonesRoute,
 } as any)
 const CollectionsIndexRoute = CollectionsIndexRouteImport.update({
   id: '/',
@@ -103,9 +109,9 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   getParentRoute: () => JournalRoute,
 } as any)
 const GemstonesSlugRoute = GemstonesSlugRouteImport.update({
-  id: '/gemstones/$slug',
-  path: '/gemstones/$slug',
-  getParentRoute: () => rootRouteImport,
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => GemstonesRoute,
 } as any)
 const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   id: '/$slug',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -161,6 +168,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
   '/collections/$slug': typeof CollectionsSlugRoute
@@ -182,6 +190,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/gemstones'
     | '/journal'
     | '/story'
     | '/collections/$slug'
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/gemstones'
     | '/journal'
     | '/story'
     | '/collections/$slug'
@@ -239,11 +249,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CraftsmanshipRoute: typeof CraftsmanshipRoute
   CustomRoute: typeof CustomRoute
+  GemstonesRoute: typeof GemstonesRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
   StoryRoute: typeof StoryRoute
-  GemstonesSlugRoute: typeof GemstonesSlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
-  GemstonesIndexRoute: typeof GemstonesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -260,6 +269,13 @@ declare module '@tanstack/react-router' {
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gemstones': {
+      id: '/gemstones'
+      path: '/gemstones'
+      fullPath: '/gemstones'
+      preLoaderRoute: typeof GemstonesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/custom': {
@@ -327,10 +343,10 @@ declare module '@tanstack/react-router' {
     }
     '/gemstones/': {
       id: '/gemstones/'
-      path: '/gemstones'
+      path: '/'
       fullPath: '/gemstones/'
       preLoaderRoute: typeof GemstonesIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof GemstonesRoute
     }
     '/collections/': {
       id: '/collections/'
@@ -355,10 +371,10 @@ declare module '@tanstack/react-router' {
     }
     '/gemstones/$slug': {
       id: '/gemstones/$slug'
-      path: '/gemstones/$slug'
+      path: '/$slug'
       fullPath: '/gemstones/$slug'
       preLoaderRoute: typeof GemstonesSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof GemstonesRoute
     }
     '/collections/$slug': {
       id: '/collections/$slug'
@@ -384,6 +400,20 @@ const CollectionsRouteWithChildren = CollectionsRoute._addFileChildren(
   CollectionsRouteChildren,
 )
 
+interface GemstonesRouteChildren {
+  GemstonesSlugRoute: typeof GemstonesSlugRoute
+  GemstonesIndexRoute: typeof GemstonesIndexRoute
+}
+
+const GemstonesRouteChildren: GemstonesRouteChildren = {
+  GemstonesSlugRoute: GemstonesSlugRoute,
+  GemstonesIndexRoute: GemstonesIndexRoute,
+}
+
+const GemstonesRouteWithChildren = GemstonesRoute._addFileChildren(
+  GemstonesRouteChildren,
+)
+
 interface JournalRouteChildren {
   JournalSlugRoute: typeof JournalSlugRoute
 }
@@ -405,11 +435,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CraftsmanshipRoute: CraftsmanshipRoute,
   CustomRoute: CustomRoute,
+  GemstonesRoute: GemstonesRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
   StoryRoute: StoryRoute,
-  GemstonesSlugRoute: GemstonesSlugRoute,
   ProductSlugRoute: ProductSlugRoute,
-  GemstonesIndexRoute: GemstonesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
