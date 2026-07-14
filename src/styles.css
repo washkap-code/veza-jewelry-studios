@@ -34,7 +34,8 @@
   --color-ivory: var(--ivory);
   --color-warm-white: var(--warm-white);
   --color-teal: var(--teal);
-  --color-teal-soft: var(--teal-soft);
+  --color-sage: var(--sage);
+  --color-sage-tint: var(--sage-tint);
   --color-gold: var(--gold);
   --color-charcoal: var(--charcoal);
   --color-charcoal-soft: var(--charcoal-soft);
@@ -46,13 +47,14 @@
 :root {
   --radius: 0.25rem;
 
-  --ivory: oklch(0.966 0.008 90);
-  --warm-white: oklch(0.986 0.005 90);
-  --teal: oklch(0.68 0.045 180);
-  --teal-soft: oklch(0.82 0.028 180);
-  --gold: oklch(0.815 0.075 88);
-  --charcoal: oklch(0.245 0.006 60);
-  --charcoal-soft: oklch(0.42 0.006 60);
+  --ivory: #F7F5F0;
+  --warm-white: #FDFCFA;
+  --teal: #4EA085;
+  --sage: #73A99C;
+  --sage-tint: #EAF1EE;
+  --gold: #D8C57E;
+  --charcoal: #2B2B28;
+  --charcoal-soft: #6B6B66;
 
   --background: var(--ivory);
   --foreground: var(--charcoal);
@@ -64,14 +66,14 @@
   --primary-foreground: var(--ivory);
   --secondary: var(--warm-white);
   --secondary-foreground: var(--charcoal);
-  --muted: oklch(0.94 0.006 90);
+  --muted: #EFEDE7;
   --muted-foreground: var(--charcoal-soft);
   --accent: var(--teal);
   --accent-foreground: var(--ivory);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: var(--ivory);
-  --border: oklch(0.9 0.006 80);
-  --input: oklch(0.9 0.006 80);
+  --border: #E4E1D9;
+  --input: #E4E1D9;
   --ring: var(--teal);
 }
 
@@ -128,5 +130,40 @@
     background-color: var(--color-teal);
     border-color: var(--color-teal);
     color: var(--color-ivory);
+  }
+}
+
+@utility btn-outline-ivory {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-ivory);
+  color: var(--color-ivory);
+  background-color: transparent;
+  padding: 0.9rem 2.4rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  transition: background-color 700ms ease-out, color 700ms ease-out, border-color 700ms ease-out;
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-ivory);
+    color: var(--color-charcoal);
+  }
+}
+
+@utility gold-rule {
+  display: block;
+  height: 1px;
+  width: 64px;
+  background-color: var(--color-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }

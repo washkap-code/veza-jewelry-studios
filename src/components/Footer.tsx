@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook } from "lucide-react";
+import { VezaLogo } from "./VezaLogo";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -36,7 +37,8 @@ export function Footer() {
           </div>
 
           <div>
-            <p className="label-eyebrow">Atelier</p>
+            <VezaLogo variant="mark" className="h-10 w-10 text-teal" />
+            <p className="label-eyebrow mt-6">Atelier</p>
             <address className="mt-4 space-y-2 text-sm font-light not-italic leading-relaxed text-charcoal-soft">
               <p>VEZA Jewelry Studios</p>
               <p>Harare, Zimbabwe</p>
