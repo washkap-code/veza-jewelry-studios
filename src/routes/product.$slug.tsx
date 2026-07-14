@@ -83,7 +83,7 @@ function ProductDetail() {
   );
 }
 
-function ProductBody({ product }: { product: NonNullable<ReturnType<typeof useQuery<ReturnType<typeof productBySlugQuery>["queryFn"]>>["data"]> }) {
+function ProductBody({ product }: { product: Product }) {
   const images = product.images ?? [];
   const [activeIdx, setActiveIdx] = useState(0);
   const active = images[activeIdx];
