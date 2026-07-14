@@ -16,6 +16,9 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
 import { AuthProvider } from "../lib/auth";
+import { CartProvider } from "../lib/cart";
+import CartDrawer from "../components/CartDrawer";
+
 
 function NotFoundComponent() {
   return (
