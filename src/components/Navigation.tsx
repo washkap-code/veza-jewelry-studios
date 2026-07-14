@@ -22,6 +22,8 @@ export function Navigation() {
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useAuth();
+  const { count, openCart } = useCart();
+
   const isHome = pathname === "/";
 
   useEffect(() => {
