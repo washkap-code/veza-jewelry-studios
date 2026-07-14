@@ -59,6 +59,26 @@ export type Gemstone = {
   published: boolean;
 };
 
+export type Order = {
+  id: string;
+  user_id: string;
+  status: string;
+  subtotal: number;
+  shipping: number;
+  total: number;
+  currency: string;
+  created_at: string;
+};
+
+export type Wishlist = {
+  id: string;
+  user_id: string;
+  product_id: string;
+  created_at: string;
+};
+
+
+
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
