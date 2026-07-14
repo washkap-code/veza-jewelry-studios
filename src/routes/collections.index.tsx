@@ -8,7 +8,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { LUXE_EASE } from "../lib/motion";
 import type { Collection } from "../lib/supabase";
 
-export const Route = createFileRoute("/collections")({
+export const Route = createFileRoute("/collections/")({
   head: () => ({
     meta: [
       { title: "Collections — VEZA Jewelry Studios" },

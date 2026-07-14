@@ -7,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { fadeUp, staggerContainer, viewportOnce, LUXE_EASE } from "../lib/motion";
 import { VezaLogo } from "../components/VezaLogo";
 
-export const Route = createFileRoute("/gemstones")({
+export const Route = createFileRoute("/gemstones/")({
   head: () => ({
     meta: [
       { title: "Gemstones — VEZA Jewelry Studios" },
