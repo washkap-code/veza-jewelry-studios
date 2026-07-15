@@ -63,23 +63,16 @@ function Hero({ reduce }: { reduce: boolean }) {
           Contemporary African Luxury — Est. Harare
         </motion.p>
 
-        <div className="mt-10">
-          <VezaLogo
-            variant="mark"
-            animate
-            className="mx-auto h-40 w-40 text-teal md:h-56 md:w-56"
-          />
-        </div>
-
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, delay: reduce ? 0.1 : 2.2, ease: LUXE_EASE }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, ease: LUXE_EASE }}
           className="mt-10"
         >
-          <VezaLogo
-            variant="wordmark"
-            className="mx-auto h-10 w-auto text-charcoal md:h-14"
+          <img
+            src="/images/brand/veza-logo-gold-on-teal.jpg?v=3"
+            alt="VEZA — gold on teal"
+            className="mx-auto h-64 w-auto shadow-[0_30px_80px_-40px_rgba(20,60,55,0.45)] md:h-80"
           />
         </motion.div>
 
