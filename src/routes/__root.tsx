@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import { AuthProvider } from "../lib/auth";
 import { CartProvider } from "../lib/cart";
 import CartDrawer from "../components/CartDrawer";
+import Preloader from "../components/Preloader";
 
 
 function NotFoundComponent() {
