@@ -150,6 +150,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
+          <Preloader />
           <div className="min-h-screen bg-ivory text-charcoal">
             <Navigation />
             <main className={isHome ? "" : "pt-24 md:pt-28"}>
