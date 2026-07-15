@@ -18,6 +18,7 @@ import Footer from "../components/Footer";
 import { AuthProvider } from "../lib/auth";
 import { CartProvider } from "../lib/cart";
 import CartDrawer from "../components/CartDrawer";
+import Preloader from "../components/Preloader";
 
 
 function NotFoundComponent() {
@@ -149,6 +150,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
+          <Preloader />
           <div className="min-h-screen bg-ivory text-charcoal">
             <Navigation />
             <main className={isHome ? "" : "pt-24 md:pt-28"}>
