@@ -49,10 +49,12 @@ export function Navigation() {
           className="flex items-center gap-3 text-charcoal"
           aria-label="VEZA — Home"
         >
-          {showMark ? (
-            <VezaLogo variant="mark" className="h-7 w-7 text-teal transition-opacity duration-700" />
-          ) : null}
-          <VezaLogo variant="wordmark" className="h-5 w-auto md:h-6" />
+          <img
+            src="/images/brand/veza-logo-teal-on-white.jpg?v=3"
+            alt="VEZA"
+            className={`w-auto transition-all duration-700 ${showMark ? "h-12 md:h-14" : "h-9 md:h-10"}`}
+            style={{ mixBlendMode: "multiply" }}
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
