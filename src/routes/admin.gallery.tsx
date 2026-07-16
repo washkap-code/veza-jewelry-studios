@@ -87,6 +87,13 @@ function AdminGallery() {
       }
       const { error } = await supabase.from("gallery_images").delete().eq("id", row.id);
       if (error) throw error;
+      await logAudit({
+        action: "gallery.delete",
+        entity: "gallery_images",
+        entity_id: row.id,
+        meta: { url: row.url, source: row.source },
+        actor_role: role,
+      });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "gallery"] }),
   });
