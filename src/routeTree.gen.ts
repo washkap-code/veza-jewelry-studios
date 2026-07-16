@@ -38,6 +38,7 @@ import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminJournalRouteImport } from './routes/admin.journal'
 import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
+import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
 
@@ -186,6 +187,11 @@ const AdminGemstonesRoute = AdminGemstonesRouteImport.update({
   path: '/gemstones',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGalleryRoute = AdminGalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCommissionsRoute = AdminCommissionsRouteImport.update({
   id: '/commissions',
   path: '/commissions',
@@ -216,6 +222,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -279,6 +287,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
+  '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -314,6 +323,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
+    | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
     | '/admin/orders'
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
+    | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
     | '/admin/orders'
@@ -376,6 +387,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
+    | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
     | '/admin/orders'
@@ -616,6 +628,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminGemstonesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/gallery': {
+      id: '/admin/gallery'
+      path: '/gallery'
+      fullPath: '/admin/gallery'
+      preLoaderRoute: typeof AdminGalleryRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/commissions': {
       id: '/admin/commissions'
       path: '/commissions'
@@ -636,6 +655,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminCollectionsRoute: typeof AdminCollectionsRoute
   AdminCommissionsRoute: typeof AdminCommissionsRoute
+  AdminGalleryRoute: typeof AdminGalleryRoute
   AdminGemstonesRoute: typeof AdminGemstonesRoute
   AdminJournalRoute: typeof AdminJournalRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
@@ -647,6 +667,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCollectionsRoute: AdminCollectionsRoute,
   AdminCommissionsRoute: AdminCommissionsRoute,
+  AdminGalleryRoute: AdminGalleryRoute,
   AdminGemstonesRoute: AdminGemstonesRoute,
   AdminJournalRoute: AdminJournalRoute,
   AdminOrdersRoute: AdminOrdersRoute,
