@@ -1,11 +1,29 @@
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
+import { CinematicVideo } from "./CinematicVideo";
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="border-t border-border/60 bg-warm-white">
+      <div className="relative overflow-hidden border-b border-border/60 bg-charcoal">
+        <CinematicVideo
+          src="/videos/closing.mp4"
+          className="absolute inset-0"
+          overlayClassName="bg-charcoal/40"
+          ariaLabel="Abstract teal and gold light"
+        />
+        <div className="relative flex items-center justify-center px-6 py-20 md:py-28">
+          <img
+            src="/images/brand/veza-logo-gold-on-teal.jpg?v=3"
+            alt="VEZA"
+            className="h-24 w-auto md:h-32"
+            style={{ mixBlendMode: "screen", filter: "brightness(1.15)" }}
+          />
+        </div>
+      </div>
+
       <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-24">
         <div className="grid gap-16 md:grid-cols-4">
           <div className="md:col-span-2">
