@@ -42,6 +42,7 @@ import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -208,6 +209,11 @@ const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -226,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByTo {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -293,6 +301,7 @@ export interface FileRoutesById {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
@@ -330,6 +339,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
@@ -396,6 +407,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
@@ -668,10 +680,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
   AdminCommissionsRoute: typeof AdminCommissionsRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
@@ -685,6 +705,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
   AdminCommissionsRoute: AdminCommissionsRoute,
   AdminGalleryRoute: AdminGalleryRoute,
