@@ -4,7 +4,7 @@ import { VezaLogo } from "./VezaLogo";
 
 export function AuthLoader({
   minHeight = "60vh",
-  showHomeLink = true,
+  showHomeLink = false,
   tone = "light",
 }: {
   minHeight?: string;
