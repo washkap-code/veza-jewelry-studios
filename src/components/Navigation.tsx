@@ -64,13 +64,13 @@ export function Navigation() {
             <img
               src="/images/brand/veza-logo-gold-on-teal.jpg?v=3"
               alt="VEZA"
-              className="h-12 w-auto transition-all duration-700 md:h-14"
+              className="h-16 w-auto transition-all duration-700 md:h-20"
             />
           ) : (
             <img
               src="/images/brand/veza-logo-teal-on-white.jpg?v=3"
               alt="VEZA"
-              className={`w-auto transition-all duration-700 ${showMark ? "h-12 md:h-14" : "h-9 md:h-10"}`}
+              className={`w-auto transition-all duration-700 ${showMark ? "h-16 md:h-20" : "h-12 md:h-14"}`}
               style={{ mixBlendMode: "multiply" }}
             />
           )}
