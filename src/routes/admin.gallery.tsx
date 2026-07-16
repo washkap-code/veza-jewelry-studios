@@ -182,9 +182,7 @@ function AdminGallery() {
   }
 
   const filtered = (rows ?? []).filter((r) =>
-    search
-      ? [r.alt, r.url].join(" ").toLowerCase().includes(search.toLowerCase())
-      : true,
+    search ? [r.alt, r.url].join(" ").toLowerCase().includes(search.toLowerCase()) : true,
   );
 
   if (!rows) return <AuthLoader minHeight="30vh" />;
@@ -218,9 +216,7 @@ function AdminGallery() {
           dragOver ? "border-teal bg-teal/5" : "border-border/60 bg-warm-white"
         }`}
       >
-        <p className="font-serif text-lg text-charcoal">
-          Drop images here or click to select
-        </p>
+        <p className="font-serif text-lg text-charcoal">Drop images here or click to select</p>
         <p className="mt-2 text-xs font-light text-charcoal-soft">
           Up to {MAX_BATCH} files per batch · duplicates automatically skipped
         </p>
@@ -240,15 +236,11 @@ function AdminGallery() {
           className="hidden"
           onChange={(e) => e.target.files && handleFiles(e.target.files)}
         />
-        {status ? (
-          <p className="mt-4 text-xs font-light text-teal">{status}</p>
-        ) : null}
+        {status ? <p className="mt-4 text-xs font-light text-teal">{status}</p> : null}
       </div>
 
       {filtered.length === 0 ? (
-        <p className="py-10 text-center text-sm font-light text-charcoal-soft">
-          No images match.
-        </p>
+        <p className="py-10 text-center text-sm font-light text-charcoal-soft">No images match.</p>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((r) => (

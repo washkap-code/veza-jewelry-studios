@@ -30,7 +30,7 @@ export async function logAudit(input: {
     });
   } catch (err) {
     // Audit is best-effort — don't disturb the primary flow.
-    // eslint-disable-next-line no-console
+
     console.warn("[audit] insert failed", err);
   }
 }

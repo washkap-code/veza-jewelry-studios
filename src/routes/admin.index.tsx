@@ -22,34 +22,74 @@ function AdminDashboard() {
   const { data } = useQuery({
     queryKey: ["admin", "dashboard", isAdmin ? "admin" : "staff"],
     queryFn: async () => {
-      const [products, published, orders, pendingOrders, commissions, journal, gallery] = await Promise.all([
-        isAdmin ? count("products") : Promise.resolve(0),
-        isAdmin ? count("products", (q) => q.eq("published", true)) : Promise.resolve(0),
-        count("orders"),
-        count("orders", (q) => q.eq("status", "pending")),
-        isAdmin ? count("custom_requests", (q) => q.eq("status", "new")) : Promise.resolve(0),
-        count("journal_posts"),
-        count("gallery_images"),
-      ]);
+      const [products, published, orders, pendingOrders, commissions, journal, gallery] =
+        await Promise.all([
+          isAdmin ? count("products") : Promise.resolve(0),
+          isAdmin ? count("products", (q) => q.eq("published", true)) : Promise.resolve(0),
+          count("orders"),
+          count("orders", (q) => q.eq("status", "pending")),
+          isAdmin ? count("custom_requests", (q) => q.eq("status", "new")) : Promise.resolve(0),
+          count("journal_posts"),
+          count("gallery_images"),
+        ]);
       return { products, published, orders, pendingOrders, commissions, journal, gallery };
     },
   });
 
   const adminCards = [
-    { label: "Products", value: data?.products, sub: `${data?.published ?? "—"} published`, to: "/admin/products" as const },
-    { label: "Orders", value: data?.orders, sub: `${data?.pendingOrders ?? "—"} pending`, to: "/admin/orders" as const },
-    { label: "New commissions", value: data?.commissions, sub: "awaiting reply", to: "/admin/commissions" as const },
-    { label: "Journal posts", value: data?.journal, sub: "drafts & published", to: "/admin/journal" as const },
+    {
+      label: "Products",
+      value: data?.products,
+      sub: `${data?.published ?? "—"} published`,
+      to: "/admin/products" as const,
+    },
+    {
+      label: "Orders",
+      value: data?.orders,
+      sub: `${data?.pendingOrders ?? "—"} pending`,
+      to: "/admin/orders" as const,
+    },
+    {
+      label: "New commissions",
+      value: data?.commissions,
+      sub: "awaiting reply",
+      to: "/admin/commissions" as const,
+    },
+    {
+      label: "Journal posts",
+      value: data?.journal,
+      sub: "drafts & published",
+      to: "/admin/journal" as const,
+    },
   ];
   const staffCards = [
-    { label: "Orders", value: data?.orders, sub: `${data?.pendingOrders ?? "—"} pending`, to: "/admin/orders" as const },
-    { label: "Journal posts", value: data?.journal, sub: "add & edit posts", to: "/admin/journal" as const },
-    { label: "Gallery", value: data?.gallery, sub: "images uploaded", to: "/admin/gallery" as const },
+    {
+      label: "Orders",
+      value: data?.orders,
+      sub: `${data?.pendingOrders ?? "—"} pending`,
+      to: "/admin/orders" as const,
+    },
+    {
+      label: "Journal posts",
+      value: data?.journal,
+      sub: "add & edit posts",
+      to: "/admin/journal" as const,
+    },
+    {
+      label: "Gallery",
+      value: data?.gallery,
+      sub: "images uploaded",
+      to: "/admin/gallery" as const,
+    },
   ];
   const cards = isAdmin ? adminCards : staffCards;
 
   return (
-    <div className="space-y-8" data-testid="admin-dashboard" data-role={isAdmin ? "admin" : "staff"}>
+    <div
+      className="space-y-8"
+      data-testid="admin-dashboard"
+      data-role={isAdmin ? "admin" : "staff"}
+    >
       {!isAdmin ? (
         <div>
           <p className="label-eyebrow">Staff — Studio Team</p>
@@ -90,10 +130,13 @@ function AdminDashboard() {
             <p className="label-eyebrow text-gold">Studio Manual</p>
             <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Studio Manual</p>
             <p className="mt-1 text-xs font-light text-charcoal-soft">
-              Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders, newsletter, calendar, payments.
+              Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders,
+              newsletter, calendar, payments.
             </p>
           </div>
-          <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
+          <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">
+            Download PDF ↓
+          </span>
         </a>
       ) : null}
     </div>
@@ -119,7 +162,9 @@ function RecentAudit() {
       <div className="border border-border/60 bg-warm-white p-6">
         <p className="label-eyebrow">Recent activity</p>
         <p className="mt-3 text-xs font-light text-charcoal-soft">
-          Audit log unavailable. Run <code className="font-mono">docs/migrations/audit_log.sql</code> in the SQL editor to enable it.
+          Audit log unavailable. Run{" "}
+          <code className="font-mono">docs/migrations/audit_log.sql</code> in the SQL editor to
+          enable it.
         </p>
       </div>
     );
@@ -129,7 +174,9 @@ function RecentAudit() {
     <div className="border border-border/60 bg-warm-white p-6">
       <div className="flex items-baseline justify-between">
         <p className="label-eyebrow">Recent activity</p>
-        <span className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70">Staff & admin actions</span>
+        <span className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70">
+          Staff & admin actions
+        </span>
       </div>
       {!data || data.length === 0 ? (
         <p className="mt-4 text-xs font-light text-charcoal-soft">No activity recorded yet.</p>
@@ -194,8 +241,9 @@ function NewsletterReminderBanner() {
             : "You haven't sent a letter yet. The list is waiting."}
         </p>
       </div>
-      <Link to="/admin/newsletter" className="btn-outline-charcoal">Compose letter</Link>
+      <Link to="/admin/newsletter" className="btn-outline-charcoal">
+        Compose letter
+      </Link>
     </div>
   );
 }
-

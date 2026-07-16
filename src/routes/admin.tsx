@@ -11,7 +11,6 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-
 const ALL_LINKS = [
   { to: "/admin", label: "Dashboard", exact: true, staff: true },
   { to: "/admin/products", label: "Products", staff: false },
@@ -48,10 +47,12 @@ function AdminLayout() {
         <p className="label-eyebrow mt-8">Restricted</p>
         <h1 className="mt-4 font-serif text-4xl text-charcoal">The atelier only.</h1>
         <p className="mt-4 max-w-sm text-sm font-light leading-relaxed text-charcoal-soft">
-          This area is reserved for VEZA staff. If you believe you should have access,
-          please contact the studio.
+          This area is reserved for VEZA staff. If you believe you should have access, please
+          contact the studio.
         </p>
-        <Link to="/" className="btn-outline-charcoal mt-10">Return home</Link>
+        <Link to="/" className="btn-outline-charcoal mt-10">
+          Return home
+        </Link>
       </div>
     );
   }

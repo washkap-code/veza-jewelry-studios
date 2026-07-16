@@ -20,7 +20,13 @@ type OrderRow = Order & {
   gift_message: string | null;
 };
 
-type ItemRow = { id: string; order_id: string; quantity: number; unit_price: number; product: { name: string } | null };
+type ItemRow = {
+  id: string;
+  order_id: string;
+  quantity: number;
+  unit_price: number;
+  product: { name: string } | null;
+};
 
 function AdminOrders() {
   const qc = useQueryClient();
@@ -49,7 +55,7 @@ function AdminOrders() {
       return {
         orders: rows,
         profiles: new Map(profiles.map((p) => [p.id, p])),
-        items: ((items ?? []) as unknown as ItemRow[]),
+        items: (items ?? []) as unknown as ItemRow[],
       };
     },
   });
@@ -85,17 +91,28 @@ function AdminOrders() {
           const expanded = open === o.id;
           return (
             <li key={o.id} className="py-5">
-              <button className="flex w-full flex-wrap items-center gap-4 text-left" onClick={() => setOpen(expanded ? null : o.id)}>
+              <button
+                className="flex w-full flex-wrap items-center gap-4 text-left"
+                onClick={() => setOpen(expanded ? null : o.id)}
+              >
                 <div className="min-w-0 flex-1">
                   <p className="font-serif text-lg text-charcoal">
-                    {profile?.full_name || profile?.email || "Customer"} · {o.id.slice(0, 8).toUpperCase()}
+                    {profile?.full_name || profile?.email || "Customer"} ·{" "}
+                    {o.id.slice(0, 8).toUpperCase()}
                   </p>
                   <p className="mt-1 text-xs font-light text-charcoal-soft">
-                    {new Date(o.created_at).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
-                    {" · "}{items.reduce((n, i) => n + i.quantity, 0)} item(s)
+                    {new Date(o.created_at).toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    {" · "}
+                    {items.reduce((n, i) => n + i.quantity, 0)} item(s)
                   </p>
                 </div>
-                <p className="font-serif text-xl text-charcoal">{formatPrice(Number(o.total), o.currency)}</p>
+                <p className="font-serif text-xl text-charcoal">
+                  {formatPrice(Number(o.total), o.currency)}
+                </p>
                 <StatusBadge status={o.status} />
               </button>
               {expanded ? (
@@ -105,26 +122,45 @@ function AdminOrders() {
                     <ul className="mt-3 space-y-2 text-sm font-light text-charcoal">
                       {items.map((i) => (
                         <li key={i.id} className="flex justify-between gap-4">
-                          <span>{i.product?.name ?? "Item"} × {i.quantity}</span>
+                          <span>
+                            {i.product?.name ?? "Item"} × {i.quantity}
+                          </span>
                           <span>{formatPrice(Number(i.unit_price) * i.quantity, o.currency)}</span>
                         </li>
                       ))}
                     </ul>
                     {o.gift_message ? (
-                      <p className="mt-4 text-xs font-light italic text-charcoal-soft">Gift note: "{o.gift_message}"</p>
+                      <p className="mt-4 text-xs font-light italic text-charcoal-soft">
+                        Gift note: "{o.gift_message}"
+                      </p>
                     ) : null}
                   </div>
                   <div>
                     <p className="label-eyebrow">Delivery</p>
                     {o.shipping_address ? (
                       <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
-                        {[o.shipping_address.fullName, o.shipping_address.line1, o.shipping_address.line2, o.shipping_address.city, o.shipping_address.region, o.shipping_address.postalCode, o.shipping_address.country, o.shipping_address.phone].filter(Boolean).join(", ")}
+                        {[
+                          o.shipping_address.fullName,
+                          o.shipping_address.line1,
+                          o.shipping_address.line2,
+                          o.shipping_address.city,
+                          o.shipping_address.region,
+                          o.shipping_address.postalCode,
+                          o.shipping_address.country,
+                          o.shipping_address.phone,
+                        ]
+                          .filter(Boolean)
+                          .join(", ")}
                       </p>
                     ) : (
-                      <p className="mt-3 text-sm font-light text-charcoal-soft">No address recorded.</p>
+                      <p className="mt-3 text-sm font-light text-charcoal-soft">
+                        No address recorded.
+                      </p>
                     )}
                     <p className="label-eyebrow mt-5">Contact</p>
-                    <p className="mt-2 text-sm font-light text-charcoal-soft">{profile?.email ?? "—"} {profile?.phone ? `· ${profile.phone}` : ""}</p>
+                    <p className="mt-2 text-sm font-light text-charcoal-soft">
+                      {profile?.email ?? "—"} {profile?.phone ? `· ${profile.phone}` : ""}
+                    </p>
                     <p className="label-eyebrow mt-5">Status</p>
                     <div className="mt-2 flex flex-wrap gap-2">
                       {STATUSES.map((s) => {
@@ -133,7 +169,9 @@ function AdminOrders() {
                           <button
                             key={s}
                             disabled={setStatus.isPending || s === o.status || restricted}
-                            onClick={() => setStatus.mutate({ id: o.id, status: s, prev: o.status })}
+                            onClick={() =>
+                              setStatus.mutate({ id: o.id, status: s, prev: o.status })
+                            }
                             title={restricted ? "Only an admin can set this status" : undefined}
                             className={`border px-3 py-1.5 text-[0.65rem] font-light uppercase tracking-[0.18em] transition-colors duration-500 ${
                               s === o.status
