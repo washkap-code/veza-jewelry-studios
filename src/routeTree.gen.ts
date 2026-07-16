@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoryRouteImport } from './routes/story'
@@ -44,6 +45,11 @@ import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
 import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -264,6 +271,7 @@ export interface FileRoutesByTo {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -301,6 +309,7 @@ export interface FileRoutesById {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
   '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -339,6 +348,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
@@ -371,6 +381,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
@@ -407,6 +418,7 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
     | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
@@ -444,11 +456,19 @@ export interface RootRouteChildren {
   StoryRoute: typeof StoryRoute
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -778,6 +798,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoryRoute: StoryRoute,
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport
