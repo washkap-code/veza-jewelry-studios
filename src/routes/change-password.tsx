@@ -52,7 +52,7 @@ function ChangePasswordPage() {
     }
   }
 
-  if (loading || !user) return <AuthLoader minHeight="70vh" />;
+  if (loading || !user) return <AuthLoader minHeight="70vh" showHomeLink />;
 
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-lg items-center px-6 py-20">
