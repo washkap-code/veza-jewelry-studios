@@ -65,11 +65,16 @@ function AdminLayout() {
         </div>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[200px_1fr]">
-        <nav className="flex flex-row flex-wrap gap-x-6 gap-y-2 border-b border-border/60 pb-4 lg:flex-col lg:gap-1 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+        <nav
+          data-testid="admin-sidebar"
+          data-role={isAdmin ? "admin" : "staff"}
+          className="flex flex-row flex-wrap gap-x-6 gap-y-2 border-b border-border/60 pb-4 lg:flex-col lg:gap-1 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6"
+        >
           {LINKS.map((l) => (
             <Link
               key={l.to}
               to={l.to}
+              data-testid={`admin-nav-${l.label.toLowerCase()}`}
               activeOptions={{ exact: !!("exact" in l && l.exact) }}
               className="py-1.5 text-[0.72rem] font-light uppercase tracking-[0.22em] text-charcoal/60 transition-colors duration-500 hover:text-charcoal"
               activeProps={{ className: "text-teal" }}
