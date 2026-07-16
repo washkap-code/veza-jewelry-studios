@@ -41,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const { data } = await supabase
       .from("profiles")
-      .select("id, full_name, email, phone, is_admin, must_change_password, created_at")
+      .select("id, full_name, email, phone, is_admin, is_staff, must_change_password, created_at")
       .eq("id", userId)
       .maybeSingle();
     if (token === profileFetchToken.current) {
