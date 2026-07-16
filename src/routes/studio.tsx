@@ -88,6 +88,19 @@ function StudioLogin() {
             {submitting ? "One moment" : "Enter"}
           </button>
         </form>
+
+        <div className="mt-10 text-center">
+          <Link
+            to="/"
+            className="text-[0.62rem] font-light uppercase tracking-[0.28em] text-ivory/50 transition-colors duration-500 hover:text-gold"
+          >
+            ← Return home
+          </Link>
+        </div>
+          >
+            {submitting ? "One moment" : "Enter"}
+          </button>
+        </form>
       </div>
     </div>
   );
