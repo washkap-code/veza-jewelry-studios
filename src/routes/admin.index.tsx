@@ -52,6 +52,20 @@ function AdminDashboard() {
           </Link>
         ))}
       </div>
+      <a
+        href="/guides/veza-studio-manual.pdf"
+        download
+        className="flex flex-wrap items-center justify-between gap-4 border border-gold/40 bg-warm-white p-6 transition-colors duration-500 hover:border-teal/50"
+      >
+        <div>
+          <p className="label-eyebrow text-gold">Studio Manual</p>
+          <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Studio Manual</p>
+          <p className="mt-1 text-xs font-light text-charcoal-soft">
+            Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders, newsletter, calendar, payments.
+          </p>
+        </div>
+        <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
+      </a>
     </div>
   );
 }
