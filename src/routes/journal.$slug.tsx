@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { journalPostBySlugQuery, type JournalPost } from "../lib/queries";
 import { FadeIn } from "../components/FadeIn";
+import { ShareButton } from "../components/ShareButton";
 
 const SITE_ORIGIN = "https://veza-studios.com";
 
