@@ -14,6 +14,8 @@ interface CinematicVideoProps {
   cover?: boolean;
   /** Slow subtle scale drift to make short loops feel seamless. */
   drift?: boolean;
+  /** Optional inline style for the no-poster fallback layer (overrides default light gradient). */
+  fallbackStyle?: React.CSSProperties;
 }
 
 /**
@@ -32,6 +34,7 @@ export function CinematicVideo({
   ariaLabel,
   cover = true,
   drift = true,
+  fallbackStyle,
 }: CinematicVideoProps) {
   const reduce = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
