@@ -24,6 +24,8 @@ type ItemRow = { id: string; order_id: string; quantity: number; unit_price: num
 
 function AdminOrders() {
   const qc = useQueryClient();
+  const { isAdmin } = useAuth();
+  const role: "admin" | "staff" = isAdmin ? "admin" : "staff";
   const [open, setOpen] = useState<string | null>(null);
 
   const { data } = useQuery({
