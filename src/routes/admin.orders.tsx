@@ -127,16 +127,27 @@ function AdminOrders() {
                     <p className="mt-2 text-sm font-light text-charcoal-soft">{profile?.email ?? "—"} {profile?.phone ? `· ${profile.phone}` : ""}</p>
                     <p className="label-eyebrow mt-5">Status</p>
                     <div className="mt-2 flex flex-wrap gap-2">
-                      {STATUSES.map((s) => (
-                        <button
-                          key={s}
-                          disabled={setStatus.isPending || s === o.status}
-                          onClick={() => setStatus.mutate({ id: o.id, status: s })}
-                          className={`border px-3 py-1.5 text-[0.65rem] font-light uppercase tracking-[0.18em] transition-colors duration-500 ${s === o.status ? "border-teal text-teal" : "border-border text-charcoal-soft hover:border-teal hover:text-teal"}`}
-                        >
-                          {s}
-                        </button>
-                      ))}
+                      {STATUSES.map((s) => {
+                        const restricted = !isAdmin && ADMIN_ONLY_STATUSES.has(s);
+                        return (
+                          <button
+                            key={s}
+                            disabled={setStatus.isPending || s === o.status || restricted}
+                            onClick={() => setStatus.mutate({ id: o.id, status: s, prev: o.status })}
+                            title={restricted ? "Only an admin can set this status" : undefined}
+                            className={`border px-3 py-1.5 text-[0.65rem] font-light uppercase tracking-[0.18em] transition-colors duration-500 ${
+                              s === o.status
+                                ? "border-teal text-teal"
+                                : restricted
+                                  ? "border-border/40 text-charcoal-soft/40 cursor-not-allowed"
+                                  : "border-border text-charcoal-soft hover:border-teal hover:text-teal"
+                            }`}
+                          >
+                            {s}
+                            {restricted ? " · admin" : ""}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
