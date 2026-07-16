@@ -144,9 +144,8 @@ function AuthCard() {
               autoComplete="email"
               required
             />
-            <Field
+            <PasswordInput
               label="Password"
-              type="password"
               value={password}
               onChange={setPassword}
               autoComplete={isSignIn ? "current-password" : "new-password"}
