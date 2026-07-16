@@ -185,7 +185,14 @@ function AuthCard() {
               {isSignIn ? "Create an account" : "I already have an account"}
             </button>
           </div>
-          <div className="mt-8 text-center">
+          <div className="mt-8 flex items-center justify-center gap-6 text-center">
+            <Link
+              to="/"
+              className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70 transition-colors duration-500 hover:text-teal"
+            >
+              ← Return home
+            </Link>
+            <span aria-hidden className="h-3 w-px bg-border" />
             <Link
               to="/studio"
               className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/50 transition-colors duration-500 hover:text-teal"
