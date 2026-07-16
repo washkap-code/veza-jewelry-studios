@@ -54,6 +54,7 @@ function JournalIndex() {
         eyebrow="Correspondence"
         title="Journal"
         description="Notes from the atelier — process, people, and places."
+        backdrop={{ kind: "mark" }}
       />
 
       <section className="bg-ivory">

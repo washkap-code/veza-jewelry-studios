@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { gemstonesQuery, toneForGemstone } from "../lib/queries";
 import { FadeIn } from "../components/FadeIn";
+import { PageHeader } from "../components/PageHeader";
 import { AuthLoader } from "../components/AuthLoader";
 import { fadeUp, staggerContainer, viewportOnce, LUXE_EASE } from "../lib/motion";
 import { VezaLogo } from "../components/VezaLogo";
@@ -31,20 +32,18 @@ function GemstonesPage() {
 
   return (
     <>
-      <section className="border-b border-border/60 bg-warm-white">
-        <div className="mx-auto flex max-w-4xl flex-col items-center px-6 py-24 text-center md:py-32">
-          <FadeIn>
-            <p className="label-eyebrow mb-6">The Earth</p>
-            <h1 className="font-serif text-5xl leading-[1.05] tracking-tight text-charcoal md:text-7xl">
-              The Gemstone Library
-            </h1>
-            <span className="gold-rule mx-auto mt-10" />
-            <p className="mt-10 mx-auto max-w-2xl font-serif text-xl font-light italic leading-relaxed text-charcoal-soft md:text-2xl">
-              An education in stone. Zimbabwe's earth, elevated.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="The Earth"
+        title="The Gemstone Library"
+        description="An education in stone. Zimbabwe's earth, elevated."
+        backdrop={{
+          kind: "video",
+          src: "/videos/stones.mp4",
+          ariaLabel: "Macro film of gemstones in the VEZA studio",
+        }}
+      />
+
+
 
       <section className="bg-ivory">
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-28">

@@ -20,6 +20,8 @@ function ContactPage() {
         eyebrow="In Person"
         title="Contact"
         description="Harare, Zimbabwe. By appointment and correspondence."
+        variant="compact"
+        backdrop={{ kind: "wash" }}
       />
       <section className="bg-ivory">
         <div className="mx-auto grid max-w-5xl gap-12 px-6 py-20 md:grid-cols-3 md:py-28">
