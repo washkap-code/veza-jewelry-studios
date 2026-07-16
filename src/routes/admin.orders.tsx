@@ -55,9 +55,19 @@ function AdminOrders() {
   });
 
   const setStatus = useMutation({
-    mutationFn: async ({ id, status }: { id: string; status: string }) => {
+    mutationFn: async ({ id, status, prev }: { id: string; status: string; prev: string }) => {
+      if (!isAdmin && ADMIN_ONLY_STATUSES.has(status)) {
+        throw new Error("Only an admin can set this status.");
+      }
       const { error } = await supabase.from("orders").update({ status }).eq("id", id);
       if (error) throw error;
+      await logAudit({
+        action: "order.status",
+        entity: "orders",
+        entity_id: id,
+        meta: { from: prev, to: status },
+        actor_role: role,
+      });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "orders"] }),
   });
