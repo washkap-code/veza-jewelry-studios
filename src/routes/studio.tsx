@@ -65,17 +65,14 @@ function StudioLogin() {
               className="mt-3 block w-full border-b border-ivory/30 bg-transparent py-2 text-sm font-light text-ivory outline-none transition-colors focus:border-gold"
             />
           </label>
-          <label className="block">
-            <span className="text-[0.68rem] font-light uppercase tracking-[0.24em] text-ivory/60">Password</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-              required
-              className="mt-3 block w-full border-b border-ivory/30 bg-transparent py-2 text-sm font-light text-ivory outline-none transition-colors focus:border-gold"
-            />
-          </label>
+          <PasswordInput
+            label="Password"
+            value={password}
+            onChange={setPassword}
+            autoComplete="current-password"
+            required
+            tone="dark"
+          />
 
           {error ? (
             <p className="text-xs font-light leading-relaxed text-red-300">{error}</p>
