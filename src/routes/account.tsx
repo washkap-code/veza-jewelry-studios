@@ -185,6 +185,14 @@ function AuthCard() {
               {isSignIn ? "Create an account" : "I already have an account"}
             </button>
           </div>
+          <div className="mt-8 text-center">
+            <Link
+              to="/studio"
+              className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/50 transition-colors duration-500 hover:text-teal"
+            >
+              Studio access
+            </Link>
+          </div>
         </div>
       </FadeIn>
     </div>
