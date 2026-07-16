@@ -36,6 +36,7 @@ import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminJournalRouteImport } from './routes/admin.journal'
 import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
@@ -177,6 +178,11 @@ const AdminOrdersRoute = AdminOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminJournalRoute = AdminJournalRouteImport.update({
   id: '/journal',
   path: '/journal',
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -290,6 +298,7 @@ export interface FileRoutesById {
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -326,6 +335,7 @@ export interface FileRouteTypes {
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -356,6 +366,7 @@ export interface FileRouteTypes {
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -614,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/journal': {
       id: '/admin/journal'
       path: '/journal'
@@ -658,6 +677,7 @@ interface AdminRouteChildren {
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminGemstonesRoute: typeof AdminGemstonesRoute
   AdminJournalRoute: typeof AdminJournalRoute
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -670,6 +690,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminGalleryRoute: AdminGalleryRoute,
   AdminGemstonesRoute: AdminGemstonesRoute,
   AdminJournalRoute: AdminJournalRoute,
+  AdminNewsletterRoute: AdminNewsletterRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
