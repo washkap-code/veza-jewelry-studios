@@ -115,6 +115,47 @@ function CustomPage() {
       </section>
 
       <section className="border-t border-border/60 bg-warm-white">
+        <div className="mx-auto max-w-5xl px-6 py-20 md:py-24">
+          <FadeIn>
+            <p className="label-eyebrow">Cut & Shape</p>
+            <h2 className="mt-4 font-serif text-3xl leading-tight text-charcoal md:text-5xl">
+              Define your cut and shape.
+            </h2>
+            <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-charcoal-soft">
+              How a stone is cut shapes how it wears. A short field guide to the cuts we hand-work most often at the VEZA atelier — a starting point for your commission conversation.
+            </p>
+            <span className="gold-rule mt-8" />
+          </FadeIn>
+          <div className="mt-14 grid gap-x-10 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+            {[
+              { title: "Pear", note: "A soft teardrop — flattering on shorter, wider fingers and hands." },
+              { title: "Round", note: "The most versatile of cuts and a timeless classic — a stone that suits nearly everyone." },
+              { title: "Emerald", note: "Long, slender and rectangular — elegant on longer fingers." },
+              { title: "Cushion", note: "Softly rounded corners — a quietly romantic silhouette." },
+              { title: "Baguette", note: "Elongated and linear — creates the illusion of length in a ring." },
+              { title: "Cabochon", note: "Rounded and polished, without facets. Best for opaque coloured stones — round, loaf or pear shapes." },
+            ].map((c, i) => (
+              <FadeIn key={c.title} delay={i * 0.05}>
+                <article className="border-t border-border/60 pt-6">
+                  <p className="label-eyebrow" style={{ color: "var(--color-teal)" }}>{String(i + 1).padStart(2, "0")}</p>
+                  <h3 className="mt-3 font-serif text-2xl text-charcoal">{c.title}</h3>
+                  <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">{c.note}</p>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+          <FadeIn delay={0.2}>
+            <p className="mt-14 max-w-3xl text-sm font-light italic leading-relaxed text-charcoal-soft">
+              To speak with the atelier directly about your commission, write to{" "}
+              <a className="text-teal" href="mailto:hello@veza-studios.com">hello@veza-studios.com</a>{" "}
+              or call{" "}
+              <a className="text-teal" href="tel:+263777602761">+263 777 602 761</a>.
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <section className="border-t border-border/60 bg-warm-white">
         <div className="mx-auto max-w-3xl px-6 py-20 md:py-28">
           {done ? (
             <motion.div

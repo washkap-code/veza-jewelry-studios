@@ -149,7 +149,38 @@ function AdminProducts() {
     e.preventDefault();
     if (!draft) return;
     if (!draft.name.trim()) { setError("Name is required."); return; }
+    if (draft.published) {
+      if (!draft.description.trim()) {
+        setError("A product description is required before publishing.");
+        return;
+      }
+      if (draft.images.length < 1) {
+        setError("Add at least one photo before publishing.");
+        return;
+      }
+      if (draft.images.length > 6) {
+        setError("A product may have at most 6 photos.");
+        return;
+      }
+    }
     save.mutate(draft);
+  }
+
+  async function refineDescription() {
+    if (!draft?.description.trim()) {
+      setError("Add some rough notes first, then Refine.");
+      return;
+    }
+    setError(null);
+    try {
+      const { refineCopy } = await import("../lib/ai-refine.functions");
+      const { refined } = await refineCopy({ data: { kind: "product", raw: draft.description, hint: draft.stone || undefined } });
+      if (confirm(`Refined copy:\n\n${refined}\n\nUse it?`)) {
+        setDraft((d) => (d ? { ...d, description: refined } : d));
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "AI refine failed.");
+    }
   }
 
   if (!products) return <AuthLoader minHeight="30vh" />;
@@ -188,8 +219,25 @@ function AdminProducts() {
             <AdminField label="Weight" value={draft.weight} onChange={(v) => setDraft({ ...draft, weight: v })} />
             <AdminField label="Stock quantity" type="number" value={draft.stock_quantity} onChange={(v) => setDraft({ ...draft, stock_quantity: v })} />
           </div>
-          <AdminTextArea label="Description" value={draft.description} onChange={(v) => setDraft({ ...draft, description: v })} />
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="label-eyebrow">Description {draft.published ? <span className="text-destructive">*</span> : null}</span>
+              <button type="button" onClick={refineDescription} className="text-[0.68rem] font-light uppercase tracking-[0.24em] text-teal hover:underline">
+                ✧ Refine with AI
+              </button>
+            </div>
+            <textarea
+              value={draft.description}
+              onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+              rows={5}
+              className="mt-3 block w-full border-b border-border bg-transparent py-3 text-sm font-light text-charcoal outline-none focus:border-teal"
+            />
+          </div>
           <AdminTextArea label="Care instructions" value={draft.care_instructions} onChange={(v) => setDraft({ ...draft, care_instructions: v })} rows={2} />
+          <p className="text-xs font-light text-charcoal-soft">
+            Products require 1–6 photos and a description before they can be published.
+            Current: {draft.images.length}/6 photos.
+          </p>
 
           <div>
             <span className="label-eyebrow">Images</span>

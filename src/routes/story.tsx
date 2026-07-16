@@ -15,29 +15,34 @@ export const Route = createFileRoute("/story")({
 
 const SECTIONS = [
   {
-    eyebrow: "The Founder",
-    title: "Born of stone and patience.",
-    body: "VEZA began with a single conviction: that the stones of Zimbabwe deserve to be seen not as raw export, but as finished art. What started as a fascination with gemstones — their geology, their light, their quiet permanence — became a design house devoted to transforming natural stone into modern heirlooms.",
+    eyebrow: "The Name",
+    title: "VEZA — to carve.",
+    body: "In Shona, veza means 'to carve.' It is the word for the patient work of shaping stone by hand — the same work our artisans do each day in Harare, on stones drawn from Zimbabwe's own earth.",
   },
   {
-    eyebrow: "Philosophy",
-    title: "Luxury without excess.",
-    body: "We believe luxury is not abundance but intention. Every VEZA piece begins as a natural stone and earns its final form slowly — through sculpture, craftsmanship and restraint. Nothing decorative for its own sake; nothing that does not serve the stone.",
+    eyebrow: "Who We Are",
+    title: "A women-led jewellery house, rooted in Zimbabwe.",
+    body: "VEZA is a women-led fine jewellery house born from deep reverence for Zimbabwe, its heritage and its treasures. We bridge the raw beauty of the earth with the refinement of the studio — creating pieces that carry a story worth wearing.",
   },
   {
-    eyebrow: "Zimbabwean Inspiration",
-    title: "A landscape worn close.",
-    body: "The balancing granite of Epworth, the green seam of the Great Dyke, the still surface of Kariba at dawn — Zimbabwe's landscapes are our first drawings. Our geometry echoes them: strong forms, honest materials, natural beauty elevated through human hands.",
+    eyebrow: "Our Philosophy",
+    title: "Fine jewellery, honestly made.",
+    body: "Every VEZA piece is quiet in speech and considered in form. We refuse decoration for its own sake. The stone always leads; the metal serves it; the human hand finishes it. Nothing more.",
+  },
+  {
+    eyebrow: "Provenance",
+    title: "Sourced, cut and set at home.",
+    body: "Our gemstones are ethically hand-selected from Zimbabwe's own deposits. Our metals are authentically local. Our labour is 100% Zimbabwean, empowering master artisans and returning value to the country whose ground gives us these stones.",
   },
   {
     eyebrow: "Sustainability",
     title: "Taken with care, returned with pride.",
-    body: "We source stones responsibly and work with local cutters and smiths, keeping value and skill within Zimbabwe. Small production runs, recycled metals where possible, and pieces built to outlive their first owner — this is our quiet sustainability.",
+    body: "Small production runs. Recycled metals where they exist. Stones sourced with respect for the people who mine them and the earth that holds them. We work in a way we can defend to the next generation.",
   },
   {
-    eyebrow: "Vision",
-    title: "African luxury, on its own terms.",
-    body: "VEZA exists to show what Zimbabwean talent can hold against any atelier in the world. Our vision is a house whose name is spoken alongside the great design houses — and whose pieces carry home wherever they travel.",
+    eyebrow: "Our Legacy",
+    title: "We don't just make jewellery — we carve a legacy.",
+    body: "VEZA exists to show what Zimbabwean talent can hold against any atelier in the world. Every piece we finish is a small act of national confidence, carried out into the world by the person who wears it.",
   },
 ];
 

@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { journalPostBySlugQuery, type JournalPost } from "../lib/queries";
 import { FadeIn } from "../components/FadeIn";
+import { ShareButton } from "../components/ShareButton";
 
 const SITE_ORIGIN = "https://veza-studios.com";
 
@@ -168,10 +169,11 @@ function JournalEntry() {
             </p>
           )}
 
-          <div className="mt-16 flex justify-center">
+          <div className="mt-16 flex flex-wrap items-center justify-between gap-6">
             <Link to="/journal" className="btn-outline-charcoal">
               Back to the Journal
             </Link>
+            <ShareButton title={post.title} text={post.excerpt ?? undefined} />
           </div>
         </div>
       </div>

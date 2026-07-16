@@ -13,11 +13,44 @@ import { useCart, formatPrice } from "../lib/cart";
 import { FadeIn } from "../components/FadeIn";
 import { PlaceholderImage } from "../components/PlaceholderImage";
 import { AuthLoader } from "../components/AuthLoader";
+import { ShareButton } from "../components/ShareButton";
 import { ProductCard } from "./collections.$slug";
 import { fadeUp, staggerContainer, viewportOnce, LUXE_EASE } from "../lib/motion";
+import { logEvent } from "../lib/analytics";
 
+const SITE_ORIGIN = "https://veza-studios.com";
 
 export const Route = createFileRoute("/product/$slug")({
+  loader: async ({ params, context }) => {
+    const p = await context.queryClient.ensureQueryData(productBySlugQuery(params.slug));
+    return { product: p };
+  },
+  head: ({ params, loaderData }) => {
+    const url = `${SITE_ORIGIN}/product/${params.slug}`;
+    const p = loaderData?.product;
+    if (!p) {
+      return { meta: [{ title: "Piece not found — VEZA" }, { name: "robots", content: "noindex" }] };
+    }
+    const description = p.description
+      ? p.description.replace(/\s+/g, " ").slice(0, 155)
+      : `${p.name} — a VEZA piece.`;
+    const img = p.images?.[0]?.url ?? null;
+    const meta: Array<Record<string, string>> = [
+      { title: `${p.name} — VEZA Jewelry Studios` },
+      { name: "description", content: description },
+      { property: "og:title", content: p.name },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: url },
+      { name: "twitter:card", content: "summary_large_image" },
+    ];
+    if (img) {
+      const abs = img.startsWith("http") ? img : `${SITE_ORIGIN}${img}`;
+      meta.push({ property: "og:image", content: abs });
+      meta.push({ name: "twitter:image", content: abs });
+    }
+    return { meta, links: [{ rel: "canonical", href: url }] };
+  },
   component: ProductDetail,
   notFoundComponent: () => (
     <div className="mx-auto max-w-2xl px-6 py-32 text-center">
@@ -90,6 +123,23 @@ function ProductBody({ product }: { product: Product }) {
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
+  const meta = (product.metadata ?? {}) as {
+    price_silver?: number | null;
+    price_gold?: number | null;
+    is_bespoke?: boolean;
+    metal_options?: string[];
+  };
+  const priceGold = meta.price_gold ?? null;
+  const priceSilver = meta.price_silver ?? Number(product.price);
+  const hasBoth = priceGold !== null && priceSilver !== null;
+  const [metal, setMetal] = useState<"silver" | "gold">(priceSilver !== null ? "silver" : "gold");
+  const activePrice = metal === "gold" ? priceGold ?? Number(product.price) : priceSilver ?? Number(product.price);
+  const isBespoke = !!meta.is_bespoke;
+
+  useEffect(() => {
+    logEvent("product_view", { product_id: product.id, meta: { slug: product.slug } });
+  }, [product.id, product.slug]);
+
   return (
     <section className="bg-ivory">
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 md:grid-cols-2 md:gap-16 md:px-10 md:py-24 lg:gap-20">
@@ -131,15 +181,47 @@ function ProductBody({ product }: { product: Product }) {
         </FadeIn>
 
         <FadeIn delay={0.1} className="flex flex-col">
-          <p className="label-eyebrow" style={{ color: "var(--color-teal)" }}>
-            {product.stone ?? "VEZA"}
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <p className="label-eyebrow" style={{ color: "var(--color-teal)" }}>
+              {product.stone ?? "VEZA"}
+            </p>
+            <ShareButton title={product.name} text={product.description ?? undefined} />
+          </div>
           <h1 className="mt-6 font-serif text-4xl leading-tight text-charcoal md:text-5xl">
             {product.name}
           </h1>
           <p className="mt-6 font-serif text-2xl text-charcoal-soft">
-            {formatPrice(Number(product.price), product.currency)}
+            {isBespoke ? "From " : ""}{formatPrice(Number(activePrice), product.currency)}
+            {isBespoke ? (
+              <span className="ml-3 text-xs font-light uppercase tracking-[0.24em] text-charcoal-soft/70">
+                Bespoke — final quote on request
+              </span>
+            ) : null}
           </p>
+
+          {hasBoth ? (
+            <div className="mt-6 inline-flex overflow-hidden border border-charcoal/60">
+              <button
+                type="button"
+                onClick={() => setMetal("silver")}
+                className={`px-4 py-2 text-[0.68rem] font-light uppercase tracking-[0.24em] transition-colors ${
+                  metal === "silver" ? "bg-charcoal text-ivory" : "text-charcoal hover:bg-ivory"
+                }`}
+              >
+                925 Silver · {formatPrice(Number(priceSilver ?? 0), product.currency)}
+              </button>
+              <button
+                type="button"
+                onClick={() => setMetal("gold")}
+                className={`px-4 py-2 text-[0.68rem] font-light uppercase tracking-[0.24em] transition-colors ${
+                  metal === "gold" ? "bg-charcoal text-ivory" : "text-charcoal hover:bg-ivory"
+                }`}
+              >
+                9ct Gold · {formatPrice(Number(priceGold ?? 0), product.currency)}
+              </button>
+            </div>
+          ) : null}
+
           <span className="mt-8 block h-px w-16 bg-gold" />
           {product.description ? (
             <p className="mt-8 max-w-lg text-base font-light leading-relaxed text-charcoal-soft">
@@ -169,12 +251,21 @@ function ProductBody({ product }: { product: Product }) {
           </div>
 
           <div className="mt-6 flex gap-4">
-            <button
-              onClick={() => addItem(product, qty)}
-              className="btn-outline-charcoal flex-1"
-            >
-              Add to Bag
-            </button>
+            {isBespoke ? (
+              <Link to="/custom" className="btn-outline-charcoal flex-1 text-center">
+                Begin Commission
+              </Link>
+            ) : (
+              <button
+                onClick={() => {
+                  addItem(product, qty);
+                  logEvent("add_to_cart", { product_id: product.id, meta: { qty, metal } });
+                }}
+                className="btn-outline-charcoal flex-1"
+              >
+                Add to Bag
+              </button>
+            )}
           </div>
 
           <div className="mt-14">

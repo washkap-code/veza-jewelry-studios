@@ -17,6 +17,7 @@ const LINKS = [
   { to: "/admin/products", label: "Products" },
   { to: "/admin/collections", label: "Collections" },
   { to: "/admin/gemstones", label: "Gemstones" },
+  { to: "/admin/gallery", label: "Gallery" },
   { to: "/admin/orders", label: "Orders" },
   { to: "/admin/journal", label: "Journal" },
   { to: "/admin/commissions", label: "Commissions" },

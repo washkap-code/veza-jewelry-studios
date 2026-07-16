@@ -61,8 +61,13 @@ export function Footer() {
               <p>VEZA Jewelry Studios</p>
               <p>Harare, Zimbabwe</p>
               <p>
-                <a href="mailto:hello@veza.studio" className="hover:text-teal transition-colors">
-                  hello@veza.studio
+                <a href="mailto:hello@veza-studios.com" className="hover:text-teal transition-colors">
+                  hello@veza-studios.com
+                </a>
+              </p>
+              <p>
+                <a href="tel:+263777602761" className="hover:text-teal transition-colors">
+                  +263 777 602 761
                 </a>
               </p>
             </address>
@@ -91,10 +96,10 @@ export function Footer() {
           <div>
             <p className="label-eyebrow">Client Care</p>
             <ul className="mt-4 space-y-3 text-sm font-light text-charcoal-soft">
-              <li><Link to="/contact" className="transition-colors hover:text-teal">Shipping</Link></li>
-              <li><Link to="/contact" className="transition-colors hover:text-teal">Returns</Link></li>
-              <li><Link to="/contact" className="transition-colors hover:text-teal">Privacy</Link></li>
               <li><Link to="/custom" className="transition-colors hover:text-teal">Custom Commissions</Link></li>
+              <li><Link to="/contact" className="transition-colors hover:text-teal">Shipping & Returns</Link></li>
+              <li><Link to="/privacy" className="transition-colors hover:text-teal">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="transition-colors hover:text-teal">Terms & Conditions</Link></li>
             </ul>
           </div>
         </div>
@@ -102,14 +107,22 @@ export function Footer() {
         <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-border/60 pt-8 text-xs font-light tracking-wide text-charcoal-soft md:flex-row md:items-center">
           <p>© {year} VEZA Jewelry Studios. All rights reserved.</p>
           <p className="hidden tracking-[0.22em] uppercase md:block">Sculpted in Harare</p>
-          <a
-            href="https://jonomi.digital"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-light tracking-wide text-charcoal-soft transition-colors duration-500 hover:text-teal"
-          >
-            Built by Jonomi Digital Studios
-          </a>
+          <div className="flex items-center gap-6">
+            <Link
+              to="/studio"
+              className="text-[0.65rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/60 transition-colors duration-500 hover:text-teal"
+            >
+              Studio access
+            </Link>
+            <a
+              href="https://jonomi.digital"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-light tracking-wide text-charcoal-soft transition-colors duration-500 hover:text-teal"
+            >
+              Built by Jonomi Digital Studios
+            </a>
+          </div>
         </div>
       </div>
     </footer>
