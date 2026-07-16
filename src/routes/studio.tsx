@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "../lib/auth";
 import { VezaLogo } from "../components/VezaLogo";
+import { PasswordInput } from "../components/PasswordInput";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({
