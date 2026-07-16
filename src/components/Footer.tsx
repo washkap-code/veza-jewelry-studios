@@ -63,22 +63,34 @@ export function Footer() {
             </p>
             <form
               className="mt-8 flex max-w-md items-center border-b border-charcoal/40 pb-2"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={subscribe}
             >
               <input
                 type="email"
                 required
                 placeholder="your@email.com"
                 aria-label="Email address"
-                className="w-full bg-transparent py-2 text-sm font-light tracking-wide text-charcoal outline-none placeholder:text-charcoal-soft/60"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={status === "loading" || status === "done"}
+                className="w-full bg-transparent py-2 text-sm font-light tracking-wide text-charcoal outline-none placeholder:text-charcoal-soft/60 disabled:opacity-60"
               />
               <button
                 type="submit"
-                className="ml-4 shrink-0 text-[0.68rem] font-light uppercase tracking-[0.28em] text-charcoal transition-colors duration-500 hover:text-teal"
+                disabled={status === "loading" || status === "done"}
+                className="ml-4 shrink-0 text-[0.68rem] font-light uppercase tracking-[0.28em] text-charcoal transition-colors duration-500 hover:text-teal disabled:opacity-60"
               >
-                Subscribe
+                {status === "loading" ? "…" : status === "done" ? "Received" : "Subscribe"}
               </button>
             </form>
+            {message && (
+              <p
+                className={`mt-3 text-xs font-light ${status === "error" ? "text-destructive" : "text-teal"}`}
+                role="status"
+              >
+                {message}
+              </p>
+            )}
           </div>
 
           <div>
