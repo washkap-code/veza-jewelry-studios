@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "../lib/auth";
+import { supabase } from "../lib/supabase";
 import { VezaLogo } from "../components/VezaLogo";
 import { PasswordInput } from "../components/PasswordInput";
 
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/studio")({
 });
 
 function StudioLogin() {
-  const { user, isAdmin, signIn, loading } = useAuth();
+  const { user, isAdmin, mustChangePassword, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -24,16 +25,32 @@ function StudioLogin() {
 
   useEffect(() => {
     if (loading) return;
-    if (user && isAdmin) navigate({ to: "/admin", replace: true });
-    else if (user && !isAdmin) navigate({ to: "/account", replace: true });
-  }, [user, isAdmin, loading, navigate]);
+    if (user && isAdmin) navigate({ to: mustChangePassword ? "/change-password" : "/admin", replace: true });
+  }, [user, isAdmin, mustChangePassword, loading, navigate]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
     try {
-      await signIn(email.trim(), password);
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (signInError) throw signInError;
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("is_admin, must_change_password")
+        .eq("id", data.user.id)
+        .maybeSingle();
+
+      if (profileError || !profile?.is_admin) {
+        await supabase.auth.signOut();
+        throw new Error("Admin access only.");
+      }
+
+      navigate({ to: profile.must_change_password ? "/change-password" : "/admin", replace: true });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Access denied.");
     } finally {
