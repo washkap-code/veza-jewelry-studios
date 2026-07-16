@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { useAuth } from "../lib/auth";
 import { VezaLogo } from "../components/VezaLogo";
@@ -88,6 +88,15 @@ function StudioLogin() {
             {submitting ? "One moment" : "Enter"}
           </button>
         </form>
+
+        <div className="mt-10 text-center">
+          <Link
+            to="/"
+            className="text-[0.62rem] font-light uppercase tracking-[0.28em] text-ivory/50 transition-colors duration-500 hover:text-gold"
+          >
+            ← Return home
+          </Link>
+        </div>
       </div>
     </div>
   );
