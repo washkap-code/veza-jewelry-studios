@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useRef, type DragEvent } from "react";
 import { supabase } from "../lib/supabase";
 import { AuthLoader } from "../components/AuthLoader";
+import { useAuth } from "../lib/auth";
+import { logAudit } from "../lib/audit";
 
 export const Route = createFileRoute("/admin/gallery")({
   component: AdminGallery,
