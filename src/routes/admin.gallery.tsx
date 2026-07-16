@@ -162,9 +162,17 @@ function AdminGallery() {
         `${uploaded} uploaded · ${skipped} duplicate skipped${failed ? ` · ${failed} failed` : ""}`,
       );
       setBusy(false);
+      if (uploaded > 0) {
+        await logAudit({
+          action: "gallery.upload",
+          entity: "gallery_images",
+          meta: { uploaded, skipped, failed, batch: arr.length },
+          actor_role: role,
+        });
+      }
       qc.invalidateQueries({ queryKey: ["admin", "gallery"] });
     },
-    [qc],
+    [qc, role],
   );
 
   function onDrop(e: DragEvent<HTMLDivElement>) {
