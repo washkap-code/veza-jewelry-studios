@@ -11,15 +11,6 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const LINKS = [
-  { to: "/admin", label: "Dashboard", exact: true },
-  { to: "/admin/products", label: "Products" },
-  { to: "/admin/collections", label: "Collections" },
-  { to: "/admin/gemstones", label: "Gemstones" },
-  { to: "/admin/orders", label: "Orders" },
-  { to: "/admin/journal", label: "Journal" },
-  { to: "/admin/commissions", label: "Commissions" },
-] as const;
 
 const LINKS = [
   { to: "/admin", label: "Dashboard", exact: true },
