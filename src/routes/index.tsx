@@ -57,20 +57,27 @@ function Home() {
 /* ---------------------------------------------------------------- Hero */
 
 function Hero({ reduce }: { reduce: boolean }) {
+  // Resilience: on reduced-motion (and as an inline-style safety net) render text
+  // fully opaque so a stalled JS/framer-motion pipeline can never leave it invisible.
+  const staticVisible = { opacity: 1, y: 0 };
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-charcoal">
       <CinematicVideo
         src="/videos/hero.mp4"
         eager
         className="absolute inset-0"
-        overlayClassName="bg-gradient-to-b from-charcoal/30 via-charcoal/10 to-charcoal/70"
+        fallbackStyle={{
+          background:
+            "radial-gradient(120% 90% at 30% 20%, #1f4a3f 0%, #163a33 40%, #0f1f1c 75%, #0a0a09 100%)",
+        }}
+        overlayClassName="bg-gradient-to-b from-charcoal/40 via-charcoal/20 to-charcoal/70"
         ariaLabel="Macro film of gemstones and gold in the VEZA studio"
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-start px-6 pb-32 pt-40 text-ivory md:px-10 md:pb-40 md:pt-48">
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduce ? staticVisible : { opacity: 0, y: 12 }}
+          animate={staticVisible}
           transition={{ duration: 0.9, ease: LUXE_EASE, delay: reduce ? 0 : 0.2 }}
           className="label-eyebrow"
           style={{ color: "rgba(247,245,240,0.75)" }}
@@ -79,8 +86,8 @@ function Hero({ reduce }: { reduce: boolean }) {
         </motion.p>
 
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduce ? staticVisible : { opacity: 0, y: 24 }}
+          animate={staticVisible}
           transition={{ duration: 1.2, ease: LUXE_EASE, delay: reduce ? 0 : 0.35 }}
           className="mt-8 max-w-3xl font-serif text-5xl leading-[1.05] tracking-tight text-ivory md:text-7xl"
         >
@@ -90,8 +97,8 @@ function Hero({ reduce }: { reduce: boolean }) {
         </motion.h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduce ? staticVisible : { opacity: 0, y: 16 }}
+          animate={staticVisible}
           transition={{ duration: 1.0, ease: LUXE_EASE, delay: reduce ? 0 : 0.75 }}
           className="mt-8 max-w-xl text-base font-light leading-relaxed text-ivory/85 md:text-lg"
         >
@@ -99,7 +106,7 @@ function Hero({ reduce }: { reduce: boolean }) {
         </motion.p>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={reduce ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.9, delay: reduce ? 0 : 1.1 }}
           className="mt-12 flex flex-wrap items-center gap-5"
@@ -115,6 +122,7 @@ function Hero({ reduce }: { reduce: boolean }) {
           </Link>
         </motion.div>
       </div>
+
 
       <motion.div
         initial={{ opacity: 0 }}

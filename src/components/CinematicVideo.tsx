@@ -14,6 +14,8 @@ interface CinematicVideoProps {
   cover?: boolean;
   /** Slow subtle scale drift to make short loops feel seamless. */
   drift?: boolean;
+  /** Optional inline style for the no-poster fallback layer (overrides default light gradient). */
+  fallbackStyle?: React.CSSProperties;
 }
 
 /**
@@ -32,6 +34,7 @@ export function CinematicVideo({
   ariaLabel,
   cover = true,
   drift = true,
+  fallbackStyle,
 }: CinematicVideoProps) {
   const reduce = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -80,10 +83,12 @@ export function CinematicVideo({
         <div
           aria-hidden
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(160deg, var(--color-sage-tint) 0%, var(--color-warm-white) 60%, var(--color-ivory) 100%)",
-          }}
+          style={
+            fallbackStyle ?? {
+              background:
+                "linear-gradient(160deg, var(--color-sage-tint) 0%, var(--color-warm-white) 60%, var(--color-ivory) 100%)",
+            }
+          }
         />
       )}
 
