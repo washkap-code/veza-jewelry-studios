@@ -58,6 +58,8 @@ async function compressImage(
 
 function AdminGallery() {
   const qc = useQueryClient();
+  const { isAdmin } = useAuth();
+  const role: "admin" | "staff" = isAdmin ? "admin" : "staff";
   const inputRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
   const [dragOver, setDragOver] = useState(false);
