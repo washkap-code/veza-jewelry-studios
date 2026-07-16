@@ -17,13 +17,22 @@ export interface JournalPost {
 export const journalPostsQuery = queryOptions({
   queryKey: ["journal", "posts"],
   queryFn: async (): Promise<JournalPost[]> => {
+    const { STATIC_JOURNAL_POSTS } = await import("../content/journal");
     const { data, error } = await supabase
       .from("journal_posts")
       .select("*")
       .eq("published", true)
       .order("published_at", { ascending: false });
-    if (error) throw error;
-    return (data ?? []) as JournalPost[];
+    const db = error ? [] : ((data ?? []) as JournalPost[]);
+    // DB rows win on slug collision so editors can override a static entry.
+    const dbSlugs = new Set(db.map((p) => p.slug));
+    const merged = [...db, ...STATIC_JOURNAL_POSTS.filter((p) => !dbSlugs.has(p.slug))];
+    merged.sort((a, b) => {
+      const ad = a.published_at ?? a.created_at ?? "";
+      const bd = b.published_at ?? b.created_at ?? "";
+      return bd.localeCompare(ad);
+    });
+    return merged;
   },
 });
 
@@ -37,10 +46,12 @@ export const journalPostBySlugQuery = (slug: string) =>
         .eq("slug", slug)
         .eq("published", true)
         .maybeSingle();
-      if (error) throw error;
-      return (data as JournalPost | null) ?? null;
+      if (!error && data) return data as JournalPost;
+      const { STATIC_JOURNAL_POSTS } = await import("../content/journal");
+      return STATIC_JOURNAL_POSTS.find((p) => p.slug === slug) ?? null;
     },
   });
+
 
 
 export const collectionsQuery = queryOptions({
