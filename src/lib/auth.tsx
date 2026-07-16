@@ -16,6 +16,7 @@ interface AuthContextValue {
   session: Session | null;
   profile: Profile | null;
   isAdmin: boolean;
+  isStaff: boolean;
   mustChangePassword: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
