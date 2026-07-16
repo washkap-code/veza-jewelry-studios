@@ -124,6 +124,30 @@ export const productsByStoneQuery = (stone: string | null | undefined) =>
     },
   });
 
+export const featuredProductsQuery = queryOptions({
+  queryKey: ["products", "featured"],
+  queryFn: async (): Promise<Product[]> => {
+    const { data: featured, error: fErr } = await supabase
+      .from("products")
+      .select("*")
+      .eq("published", true)
+      .eq("featured", true)
+      .order("created_at", { ascending: false })
+      .limit(6);
+    if (fErr) throw fErr;
+    if (featured && featured.length) return featured as Product[];
+    // Fallback: latest published products if none are explicitly featured yet.
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("published", true)
+      .order("created_at", { ascending: false })
+      .limit(6);
+    if (error) throw error;
+    return (data ?? []) as Product[];
+  },
+});
+
 /** Gemstone slug → soft palette tone for placeholder blocks. */
 export const GEMSTONE_TONES: Record<string, string> = {
   aquamarine: "#D6E4E1",

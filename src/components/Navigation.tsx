@@ -8,12 +8,12 @@ import { useCart } from "../lib/cart";
 
 const NAV_LINKS = [
   { to: "/", label: "Home" },
-  { to: "/collections", label: "Collections" },
-  { to: "/story", label: "Story" },
+  { to: "/collections", label: "Shop" },
+  { to: "/custom", label: "Custom Jewellery" },
+  { to: "/story", label: "Our Story" },
   { to: "/craftsmanship", label: "Craftsmanship" },
   { to: "/gemstones", label: "Gemstones" },
   { to: "/journal", label: "Journal" },
-  { to: "/custom", label: "Custom Pieces" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
