@@ -21,13 +21,26 @@ const LINKS = [
   { to: "/admin/commissions", label: "Commissions" },
 ] as const;
 
+const LINKS = [
+  { to: "/admin", label: "Dashboard", exact: true },
+  { to: "/admin/products", label: "Products" },
+  { to: "/admin/collections", label: "Collections" },
+  { to: "/admin/gemstones", label: "Gemstones" },
+  { to: "/admin/orders", label: "Orders" },
+  { to: "/admin/journal", label: "Journal" },
+  { to: "/admin/commissions", label: "Commissions" },
+  { to: "/admin/settings", label: "Settings" },
+] as const;
+
 function AdminLayout() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin, mustChangePassword, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/account", replace: true });
-  }, [loading, user, navigate]);
+    if (loading) return;
+    if (!user) navigate({ to: "/account", replace: true });
+    else if (mustChangePassword) navigate({ to: "/change-password", replace: true });
+  }, [loading, user, mustChangePassword, navigate]);
 
   if (loading || !user) return <AuthLoader minHeight="70vh" />;
 
