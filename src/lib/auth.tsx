@@ -106,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       profile,
       isAdmin: !!profile?.is_admin,
+      mustChangePassword: !!profile?.must_change_password,
       loading,
       signIn,
       signUp,
