@@ -21,6 +21,7 @@ import { Route as CartRouteImport } from './routes/cart'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as GemstonesIndexRouteImport } from './routes/gemstones.index'
 import { Route as CollectionsIndexRouteImport } from './routes/collections.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -94,6 +95,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const JournalIndexRoute = JournalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => JournalRoute,
 } as any)
 const GemstonesIndexRoute = GemstonesIndexRouteImport.update({
   id: '/',
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/gemstones/': typeof GemstonesIndexRoute
+  '/journal/': typeof JournalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -196,7 +203,6 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
-  '/journal': typeof JournalRouteWithChildren
   '/story': typeof StoryRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
@@ -211,6 +217,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/collections': typeof CollectionsIndexRoute
   '/gemstones': typeof GemstonesIndexRoute
+  '/journal': typeof JournalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -239,6 +246,7 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/collections/': typeof CollectionsIndexRoute
   '/gemstones/': typeof GemstonesIndexRoute
+  '/journal/': typeof JournalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -268,6 +276,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/collections/'
     | '/gemstones/'
+    | '/journal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -277,7 +286,6 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
-    | '/journal'
     | '/story'
     | '/admin/collections'
     | '/admin/commissions'
@@ -292,6 +300,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/collections'
     | '/gemstones'
+    | '/journal'
   id:
     | '__root__'
     | '/'
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/collections/'
     | '/gemstones/'
+    | '/journal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -422,6 +432,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/journal/': {
+      id: '/journal/'
+      path: '/'
+      fullPath: '/journal/'
+      preLoaderRoute: typeof JournalIndexRouteImport
+      parentRoute: typeof JournalRoute
     }
     '/gemstones/': {
       id: '/gemstones/'
@@ -569,10 +586,12 @@ const GemstonesRouteWithChildren = GemstonesRoute._addFileChildren(
 
 interface JournalRouteChildren {
   JournalSlugRoute: typeof JournalSlugRoute
+  JournalIndexRoute: typeof JournalIndexRoute
 }
 
 const JournalRouteChildren: JournalRouteChildren = {
   JournalSlugRoute: JournalSlugRoute,
+  JournalIndexRoute: JournalIndexRoute,
 }
 
 const JournalRouteWithChildren =
@@ -596,13 +615,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
