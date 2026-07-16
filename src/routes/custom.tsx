@@ -84,6 +84,11 @@ function CustomPage() {
         eyebrow="By Commission"
         title="Custom Pieces"
         description="Bespoke commissions, imagined with you and drawn to a single hand. One stone, one story, one piece."
+        backdrop={{
+          kind: "video",
+          src: "/videos/commission.mp4",
+          ariaLabel: "A jeweller sketching a commission in the VEZA atelier",
+        }}
       />
 
       <section className="bg-ivory">

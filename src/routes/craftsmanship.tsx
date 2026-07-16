@@ -28,6 +28,11 @@ function CraftsmanshipPage() {
         eyebrow="The Hand"
         title="Craftsmanship"
         description="Sand-cast, chased and finished by hand in our Harare atelier. This is how a stone becomes an heirloom."
+        backdrop={{
+          kind: "video",
+          src: "/videos/craftsmanship.mp4",
+          ariaLabel: "Hands finishing a piece at the VEZA workbench",
+        }}
       />
       <section className="bg-ivory">
         <div className="mx-auto max-w-5xl px-6 py-20 md:py-28">

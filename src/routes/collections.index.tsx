@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { collectionsQuery } from "../lib/queries";
 import { FadeIn } from "../components/FadeIn";
+import { PageHeader } from "../components/PageHeader";
 import { PlaceholderImage } from "../components/PlaceholderImage";
 import { AuthLoader } from "../components/AuthLoader";
 import { LUXE_EASE } from "../lib/motion";
@@ -32,21 +33,14 @@ function CollectionsPage() {
 
   return (
     <>
-      <section className="border-b border-border/60 bg-warm-white">
-        <div className="mx-auto flex max-w-4xl flex-col items-center px-6 py-24 text-center md:py-32">
-          <FadeIn>
-            <p className="label-eyebrow mb-6">The Archive</p>
-            <h1 className="font-serif text-5xl leading-[1.05] tracking-tight text-charcoal md:text-7xl">
-              Collections
-            </h1>
-            <span className="gold-rule mx-auto mt-10" />
-            <p className="mt-10 max-w-2xl text-base font-light leading-relaxed text-charcoal-soft md:text-lg">
-              Five bodies of work, each drawn from a place. Sculptural editions
-              made slowly by hand in our Harare atelier.
-            </p>
-          </FadeIn>
-        </div>
-      </section>
+      <PageHeader
+        eyebrow="The Archive"
+        title="Collections"
+        description="Five bodies of work, each drawn from a place. Sculptural editions made slowly by hand in our Harare atelier."
+        backdrop={{ kind: "mark" }}
+      />
+
+
 
       {isLoading ? (
         <AuthLoader minHeight="50vh" />

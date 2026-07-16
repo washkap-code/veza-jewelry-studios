@@ -48,6 +48,7 @@ function StoryPage() {
         eyebrow="Origins"
         title="Our Story"
         description="A jewelry house rooted in Zimbabwe — quietly modern, patiently made."
+        backdrop={{ kind: "wash" }}
       />
       <section className="bg-ivory">
         <div className="mx-auto max-w-4xl px-6 py-20 md:py-28">
