@@ -1,13 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 
-// Original VEZA production project. Reads from env with hard-coded fallbacks
-// so SSR / preview never hits the wrong project.
-const SUPABASE_URL =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_URL) ||
-  "https://whyznavacdxizkrztdsi.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY) ||
-  "sb_publishable_JfFGHYs2bvSaVJQ4RRJ5Tg_9sMA7SVq";
+// Original VEZA production project. Hard-pinned intentionally — do NOT read
+// VITE_SUPABASE_* here, the managed .env points at an empty project.
+const SUPABASE_URL = "https://whyznavacdxizkrztdsi.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_JfFGHYs2bvSaVJQ4RRJ5Tg_9sMA7SVq";
 
 export type Profile = {
   id: string;
