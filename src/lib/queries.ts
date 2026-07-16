@@ -214,3 +214,24 @@ export const GEMSTONE_TONES: Record<string, string> = {
 export function toneForGemstone(slug: string): string {
   return GEMSTONE_TONES[slug] ?? "#E4E1D9";
 }
+
+export const paymentSettingsQuery = queryOptions({
+  queryKey: ["payment_settings"],
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("payment_settings")
+      .select("id, payments_enabled, stripe_publishable_key, currency, updated_at")
+      .eq("id", 1)
+      .maybeSingle();
+    if (error) throw error;
+    return (
+      data ?? {
+        id: 1,
+        payments_enabled: false,
+        stripe_publishable_key: null,
+        currency: "USD",
+        updated_at: new Date().toISOString(),
+      }
+    );
+  },
+});
