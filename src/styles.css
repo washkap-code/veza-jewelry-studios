@@ -159,6 +159,11 @@
   background-color: var(--color-gold);
 }
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
 @keyframes cinematic-drift {
   0%   { transform: scale(1);    }
   50%  { transform: scale(1.03); }
