@@ -5,12 +5,15 @@ import { supabase, type Order, type Profile } from "../lib/supabase";
 import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, StatusBadge } from "../components/AdminUI";
 import { formatPrice } from "../lib/cart";
+import { useAuth } from "../lib/auth";
+import { logAudit } from "../lib/audit";
 
 export const Route = createFileRoute("/admin/orders")({
   component: AdminOrders,
 });
 
 const STATUSES = ["pending", "confirmed", "in production", "shipped", "delivered", "cancelled"];
+const ADMIN_ONLY_STATUSES = new Set(["cancelled"]);
 
 type OrderRow = Order & {
   shipping_address: Record<string, string> | null;
