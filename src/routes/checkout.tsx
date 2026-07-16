@@ -242,11 +242,19 @@ function CheckoutPage() {
 
             <section className="border border-border/60 bg-warm-white p-6">
               <h2 className="label-eyebrow">Payment</h2>
-              <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
-                After your order is placed, our atelier will contact you personally to
-                arrange payment and confirm your delivery date. Every VEZA piece ships
-                worldwide, fully insured, in our signature gift packaging.
-              </p>
+              {cardPaymentsOn ? (
+                <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
+                  You will be taken to our secure card payment partner to complete
+                  your order. Every VEZA piece ships worldwide, fully insured, in our
+                  signature gift packaging.
+                </p>
+              ) : (
+                <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
+                  This is an order request. After you submit, our atelier will contact
+                  you personally to arrange payment and confirm your delivery date. Every
+                  VEZA piece ships worldwide, fully insured, in our signature gift packaging.
+                </p>
+              )}
             </section>
 
             {error ? <p className="text-xs font-light leading-relaxed text-destructive">{error}</p> : null}
