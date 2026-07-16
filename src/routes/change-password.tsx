@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { FadeIn } from "../components/FadeIn";
 import { AuthLoader } from "../components/AuthLoader";
+import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
