@@ -131,7 +131,13 @@ function AdminJournal() {
           </div>
           <AdminTextArea label="Excerpt" value={draft.excerpt} onChange={(v) => setDraft({ ...draft, excerpt: v })} rows={2} />
           <AdminTextArea label="Content" value={draft.content} onChange={(v) => setDraft({ ...draft, content: v })} rows={12} />
-          <AdminToggle label="Published" checked={draft.published} onChange={(v) => setDraft({ ...draft, published: v })} />
+          {isAdmin ? (
+            <AdminToggle label="Published" checked={draft.published} onChange={(v) => setDraft({ ...draft, published: v })} />
+          ) : (
+            <p className="text-xs font-light text-charcoal-soft">
+              Saved as draft. Only an admin can publish this post.
+            </p>
+          )}
           {error ? <p className="text-xs font-light text-destructive">{error}</p> : null}
           <button type="submit" disabled={save.isPending} className="btn-outline-charcoal disabled:opacity-60">
             {save.isPending ? "Saving" : "Save post"}
