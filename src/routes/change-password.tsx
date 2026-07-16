@@ -74,28 +74,20 @@ function ChangePasswordPage() {
           </div>
 
           <form onSubmit={onSubmit} className="mt-10 space-y-6">
-            <label className="block">
-              <span className="label-eyebrow">New password</span>
-              <input
-                type="password"
-                value={pw1}
-                onChange={(e) => setPw1(e.target.value)}
-                autoComplete="new-password"
-                required
-                className="mt-3 block w-full border-b border-border bg-transparent py-3 text-sm font-light text-charcoal outline-none transition-colors duration-500 focus:border-teal"
-              />
-            </label>
-            <label className="block">
-              <span className="label-eyebrow">Confirm new password</span>
-              <input
-                type="password"
-                value={pw2}
-                onChange={(e) => setPw2(e.target.value)}
-                autoComplete="new-password"
-                required
-                className="mt-3 block w-full border-b border-border bg-transparent py-3 text-sm font-light text-charcoal outline-none transition-colors duration-500 focus:border-teal"
-              />
-            </label>
+            <PasswordInput
+              label="New password"
+              value={pw1}
+              onChange={setPw1}
+              autoComplete="new-password"
+              required
+            />
+            <PasswordInput
+              label="Confirm new password"
+              value={pw2}
+              onChange={setPw2}
+              autoComplete="new-password"
+              required
+            />
             {err ? <p className="text-xs font-light text-destructive">{err}</p> : null}
             {ok ? <p className="text-xs font-light text-teal">Password set. Welcome.</p> : null}
             <button
