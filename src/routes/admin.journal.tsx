@@ -38,6 +38,7 @@ const EMPTY: Draft = { title: "", slug: "", excerpt: "", content: "", category: 
 
 function AdminJournal() {
   const qc = useQueryClient();
+  const { isAdmin, isStaff } = useAuth();
   const [draft, setDraft] = useState<Draft | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -52,22 +53,44 @@ function AdminJournal() {
 
   const save = useMutation({
     mutationFn: async (d: Draft) => {
+      // Staff cannot publish — force draft on save.
+      const canPublish = isAdmin;
+      const published = canPublish ? d.published : false;
       const payload = {
         title: d.title.trim(),
         slug: d.slug.trim() || slugify(d.title),
         excerpt: d.excerpt.trim() || null,
         content: d.content.trim() || null,
         category: d.category.trim() || null,
-        published: d.published,
-        published_at: d.published ? new Date().toISOString() : null,
+        published,
+        published_at: published ? new Date().toISOString() : null,
       };
       if (d.id) {
         const { error } = await supabase.from("journal_posts").update(payload).eq("id", d.id);
         if (error) throw error;
-      } else {
-        const { error } = await supabase.from("journal_posts").insert(payload);
-        if (error) throw error;
+        await logAudit({
+          action: "journal.update",
+          entity: "journal_posts",
+          entity_id: d.id,
+          meta: { title: payload.title, published },
+          actor_role: isAdmin ? "admin" : "staff",
+        });
+        return { id: d.id };
       }
+      const { data: inserted, error } = await supabase
+        .from("journal_posts")
+        .insert(payload)
+        .select("id")
+        .single();
+      if (error) throw error;
+      await logAudit({
+        action: "journal.create",
+        entity: "journal_posts",
+        entity_id: inserted?.id ?? null,
+        meta: { title: payload.title, published },
+        actor_role: isAdmin ? "admin" : "staff",
+      });
+      return { id: inserted?.id ?? null };
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["admin", "journal"] });
