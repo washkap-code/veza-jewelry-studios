@@ -46,6 +46,10 @@ function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
+  const { data: paymentSettings } = useQuery(paymentSettingsQuery);
+  const cardPaymentsOn =
+    !!paymentSettings?.payments_enabled &&
+    !!paymentSettings?.stripe_publishable_key;
 
   const [address, setAddress] = useState<Address>(EMPTY_ADDRESS);
   const [giftMessage, setGiftMessage] = useState("");
