@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Instagram, Facebook } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
 import { CinematicVideo } from "./CinematicVideo";
+import { supabase } from "../lib/supabase";
 
 export function Footer() {
   const year = new Date().getFullYear();
