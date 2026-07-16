@@ -83,10 +83,12 @@ export function CinematicVideo({
         <div
           aria-hidden
           className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(160deg, var(--color-sage-tint) 0%, var(--color-warm-white) 60%, var(--color-ivory) 100%)",
-          }}
+          style={
+            fallbackStyle ?? {
+              background:
+                "linear-gradient(160deg, var(--color-sage-tint) 0%, var(--color-warm-white) 60%, var(--color-ivory) 100%)",
+            }
+          }
         />
       )}
 
