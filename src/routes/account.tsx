@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import * as Tabs from "@radix-ui/react-tabs";
 import { FadeIn } from "../components/FadeIn";
 import { AuthLoader } from "../components/AuthLoader";
+import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { supabase, type Order, type Product, type Profile } from "../lib/supabase";
