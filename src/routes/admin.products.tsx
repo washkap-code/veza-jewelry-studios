@@ -149,7 +149,38 @@ function AdminProducts() {
     e.preventDefault();
     if (!draft) return;
     if (!draft.name.trim()) { setError("Name is required."); return; }
+    if (draft.published) {
+      if (!draft.description.trim()) {
+        setError("A product description is required before publishing.");
+        return;
+      }
+      if (draft.images.length < 1) {
+        setError("Add at least one photo before publishing.");
+        return;
+      }
+      if (draft.images.length > 6) {
+        setError("A product may have at most 6 photos.");
+        return;
+      }
+    }
     save.mutate(draft);
+  }
+
+  async function refineDescription() {
+    if (!draft?.description.trim()) {
+      setError("Add some rough notes first, then Refine.");
+      return;
+    }
+    setError(null);
+    try {
+      const { refineCopy } = await import("../lib/ai-refine.functions");
+      const { refined } = await refineCopy({ data: { kind: "product", raw: draft.description, hint: draft.stone || undefined } });
+      if (confirm(`Refined copy:\n\n${refined}\n\nUse it?`)) {
+        setDraft((d) => (d ? { ...d, description: refined } : d));
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "AI refine failed.");
+    }
   }
 
   if (!products) return <AuthLoader minHeight="30vh" />;
