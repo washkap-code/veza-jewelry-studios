@@ -145,6 +145,15 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isHome = pathname === "/";
+  const isStudio = pathname === "/studio";
+
+  useEffect(() => {
+    // Fire page_view for real traffic only (no SSR).
+    if (typeof window === "undefined") return;
+    import("../lib/analytics").then(({ logEvent }) =>
+      logEvent("page_view", { path: pathname }),
+    );
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -152,8 +161,8 @@ function RootComponent() {
         <CartProvider>
           <Preloader />
           <div className="min-h-screen bg-ivory text-charcoal">
-            <Navigation />
-            <main className={isHome ? "" : "pt-24 md:pt-28"}>
+            {isStudio ? null : <Navigation />}
+            <main className={isHome || isStudio ? "" : "pt-24 md:pt-28"}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={pathname}
@@ -166,7 +175,7 @@ function RootComponent() {
                 </motion.div>
               </AnimatePresence>
             </main>
-            <Footer />
+            {isStudio ? null : <Footer />}
             <CartDrawer />
           </div>
         </CartProvider>

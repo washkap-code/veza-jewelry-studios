@@ -32,8 +32,11 @@ function ContactPage() {
               <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
                 For orders, commissions and press.
               </p>
-              <a href="mailto:hello@veza.studio" className="mt-4 text-sm font-light text-charcoal underline decoration-teal/40 underline-offset-4 transition-colors duration-500 hover:text-teal">
-                hello@veza.studio
+              <a href="mailto:hello@veza-studios.com" className="mt-4 text-sm font-light text-charcoal underline decoration-teal/40 underline-offset-4 transition-colors duration-500 hover:text-teal">
+                hello@veza-studios.com
+              </a>
+              <a href="tel:+263777602761" className="mt-2 text-sm font-light text-charcoal underline decoration-teal/40 underline-offset-4 transition-colors duration-500 hover:text-teal">
+                +263 777 602 761
               </a>
             </div>
           </FadeIn>

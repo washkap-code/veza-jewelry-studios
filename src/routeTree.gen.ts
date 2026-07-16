@@ -9,7 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoryRouteImport } from './routes/story'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as GemstonesRouteImport } from './routes/gemstones'
 import { Route as CustomRouteImport } from './routes/custom'
@@ -38,9 +41,24 @@ import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
 import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalRoute = JournalRouteImport.update({
@@ -192,7 +210,10 @@ export interface FileRoutesByFullPath {
   '/custom': typeof CustomRoute
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/story': typeof StoryRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
@@ -218,7 +239,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/privacy': typeof PrivacyRoute
   '/story': typeof StoryRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
@@ -249,7 +273,10 @@ export interface FileRoutesById {
   '/custom': typeof CustomRoute
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/story': typeof StoryRoute
+  '/studio': typeof StudioRoute
+  '/terms': typeof TermsRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
@@ -281,7 +308,10 @@ export interface FileRouteTypes {
     | '/custom'
     | '/gemstones'
     | '/journal'
+    | '/privacy'
     | '/story'
+    | '/studio'
+    | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gemstones'
@@ -307,7 +337,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/privacy'
     | '/story'
+    | '/studio'
+    | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gemstones'
@@ -337,7 +370,10 @@ export interface FileRouteTypes {
     | '/custom'
     | '/gemstones'
     | '/journal'
+    | '/privacy'
     | '/story'
+    | '/studio'
+    | '/terms'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gemstones'
@@ -368,17 +404,41 @@ export interface RootRouteChildren {
   CustomRoute: typeof CustomRoute
   GemstonesRoute: typeof GemstonesRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
   StoryRoute: typeof StoryRoute
+  StudioRoute: typeof StudioRoute
+  TermsRoute: typeof TermsRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/story': {
       id: '/story'
       path: '/story'
       fullPath: '/story'
       preLoaderRoute: typeof StoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal': {
@@ -651,7 +711,10 @@ const rootRouteChildren: RootRouteChildren = {
   CustomRoute: CustomRoute,
   GemstonesRoute: GemstonesRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
   StoryRoute: StoryRoute,
+  StudioRoute: StudioRoute,
+  TermsRoute: TermsRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport

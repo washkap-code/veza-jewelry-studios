@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -13,11 +13,44 @@ import { useCart, formatPrice } from "../lib/cart";
 import { FadeIn } from "../components/FadeIn";
 import { PlaceholderImage } from "../components/PlaceholderImage";
 import { AuthLoader } from "../components/AuthLoader";
+import { ShareButton } from "../components/ShareButton";
 import { ProductCard } from "./collections.$slug";
 import { fadeUp, staggerContainer, viewportOnce, LUXE_EASE } from "../lib/motion";
+import { logEvent } from "../lib/analytics";
 
+const SITE_ORIGIN = "https://veza-studios.com";
 
 export const Route = createFileRoute("/product/$slug")({
+  loader: async ({ params, context }) => {
+    const p = await context.queryClient.ensureQueryData(productBySlugQuery(params.slug));
+    return { product: p };
+  },
+  head: ({ params, loaderData }) => {
+    const url = `${SITE_ORIGIN}/product/${params.slug}`;
+    const p = loaderData?.product;
+    if (!p) {
+      return { meta: [{ title: "Piece not found — VEZA" }, { name: "robots", content: "noindex" }] };
+    }
+    const description = p.description
+      ? p.description.replace(/\s+/g, " ").slice(0, 155)
+      : `${p.name} — a VEZA piece.`;
+    const img = p.images?.[0]?.url ?? null;
+    const meta: Array<Record<string, string>> = [
+      { title: `${p.name} — VEZA Jewelry Studios` },
+      { name: "description", content: description },
+      { property: "og:title", content: p.name },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "product" },
+      { property: "og:url", content: url },
+      { name: "twitter:card", content: "summary_large_image" },
+    ];
+    if (img) {
+      const abs = img.startsWith("http") ? img : `${SITE_ORIGIN}${img}`;
+      meta.push({ property: "og:image", content: abs });
+      meta.push({ name: "twitter:image", content: abs });
+    }
+    return { meta, links: [{ rel: "canonical", href: url }] };
+  },
   component: ProductDetail,
   notFoundComponent: () => (
     <div className="mx-auto max-w-2xl px-6 py-32 text-center">
