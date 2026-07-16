@@ -7,6 +7,31 @@ import { supabase } from "../lib/supabase";
 
 export function Footer() {
   const year = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function subscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email) return;
+    setStatus("loading");
+    try {
+      const { error } = await supabase
+        .from("newsletter_subscribers")
+        .upsert(
+          { email: email.trim().toLowerCase(), subscribed: true },
+          { onConflict: "email" },
+        );
+      if (error) throw error;
+      setStatus("done");
+      setMessage("Thank you — you'll hear from us soon.");
+      setEmail("");
+    } catch (err) {
+      setStatus("error");
+      setMessage(err instanceof Error ? err.message : "Something went wrong.");
+    }
+  }
+
   return (
     <footer className="border-t border-border/60 bg-warm-white">
       <div className="relative overflow-hidden border-b border-border/60 bg-charcoal">
