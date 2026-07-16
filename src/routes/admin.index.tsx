@@ -16,31 +16,54 @@ async function count(table: string, filter?: (q: any) => any): Promise<number> {
 }
 
 function AdminDashboard() {
+  const { isAdmin, profile } = useAuth();
+  const firstName = profile?.full_name?.split(" ")[0];
+
   const { data } = useQuery({
-    queryKey: ["admin", "dashboard"],
+    queryKey: ["admin", "dashboard", isAdmin ? "admin" : "staff"],
     queryFn: async () => {
-      const [products, published, orders, pendingOrders, commissions, journal] = await Promise.all([
-        count("products"),
-        count("products", (q) => q.eq("published", true)),
+      const [products, published, orders, pendingOrders, commissions, journal, gallery] = await Promise.all([
+        isAdmin ? count("products") : Promise.resolve(0),
+        isAdmin ? count("products", (q) => q.eq("published", true)) : Promise.resolve(0),
         count("orders"),
         count("orders", (q) => q.eq("status", "pending")),
-        count("custom_requests", (q) => q.eq("status", "new")),
+        isAdmin ? count("custom_requests", (q) => q.eq("status", "new")) : Promise.resolve(0),
         count("journal_posts"),
+        count("gallery_images"),
       ]);
-      return { products, published, orders, pendingOrders, commissions, journal };
+      return { products, published, orders, pendingOrders, commissions, journal, gallery };
     },
   });
 
-  const cards = [
-    { label: "Products", value: data?.products, sub: `${data?.published ?? "—"} published`, to: "/admin/products" },
-    { label: "Orders", value: data?.orders, sub: `${data?.pendingOrders ?? "—"} pending`, to: "/admin/orders" },
-    { label: "New commissions", value: data?.commissions, sub: "awaiting reply", to: "/admin/commissions" },
-    { label: "Journal posts", value: data?.journal, sub: "drafts & published", to: "/admin/journal" },
+  const adminCards = [
+    { label: "Products", value: data?.products, sub: `${data?.published ?? "—"} published`, to: "/admin/products" as const },
+    { label: "Orders", value: data?.orders, sub: `${data?.pendingOrders ?? "—"} pending`, to: "/admin/orders" as const },
+    { label: "New commissions", value: data?.commissions, sub: "awaiting reply", to: "/admin/commissions" as const },
+    { label: "Journal posts", value: data?.journal, sub: "drafts & published", to: "/admin/journal" as const },
   ];
+  const staffCards = [
+    { label: "Orders", value: data?.orders, sub: `${data?.pendingOrders ?? "—"} pending`, to: "/admin/orders" as const },
+    { label: "Journal posts", value: data?.journal, sub: "add & edit posts", to: "/admin/journal" as const },
+    { label: "Gallery", value: data?.gallery, sub: "images uploaded", to: "/admin/gallery" as const },
+  ];
+  const cards = isAdmin ? adminCards : staffCards;
 
   return (
-    <div className="space-y-8">
-      <NewsletterReminderBanner />
+    <div className="space-y-8" data-testid="admin-dashboard" data-role={isAdmin ? "admin" : "staff"}>
+      {!isAdmin ? (
+        <div>
+          <p className="label-eyebrow">Staff — Studio Team</p>
+          <h2 className="mt-2 font-serif text-3xl text-charcoal">
+            {firstName ? `Welcome, ${firstName}.` : "Welcome to the atelier."}
+          </h2>
+          <p className="mt-2 text-sm font-light text-charcoal-soft">
+            Add journal posts, upload gallery images, and process orders below.
+          </p>
+        </div>
+      ) : (
+        <NewsletterReminderBanner />
+      )}
+
       <div className="grid gap-6 sm:grid-cols-2">
         {cards.map((c) => (
           <Link
@@ -54,22 +77,92 @@ function AdminDashboard() {
           </Link>
         ))}
       </div>
-      <a
-        href="/guides/veza-studio-manual.pdf"
-        download
-        className="flex flex-wrap items-center justify-between gap-4 border border-gold/40 bg-warm-white p-6 transition-colors duration-500 hover:border-teal/50"
-      >
-        <div>
-          <p className="label-eyebrow text-gold">Studio Manual</p>
-          <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Studio Manual</p>
-          <p className="mt-1 text-xs font-light text-charcoal-soft">
-            Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders, newsletter, calendar, payments.
-          </p>
-        </div>
-        <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
-      </a>
+
+      {isAdmin ? <RecentAudit /> : null}
+
+      {isAdmin ? (
+        <a
+          href="/guides/veza-studio-manual.pdf"
+          download
+          className="flex flex-wrap items-center justify-between gap-4 border border-gold/40 bg-warm-white p-6 transition-colors duration-500 hover:border-teal/50"
+        >
+          <div>
+            <p className="label-eyebrow text-gold">Studio Manual</p>
+            <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Studio Manual</p>
+            <p className="mt-1 text-xs font-light text-charcoal-soft">
+              Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders, newsletter, calendar, payments.
+            </p>
+          </div>
+          <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
+        </a>
+      ) : null}
     </div>
   );
+}
+
+function RecentAudit() {
+  const { data, isError } = useQuery({
+    queryKey: ["admin", "audit", "recent"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("audit_log")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(15);
+      if (error) throw error;
+      return (data ?? []) as AuditRow[];
+    },
+  });
+
+  if (isError) {
+    return (
+      <div className="border border-border/60 bg-warm-white p-6">
+        <p className="label-eyebrow">Recent activity</p>
+        <p className="mt-3 text-xs font-light text-charcoal-soft">
+          Audit log unavailable. Run <code className="font-mono">docs/migrations/audit_log.sql</code> in the SQL editor to enable it.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border border-border/60 bg-warm-white p-6">
+      <div className="flex items-baseline justify-between">
+        <p className="label-eyebrow">Recent activity</p>
+        <span className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70">Staff & admin actions</span>
+      </div>
+      {!data || data.length === 0 ? (
+        <p className="mt-4 text-xs font-light text-charcoal-soft">No activity recorded yet.</p>
+      ) : (
+        <ul className="mt-4 divide-y divide-border/40">
+          {data.map((r) => (
+            <li key={r.id} className="flex flex-wrap items-baseline justify-between gap-3 py-2">
+              <div className="min-w-0">
+                <p className="font-serif text-sm text-charcoal">
+                  <span className="text-teal">{r.actor_role}</span>{" "}
+                  {r.actor_email ?? r.actor_id.slice(0, 8)} — {r.action}
+                </p>
+                {r.meta ? (
+                  <p className="mt-0.5 truncate text-[0.68rem] font-light text-charcoal-soft/80">
+                    {formatMeta(r.meta)}
+                  </p>
+                ) : null}
+              </div>
+              <span className="text-[0.62rem] font-light uppercase tracking-[0.18em] text-charcoal-soft/60">
+                {new Date(r.created_at).toLocaleString()}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function formatMeta(meta: Record<string, unknown>): string {
+  return Object.entries(meta)
+    .map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v) : String(v)}`)
+    .join(" · ");
 }
 
 function NewsletterReminderBanner() {
