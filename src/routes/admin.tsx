@@ -35,7 +35,7 @@ function AdminLayout() {
     else if (mustChangePassword) navigate({ to: "/change-password", replace: true });
   }, [loading, user, mustChangePassword, navigate]);
 
-  if (loading || !user) return <AuthLoader minHeight="70vh" showHomeLink />;
+  if (loading || !user || mustChangePassword) return <AuthLoader minHeight="70vh" showHomeLink />;
 
   const hasAccess = isAdmin || isStaff;
   const LINKS = isAdmin ? ALL_LINKS : ALL_LINKS.filter((l) => l.staff);
