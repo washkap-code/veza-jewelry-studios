@@ -274,14 +274,18 @@ function AdminGallery() {
                 />
                 <div className="mt-2 flex items-center justify-between text-[0.62rem] font-light uppercase tracking-[0.18em] text-charcoal-soft/70">
                   <span>{r.source}</span>
-                  <button
-                    onClick={() => {
-                      if (confirm("Delete this image?")) del.mutate(r);
-                    }}
-                    className="hover:text-destructive"
-                  >
-                    Delete
-                  </button>
+                  {isAdmin ? (
+                    <button
+                      onClick={() => {
+                        if (confirm("Delete this image?")) del.mutate(r);
+                      }}
+                      className="hover:text-destructive"
+                    >
+                      Delete
+                    </button>
+                  ) : (
+                    <span className="text-charcoal-soft/40">Admin only</span>
+                  )}
                 </div>
               </figcaption>
             </figure>
