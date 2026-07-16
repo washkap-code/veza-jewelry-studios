@@ -104,12 +104,19 @@ function StudioLogin() {
           </button>
         </form>
 
-        <div className="mt-10 text-center">
+        <div className="mt-10 flex items-center justify-center gap-6 text-center">
           <Link
             to="/"
             className="text-[0.62rem] font-light uppercase tracking-[0.28em] text-ivory/50 transition-colors duration-500 hover:text-gold"
           >
             ← Return home
+          </Link>
+          <span aria-hidden className="h-3 w-px bg-ivory/20" />
+          <Link
+            to="/forgot-password"
+            className="text-[0.62rem] font-light uppercase tracking-[0.28em] text-ivory/50 transition-colors duration-500 hover:text-gold"
+          >
+            Forgot password?
           </Link>
         </div>
       </div>

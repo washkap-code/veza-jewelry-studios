@@ -16,6 +16,7 @@ import { Route as StoryRouteImport } from './routes/story'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as GemstonesRouteImport } from './routes/gemstones'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as CustomRouteImport } from './routes/custom'
 import { Route as CraftsmanshipRouteImport } from './routes/craftsmanship'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -78,6 +79,11 @@ const JournalRoute = JournalRouteImport.update({
 const GemstonesRoute = GemstonesRouteImport.update({
   id: '/gemstones',
   path: '/gemstones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomRoute = CustomRouteImport.update({
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -267,6 +274,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/privacy': typeof PrivacyRoute
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
@@ -303,6 +311,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
   '/custom': typeof CustomRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/forgot-password'
     | '/gemstones'
     | '/journal'
     | '/privacy'
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/forgot-password'
     | '/privacy'
     | '/story'
     | '/studio'
@@ -412,6 +423,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/craftsmanship'
     | '/custom'
+    | '/forgot-password'
     | '/gemstones'
     | '/journal'
     | '/privacy'
@@ -450,6 +462,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CraftsmanshipRoute: typeof CraftsmanshipRoute
   CustomRoute: typeof CustomRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   GemstonesRoute: typeof GemstonesRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
@@ -509,6 +522,13 @@ declare module '@tanstack/react-router' {
       path: '/gemstones'
       fullPath: '/gemstones'
       preLoaderRoute: typeof GemstonesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/custom': {
@@ -792,6 +812,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CraftsmanshipRoute: CraftsmanshipRoute,
   CustomRoute: CustomRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   GemstonesRoute: GemstonesRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
