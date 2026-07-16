@@ -11,6 +11,7 @@ export type Profile = {
   email: string | null;
   phone: string | null;
   is_admin: boolean;
+  is_staff: boolean;
   must_change_password: boolean;
   created_at: string;
 };

@@ -12,22 +12,22 @@ export const Route = createFileRoute("/admin")({
 });
 
 
-const LINKS = [
-  { to: "/admin", label: "Dashboard", exact: true },
-  { to: "/admin/products", label: "Products" },
-  { to: "/admin/collections", label: "Collections" },
-  { to: "/admin/gemstones", label: "Gemstones" },
-  { to: "/admin/gallery", label: "Gallery" },
-  { to: "/admin/orders", label: "Orders" },
-  { to: "/admin/journal", label: "Journal" },
-  { to: "/admin/commissions", label: "Commissions" },
-  { to: "/admin/newsletter", label: "Newsletter" },
-  { to: "/admin/calendar", label: "Calendar" },
-  { to: "/admin/settings", label: "Settings" },
+const ALL_LINKS = [
+  { to: "/admin", label: "Dashboard", exact: true, staff: true },
+  { to: "/admin/products", label: "Products", staff: false },
+  { to: "/admin/collections", label: "Collections", staff: false },
+  { to: "/admin/gemstones", label: "Gemstones", staff: false },
+  { to: "/admin/gallery", label: "Gallery", staff: true },
+  { to: "/admin/orders", label: "Orders", staff: true },
+  { to: "/admin/journal", label: "Journal", staff: true },
+  { to: "/admin/commissions", label: "Commissions", staff: false },
+  { to: "/admin/newsletter", label: "Newsletter", staff: false },
+  { to: "/admin/calendar", label: "Calendar", staff: false },
+  { to: "/admin/settings", label: "Settings", staff: false },
 ] as const;
 
 function AdminLayout() {
-  const { user, isAdmin, mustChangePassword, loading } = useAuth();
+  const { user, isAdmin, isStaff, mustChangePassword, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +38,10 @@ function AdminLayout() {
 
   if (loading || !user) return <AuthLoader minHeight="70vh" showHomeLink />;
 
-  if (!isAdmin) {
+  const hasAccess = isAdmin || isStaff;
+  const LINKS = isAdmin ? ALL_LINKS : ALL_LINKS.filter((l) => l.staff);
+
+  if (!hasAccess) {
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-6 text-center">
         <VezaLogo variant="mark" className="h-8 w-8 text-teal/60" />

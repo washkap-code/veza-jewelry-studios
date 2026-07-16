@@ -1,3 +1,4 @@
+import { AdminOnly } from "../components/AdminOnly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -10,7 +11,7 @@ import { logEvent } from "../lib/analytics";
 
 export const Route = createFileRoute("/admin/newsletter")({
   head: () => ({ meta: [{ title: "Newsletter — VEZA Admin" }] }),
-  component: NewsletterAdmin,
+  component: () => (<AdminOnly><NewsletterAdmin /></AdminOnly>),
 });
 
 type GalleryRow = { id: string; url: string; alt: string | null };

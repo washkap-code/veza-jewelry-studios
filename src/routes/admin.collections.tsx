@@ -1,3 +1,4 @@
+import { AdminOnly } from "../components/AdminOnly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
@@ -6,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, AdminField, AdminTextArea, AdminToggle, slugify } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/collections")({
-  component: AdminCollections,
+  component: () => (<AdminOnly><AdminCollections /></AdminOnly>),
 });
 
 type Draft = {

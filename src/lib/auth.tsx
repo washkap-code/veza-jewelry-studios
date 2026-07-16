@@ -16,6 +16,7 @@ interface AuthContextValue {
   session: Session | null;
   profile: Profile | null;
   isAdmin: boolean;
+  isStaff: boolean;
   mustChangePassword: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
@@ -40,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const { data } = await supabase
       .from("profiles")
-      .select("id, full_name, email, phone, is_admin, must_change_password, created_at")
+      .select("id, full_name, email, phone, is_admin, is_staff, must_change_password, created_at")
       .eq("id", userId)
       .maybeSingle();
     if (token === profileFetchToken.current) {
@@ -106,6 +107,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       session,
       profile,
       isAdmin: !!profile?.is_admin,
+      isStaff: !!profile?.is_staff,
       mustChangePassword: !!profile?.must_change_password,
       loading,
       signIn,

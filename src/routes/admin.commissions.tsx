@@ -1,3 +1,4 @@
+import { AdminOnly } from "../components/AdminOnly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -6,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, StatusBadge } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/commissions")({
-  component: AdminCommissions,
+  component: () => (<AdminOnly><AdminCommissions /></AdminOnly>),
 });
 
 type CommissionRow = {

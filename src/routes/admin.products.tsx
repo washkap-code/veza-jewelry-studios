@@ -1,3 +1,4 @@
+import { AdminOnly } from "../components/AdminOnly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
@@ -8,7 +9,7 @@ import {
 } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/products")({
-  component: AdminProducts,
+  component: () => (<AdminOnly><AdminProducts /></AdminOnly>),
 });
 
 type Draft = {

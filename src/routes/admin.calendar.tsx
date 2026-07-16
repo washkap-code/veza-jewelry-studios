@@ -1,3 +1,4 @@
+import { AdminOnly } from "../components/AdminOnly";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -6,7 +7,7 @@ import { AdminEmpty } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/calendar")({
   head: () => ({ meta: [{ title: "Calendar — VEZA Admin" }] }),
-  component: CalendarAdmin,
+  component: () => (<AdminOnly><CalendarAdmin /></AdminOnly>),
 });
 
 function CalendarAdmin() {
