@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
+import { useAuth } from "../lib/auth";
+import type { AuditRow } from "../lib/audit";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
