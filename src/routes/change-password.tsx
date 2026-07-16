@@ -105,6 +105,14 @@ function ChangePasswordPage() {
               {submitting ? "Saving" : "Set password"}
             </button>
           </form>
+          <div className="mt-10 text-center">
+            <Link
+              to="/"
+              className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70 transition-colors duration-500 hover:text-teal"
+            >
+              ← Return home
+            </Link>
+          </div>
         </div>
       </FadeIn>
     </div>
