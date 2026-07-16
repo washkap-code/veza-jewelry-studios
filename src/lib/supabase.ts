@@ -1,7 +1,13 @@
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = "https://whyznavacdxizkrztdsi.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_JfFGHYs2bvSaVJQ4RRJ5Tg_9sMA7SVq";
+// Original VEZA production project. Reads from env with hard-coded fallbacks
+// so SSR / preview never hits the wrong project.
+const SUPABASE_URL =
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_URL) ||
+  "https://whyznavacdxizkrztdsi.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+  (typeof import.meta !== "undefined" && import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY) ||
+  "sb_publishable_JfFGHYs2bvSaVJQ4RRJ5Tg_9sMA7SVq";
 
 export type Profile = {
   id: string;
@@ -93,12 +99,52 @@ export type Order = {
   created_at: string;
 };
 
-export type Wishlist = {
+export type NewsletterSubscriber = {
   id: string;
-  user_id: string;
-  product_id: string;
+  email: string;
+  full_name: string | null;
+  subscribed: boolean;
+  unsubscribe_token: string;
   created_at: string;
 };
+
+export type NewsletterBlock =
+  | { type: "heading"; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "image"; url: string; alt?: string; caption?: string }
+  | { type: "product"; name: string; price?: string; image_url?: string; url?: string }
+  | { type: "divider" };
+
+export type Newsletter = {
+  id: string;
+  subject: string;
+  preheader: string | null;
+  blocks: NewsletterBlock[];
+  html: string | null;
+  status: "draft" | "scheduled" | "sent" | "exported";
+  scheduled_for: string | null;
+  sent_at: string | null;
+  recipients_count: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminCalendarEvent = {
+  id: string;
+  title: string;
+  kind: "note" | "newsletter_reminder" | "launch" | "newsletter_sent";
+  event_date: string;
+  meta: Record<string, unknown> | null;
+  created_at: string;
+};
+
+export type NewsletterSettings = {
+  id: number;
+  preferred_send_day: number;
+  updated_at: string;
+};
+
+
 
 
 

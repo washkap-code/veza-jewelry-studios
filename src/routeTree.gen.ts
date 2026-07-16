@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoryRouteImport } from './routes/story'
@@ -36,12 +37,19 @@ import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminNewsletterRouteImport } from './routes/admin.newsletter'
 import { Route as AdminJournalRouteImport } from './routes/admin.journal'
 import { Route as AdminGemstonesRouteImport } from './routes/admin.gemstones'
 import { Route as AdminGalleryRouteImport } from './routes/admin.gallery'
 import { Route as AdminCommissionsRouteImport } from './routes/admin.commissions'
 import { Route as AdminCollectionsRouteImport } from './routes/admin.collections'
+import { Route as AdminCalendarRouteImport } from './routes/admin.calendar'
 
+const UnsubscribeRoute = UnsubscribeRouteImport.update({
+  id: '/unsubscribe',
+  path: '/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -177,6 +185,11 @@ const AdminOrdersRoute = AdminOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminNewsletterRoute = AdminNewsletterRouteImport.update({
+  id: '/newsletter',
+  path: '/newsletter',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminJournalRoute = AdminJournalRouteImport.update({
   id: '/journal',
   path: '/journal',
@@ -202,6 +215,11 @@ const AdminCollectionsRoute = AdminCollectionsRouteImport.update({
   path: '/collections',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCalendarRoute = AdminCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -220,11 +238,14 @@ export interface FileRoutesByFullPath {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -250,11 +271,14 @@ export interface FileRoutesByTo {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -285,11 +309,14 @@ export interface FileRoutesById {
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
+  '/unsubscribe': typeof UnsubscribeRoute
+  '/admin/calendar': typeof AdminCalendarRoute
   '/admin/collections': typeof AdminCollectionsRoute
   '/admin/commissions': typeof AdminCommissionsRoute
   '/admin/gallery': typeof AdminGalleryRoute
   '/admin/gemstones': typeof AdminGemstonesRoute
   '/admin/journal': typeof AdminJournalRoute
+  '/admin/newsletter': typeof AdminNewsletterRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -321,11 +348,14 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -351,11 +381,14 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -385,11 +418,14 @@ export interface FileRouteTypes {
     | '/story'
     | '/studio'
     | '/terms'
+    | '/unsubscribe'
+    | '/admin/calendar'
     | '/admin/collections'
     | '/admin/commissions'
     | '/admin/gallery'
     | '/admin/gemstones'
     | '/admin/journal'
+    | '/admin/newsletter'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/settings'
@@ -420,11 +456,19 @@ export interface RootRouteChildren {
   StoryRoute: typeof StoryRoute
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
+  UnsubscribeRoute: typeof UnsubscribeRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/unsubscribe': {
+      id: '/unsubscribe'
+      path: '/unsubscribe'
+      fullPath: '/unsubscribe'
+      preLoaderRoute: typeof UnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -614,6 +658,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/newsletter': {
+      id: '/admin/newsletter'
+      path: '/newsletter'
+      fullPath: '/admin/newsletter'
+      preLoaderRoute: typeof AdminNewsletterRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/journal': {
       id: '/admin/journal'
       path: '/journal'
@@ -649,15 +700,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCollectionsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/calendar': {
+      id: '/admin/calendar'
+      path: '/calendar'
+      fullPath: '/admin/calendar'
+      preLoaderRoute: typeof AdminCalendarRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
 interface AdminRouteChildren {
+  AdminCalendarRoute: typeof AdminCalendarRoute
   AdminCollectionsRoute: typeof AdminCollectionsRoute
   AdminCommissionsRoute: typeof AdminCommissionsRoute
   AdminGalleryRoute: typeof AdminGalleryRoute
   AdminGemstonesRoute: typeof AdminGemstonesRoute
   AdminJournalRoute: typeof AdminJournalRoute
+  AdminNewsletterRoute: typeof AdminNewsletterRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -665,11 +725,13 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCalendarRoute: AdminCalendarRoute,
   AdminCollectionsRoute: AdminCollectionsRoute,
   AdminCommissionsRoute: AdminCommissionsRoute,
   AdminGalleryRoute: AdminGalleryRoute,
   AdminGemstonesRoute: AdminGemstonesRoute,
   AdminJournalRoute: AdminJournalRoute,
+  AdminNewsletterRoute: AdminNewsletterRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminSettingsRoute: AdminSettingsRoute,
@@ -736,6 +798,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoryRoute: StoryRoute,
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,
+  UnsubscribeRoute: UnsubscribeRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport

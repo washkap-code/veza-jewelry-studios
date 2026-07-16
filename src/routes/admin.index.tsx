@@ -37,18 +37,70 @@ function AdminDashboard() {
   ];
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
-      {cards.map((c) => (
-        <Link
-          key={c.label}
-          to={c.to}
-          className="group border border-border/60 bg-warm-white p-8 transition-colors duration-500 hover:border-teal/50"
-        >
-          <p className="label-eyebrow">{c.label}</p>
-          <p className="mt-4 font-serif text-5xl text-charcoal">{c.value ?? "—"}</p>
-          <p className="mt-2 text-xs font-light text-charcoal-soft">{c.sub}</p>
-        </Link>
-      ))}
+    <div className="space-y-8">
+      <NewsletterReminderBanner />
+      <div className="grid gap-6 sm:grid-cols-2">
+        {cards.map((c) => (
+          <Link
+            key={c.label}
+            to={c.to}
+            className="group border border-border/60 bg-warm-white p-8 transition-colors duration-500 hover:border-teal/50"
+          >
+            <p className="label-eyebrow">{c.label}</p>
+            <p className="mt-4 font-serif text-5xl text-charcoal">{c.value ?? "—"}</p>
+            <p className="mt-2 text-xs font-light text-charcoal-soft">{c.sub}</p>
+          </Link>
+        ))}
+      </div>
+      <a
+        href="/guides/veza-studio-manual.pdf"
+        download
+        className="flex flex-wrap items-center justify-between gap-4 border border-gold/40 bg-warm-white p-6 transition-colors duration-500 hover:border-teal/50"
+      >
+        <div>
+          <p className="label-eyebrow text-gold">Studio Manual</p>
+          <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Studio Manual</p>
+          <p className="mt-1 text-xs font-light text-charcoal-soft">
+            Everything Ms. Chiganze needs — signing in, collections, products, gallery, orders, newsletter, calendar, payments.
+          </p>
+        </div>
+        <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
+      </a>
     </div>
   );
 }
+
+function NewsletterReminderBanner() {
+  const { data: lastSent } = useQuery({
+    queryKey: ["admin", "last-newsletter-sent"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("newsletters")
+        .select("sent_at, subject")
+        .eq("status", "sent")
+        .order("sent_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) throw error;
+      return data as { sent_at: string | null; subject: string | null } | null;
+    },
+  });
+  const days = lastSent?.sent_at
+    ? Math.floor((Date.now() - new Date(lastSent.sent_at).getTime()) / (1000 * 60 * 60 * 24))
+    : 999;
+  if (days < 30) return null;
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-4 border border-gold/50 bg-gold/5 p-5">
+      <div>
+        <p className="label-eyebrow text-gold">Monthly letter due</p>
+        <p className="mt-2 text-sm font-light text-charcoal">
+          {lastSent?.sent_at
+            ? `It's been ${days} days since your last letter. Time to write to the list.`
+            : "You haven't sent a letter yet. The list is waiting."}
+        </p>
+      </div>
+      <Link to="/admin/newsletter" className="btn-outline-charcoal">Compose letter</Link>
+    </div>
+  );
+}
+

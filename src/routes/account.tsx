@@ -294,6 +294,21 @@ function Dashboard() {
             <ProfilePanel />
           </Tabs.Content>
         </Tabs.Root>
+
+        <a
+          href="/guides/veza-client-guide.pdf"
+          download
+          className="mt-16 flex flex-wrap items-center justify-between gap-4 border border-gold/40 bg-warm-white p-6 transition-colors duration-500 hover:border-teal/50"
+        >
+          <div>
+            <p className="label-eyebrow text-gold">A quiet guide</p>
+            <p className="mt-2 font-serif text-2xl text-charcoal">VEZA — Client Guide</p>
+            <p className="mt-1 text-xs font-light text-charcoal-soft">
+              Account, browsing, ordering, couriers, tracking, and requesting a bespoke commission.
+            </p>
+          </div>
+          <span className="text-[0.7rem] font-light uppercase tracking-[0.22em] text-teal">Download PDF ↓</span>
+        </a>
       </FadeIn>
     </div>
   );

@@ -21,6 +21,8 @@ const LINKS = [
   { to: "/admin/orders", label: "Orders" },
   { to: "/admin/journal", label: "Journal" },
   { to: "/admin/commissions", label: "Commissions" },
+  { to: "/admin/newsletter", label: "Newsletter" },
+  { to: "/admin/calendar", label: "Calendar" },
   { to: "/admin/settings", label: "Settings" },
 ] as const;
 
