@@ -102,6 +102,40 @@ function CheckoutPage() {
       );
       if (itemsErr) throw itemsErr;
 
+      // If card payments are enabled and a Stripe publishable key is set,
+      // try to create a Stripe Checkout session. If the edge function reports
+      // dormant/missing secret key, we gracefully fall back to the current
+      // order-request confirmation state (order still exists in DB).
+      if (cardPaymentsOn) {
+        try {
+          const currency = items[0]?.currency ?? "USD";
+          const origin = typeof window !== "undefined" ? window.location.origin : "";
+          const { data: session, error: fnErr } = await supabase.functions.invoke(
+            "create-checkout-session",
+            {
+              body: {
+                order_id: order.id,
+                success_url: `${origin}/account?order=${order.id}`,
+                cancel_url: `${origin}/checkout`,
+                items: items.map((i) => ({
+                  name: i.name,
+                  quantity: i.quantity,
+                  unit_amount: Math.round(Number(i.price) * 100),
+                  currency,
+                })),
+              },
+            },
+          );
+          if (!fnErr && session && typeof session === "object" && "url" in session && session.url) {
+            window.location.href = session.url as string;
+            return;
+          }
+          // Otherwise fall through to the order-request confirmation.
+        } catch {
+          /* fall through */
+        }
+      }
+
       setOrderRef(order.id.slice(0, 8).toUpperCase());
       clear();
     } catch {
