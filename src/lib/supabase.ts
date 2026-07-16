@@ -39,6 +39,14 @@ export type Collection = {
 
 export type ProductImage = { url: string; alt?: string };
 
+export type ProductMetadata = {
+  price_silver?: number | null;
+  price_gold?: number | null;
+  is_bespoke?: boolean;
+  metal_options?: string[];
+  [k: string]: unknown;
+};
+
 export type Product = {
   id: string;
   collection_id: string | null;
@@ -56,6 +64,7 @@ export type Product = {
   published: boolean;
   featured: boolean;
   stock_quantity: number | null;
+  metadata?: ProductMetadata | null;
 };
 
 export type Gemstone = {
