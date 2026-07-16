@@ -97,10 +97,6 @@ function StudioLogin() {
             ← Return home
           </Link>
         </div>
-          >
-            {submitting ? "One moment" : "Enter"}
-          </button>
-        </form>
       </div>
     </div>
   );
