@@ -99,12 +99,52 @@ export type Order = {
   created_at: string;
 };
 
-export type Wishlist = {
+export type NewsletterSubscriber = {
   id: string;
-  user_id: string;
-  product_id: string;
+  email: string;
+  full_name: string | null;
+  subscribed: boolean;
+  unsubscribe_token: string;
   created_at: string;
 };
+
+export type NewsletterBlock =
+  | { type: "heading"; text: string }
+  | { type: "paragraph"; text: string }
+  | { type: "image"; url: string; alt?: string; caption?: string }
+  | { type: "product"; name: string; price?: string; image_url?: string; url?: string }
+  | { type: "divider" };
+
+export type Newsletter = {
+  id: string;
+  subject: string;
+  preheader: string | null;
+  blocks: NewsletterBlock[];
+  html: string | null;
+  status: "draft" | "scheduled" | "sent" | "exported";
+  scheduled_for: string | null;
+  sent_at: string | null;
+  recipients_count: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type AdminCalendarEvent = {
+  id: string;
+  title: string;
+  kind: "note" | "newsletter_reminder" | "launch" | "newsletter_sent";
+  event_date: string;
+  meta: Record<string, unknown> | null;
+  created_at: string;
+};
+
+export type NewsletterSettings = {
+  id: number;
+  preferred_send_day: number;
+  updated_at: string;
+};
+
+
 
 
 
