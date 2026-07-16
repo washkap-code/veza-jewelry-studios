@@ -17,6 +17,7 @@ import { Route as CraftsmanshipRouteImport } from './routes/craftsmanship'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ChangePasswordRouteImport } from './routes/change-password'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AccountRouteImport } from './routes/account'
@@ -29,6 +30,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as GemstonesSlugRouteImport } from './routes/gemstones.$slug'
 import { Route as CollectionsSlugRouteImport } from './routes/collections.$slug'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminJournalRouteImport } from './routes/admin.journal'
@@ -74,6 +76,11 @@ const CollectionsRoute = CollectionsRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangePasswordRoute = ChangePasswordRouteImport.update({
+  id: '/change-password',
+  path: '/change-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CartRoute = CartRouteImport.update({
@@ -136,6 +143,11 @@ const CollectionsSlugRoute = CollectionsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CollectionsRoute,
 } as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
   id: '/products',
   path: '/products',
@@ -172,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
+  '/change-password': typeof ChangePasswordRoute
   '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRouteWithChildren
   '/contact': typeof ContactRoute
@@ -186,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -199,6 +213,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/cart': typeof CartRoute
+  '/change-password': typeof ChangePasswordRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/craftsmanship': typeof CraftsmanshipRoute
@@ -210,6 +225,7 @@ export interface FileRoutesByTo {
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -225,6 +241,7 @@ export interface FileRoutesById {
   '/account': typeof AccountRoute
   '/admin': typeof AdminRouteWithChildren
   '/cart': typeof CartRoute
+  '/change-password': typeof ChangePasswordRoute
   '/checkout': typeof CheckoutRoute
   '/collections': typeof CollectionsRouteWithChildren
   '/contact': typeof ContactRoute
@@ -239,6 +256,7 @@ export interface FileRoutesById {
   '/admin/journal': typeof AdminJournalRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/collections/$slug': typeof CollectionsSlugRoute
   '/gemstones/$slug': typeof GemstonesSlugRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -255,6 +273,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/cart'
+    | '/change-password'
     | '/checkout'
     | '/collections'
     | '/contact'
@@ -269,6 +288,7 @@ export interface FileRouteTypes {
     | '/admin/journal'
     | '/admin/orders'
     | '/admin/products'
+    | '/admin/settings'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
@@ -282,6 +302,7 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/cart'
+    | '/change-password'
     | '/checkout'
     | '/contact'
     | '/craftsmanship'
@@ -293,6 +314,7 @@ export interface FileRouteTypes {
     | '/admin/journal'
     | '/admin/orders'
     | '/admin/products'
+    | '/admin/settings'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
@@ -307,6 +329,7 @@ export interface FileRouteTypes {
     | '/account'
     | '/admin'
     | '/cart'
+    | '/change-password'
     | '/checkout'
     | '/collections'
     | '/contact'
@@ -321,6 +344,7 @@ export interface FileRouteTypes {
     | '/admin/journal'
     | '/admin/orders'
     | '/admin/products'
+    | '/admin/settings'
     | '/collections/$slug'
     | '/gemstones/$slug'
     | '/journal/$slug'
@@ -336,6 +360,7 @@ export interface RootRouteChildren {
   AccountRoute: typeof AccountRoute
   AdminRoute: typeof AdminRouteWithChildren
   CartRoute: typeof CartRoute
+  ChangePasswordRoute: typeof ChangePasswordRoute
   CheckoutRoute: typeof CheckoutRoute
   CollectionsRoute: typeof CollectionsRouteWithChildren
   ContactRoute: typeof ContactRoute
@@ -403,6 +428,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/change-password': {
+      id: '/change-password'
+      path: '/change-password'
+      fullPath: '/change-password'
+      preLoaderRoute: typeof ChangePasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cart': {
@@ -489,6 +521,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsSlugRouteImport
       parentRoute: typeof CollectionsRoute
     }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/products': {
       id: '/admin/products'
       path: '/products'
@@ -541,6 +580,7 @@ interface AdminRouteChildren {
   AdminJournalRoute: typeof AdminJournalRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminProductsRoute: typeof AdminProductsRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -551,6 +591,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminJournalRoute: AdminJournalRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminProductsRoute: AdminProductsRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -602,6 +643,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccountRoute: AccountRoute,
   AdminRoute: AdminRouteWithChildren,
   CartRoute: CartRoute,
+  ChangePasswordRoute: ChangePasswordRoute,
   CheckoutRoute: CheckoutRoute,
   CollectionsRoute: CollectionsRouteWithChildren,
   ContactRoute: ContactRoute,

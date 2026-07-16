@@ -11,6 +11,7 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
+
 const LINKS = [
   { to: "/admin", label: "Dashboard", exact: true },
   { to: "/admin/products", label: "Products" },
@@ -19,15 +20,18 @@ const LINKS = [
   { to: "/admin/orders", label: "Orders" },
   { to: "/admin/journal", label: "Journal" },
   { to: "/admin/commissions", label: "Commissions" },
+  { to: "/admin/settings", label: "Settings" },
 ] as const;
 
 function AdminLayout() {
-  const { user, isAdmin, loading } = useAuth();
+  const { user, isAdmin, mustChangePassword, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/account", replace: true });
-  }, [loading, user, navigate]);
+    if (loading) return;
+    if (!user) navigate({ to: "/account", replace: true });
+    else if (mustChangePassword) navigate({ to: "/change-password", replace: true });
+  }, [loading, user, mustChangePassword, navigate]);
 
   if (loading || !user) return <AuthLoader minHeight="70vh" />;
 

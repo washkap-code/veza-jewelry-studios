@@ -9,7 +9,18 @@ export type Profile = {
   email: string | null;
   phone: string | null;
   is_admin: boolean;
+  must_change_password: boolean;
   created_at: string;
+};
+
+export type CollectionStatus = "draft" | "coming_soon" | "live";
+
+export type PaymentSettings = {
+  id: number;
+  payments_enabled: boolean;
+  stripe_publishable_key: string | null;
+  currency: string;
+  updated_at: string;
 };
 
 export type Collection = {
@@ -21,6 +32,9 @@ export type Collection = {
   hero_image_url: string | null;
   sort_order: number;
   published: boolean;
+  status: CollectionStatus;
+  launch_at: string | null;
+  teaser: string | null;
 };
 
 export type ProductImage = { url: string; alt?: string };

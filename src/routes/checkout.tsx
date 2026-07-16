@@ -1,11 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { FadeIn } from "../components/FadeIn";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { useCart, formatPrice } from "../lib/cart";
 import { supabase } from "../lib/supabase";
+import { paymentSettingsQuery } from "../lib/queries";
 import { LUXE_EASE } from "../lib/motion";
 
 export const Route = createFileRoute("/checkout")({
@@ -44,6 +46,10 @@ function CheckoutPage() {
   const { items, subtotal, clear } = useCart();
   const { user, profile, loading } = useAuth();
   const navigate = useNavigate();
+  const { data: paymentSettings } = useQuery(paymentSettingsQuery);
+  const cardPaymentsOn =
+    !!paymentSettings?.payments_enabled &&
+    !!paymentSettings?.stripe_publishable_key;
 
   const [address, setAddress] = useState<Address>(EMPTY_ADDRESS);
   const [giftMessage, setGiftMessage] = useState("");
@@ -95,6 +101,40 @@ function CheckoutPage() {
         })),
       );
       if (itemsErr) throw itemsErr;
+
+      // If card payments are enabled and a Stripe publishable key is set,
+      // try to create a Stripe Checkout session. If the edge function reports
+      // dormant/missing secret key, we gracefully fall back to the current
+      // order-request confirmation state (order still exists in DB).
+      if (cardPaymentsOn) {
+        try {
+          const currency = items[0]?.currency ?? "USD";
+          const origin = typeof window !== "undefined" ? window.location.origin : "";
+          const { data: session, error: fnErr } = await supabase.functions.invoke(
+            "create-checkout-session",
+            {
+              body: {
+                order_id: order.id,
+                success_url: `${origin}/account?order=${order.id}`,
+                cancel_url: `${origin}/checkout`,
+                items: items.map((i) => ({
+                  name: i.name,
+                  quantity: i.quantity,
+                  unit_amount: Math.round(Number(i.price) * 100),
+                  currency,
+                })),
+              },
+            },
+          );
+          if (!fnErr && session && typeof session === "object" && "url" in session && session.url) {
+            window.location.href = session.url as string;
+            return;
+          }
+          // Otherwise fall through to the order-request confirmation.
+        } catch {
+          /* fall through */
+        }
+      }
 
       setOrderRef(order.id.slice(0, 8).toUpperCase());
       clear();
@@ -202,11 +242,19 @@ function CheckoutPage() {
 
             <section className="border border-border/60 bg-warm-white p-6">
               <h2 className="label-eyebrow">Payment</h2>
-              <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
-                After your order is placed, our atelier will contact you personally to
-                arrange payment and confirm your delivery date. Every VEZA piece ships
-                worldwide, fully insured, in our signature gift packaging.
-              </p>
+              {cardPaymentsOn ? (
+                <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
+                  You will be taken to our secure card payment partner to complete
+                  your order. Every VEZA piece ships worldwide, fully insured, in our
+                  signature gift packaging.
+                </p>
+              ) : (
+                <p className="mt-3 text-sm font-light leading-relaxed text-charcoal-soft">
+                  This is an order request. After you submit, our atelier will contact
+                  you personally to arrange payment and confirm your delivery date. Every
+                  VEZA piece ships worldwide, fully insured, in our signature gift packaging.
+                </p>
+              )}
             </section>
 
             {error ? <p className="text-xs font-light leading-relaxed text-destructive">{error}</p> : null}
@@ -216,7 +264,9 @@ function CheckoutPage() {
               disabled={submitting || loading}
               className="btn-outline-charcoal w-full disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
             >
-              {submitting ? "Placing your order" : "Place order"}
+              {submitting
+                ? cardPaymentsOn ? "Redirecting to payment" : "Placing your order"
+                : cardPaymentsOn ? "Continue to payment" : "Place order"}
             </button>
           </form>
         </FadeIn>
