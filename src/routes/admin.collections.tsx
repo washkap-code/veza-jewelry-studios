@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState, type FormEvent } from "react";
-import { supabase, type Collection } from "../lib/supabase";
+import { supabase, type Collection, type CollectionStatus } from "../lib/supabase";
 import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, AdminField, AdminTextArea, AdminToggle, slugify } from "../components/AdminUI";
 
@@ -15,11 +15,17 @@ type Draft = {
   slug: string;
   description: string;
   story: string;
+  teaser: string;
   sort_order: string;
+  status: CollectionStatus;
+  launch_at: string; // datetime-local string, or ""
   published: boolean;
 };
 
-const EMPTY: Draft = { name: "", slug: "", description: "", story: "", sort_order: "0", published: false };
+const EMPTY: Draft = {
+  name: "", slug: "", description: "", story: "", teaser: "",
+  sort_order: "0", status: "draft", launch_at: "", published: true,
+};
 
 function AdminCollections() {
   const qc = useQueryClient();
