@@ -264,7 +264,9 @@ function CheckoutPage() {
               disabled={submitting || loading}
               className="btn-outline-charcoal w-full disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
             >
-              {submitting ? "Placing your order" : "Place order"}
+              {submitting
+                ? cardPaymentsOn ? "Redirecting to payment" : "Placing your order"
+                : cardPaymentsOn ? "Continue to payment" : "Place order"}
             </button>
           </form>
         </FadeIn>
