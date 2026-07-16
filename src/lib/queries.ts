@@ -1,6 +1,48 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase, type Collection, type Gemstone, type Product } from "./supabase";
 
+export interface JournalPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string | null;
+  cover_image_url: string | null;
+  category: string | null;
+  published: boolean;
+  published_at: string | null;
+  created_at: string;
+}
+
+export const journalPostsQuery = queryOptions({
+  queryKey: ["journal", "posts"],
+  queryFn: async (): Promise<JournalPost[]> => {
+    const { data, error } = await supabase
+      .from("journal_posts")
+      .select("*")
+      .eq("published", true)
+      .order("published_at", { ascending: false });
+    if (error) throw error;
+    return (data ?? []) as JournalPost[];
+  },
+});
+
+export const journalPostBySlugQuery = (slug: string) =>
+  queryOptions({
+    queryKey: ["journal", "post", slug],
+    queryFn: async (): Promise<JournalPost | null> => {
+      const { data, error } = await supabase
+        .from("journal_posts")
+        .select("*")
+        .eq("slug", slug)
+        .eq("published", true)
+        .maybeSingle();
+      if (error) throw error;
+      return (data as JournalPost | null) ?? null;
+    },
+  });
+
+
 export const collectionsQuery = queryOptions({
   queryKey: ["collections"],
   queryFn: async (): Promise<Collection[]> => {
