@@ -13,7 +13,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
     }
   }, [loading, user, navigate]);
 
-  if (loading || !user) return <AuthLoader />;
+  if (loading || !user) return <AuthLoader showHomeLink />;
   return <>{children}</>;
 }
 
