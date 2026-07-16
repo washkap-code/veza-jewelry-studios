@@ -4,6 +4,8 @@ import { useState, type FormEvent } from "react";
 import { supabase } from "../lib/supabase";
 import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, AdminField, AdminTextArea, AdminToggle, slugify } from "../components/AdminUI";
+import { useAuth } from "../lib/auth";
+import { logAudit } from "../lib/audit";
 
 export const Route = createFileRoute("/admin/journal")({
   component: AdminJournal,
