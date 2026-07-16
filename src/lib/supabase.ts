@@ -32,6 +32,9 @@ export type Collection = {
   hero_image_url: string | null;
   sort_order: number;
   published: boolean;
+  status: CollectionStatus;
+  launch_at: string | null;
+  teaser: string | null;
 };
 
 export type ProductImage = { url: string; alt?: string };
