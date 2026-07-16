@@ -7,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, AdminField, AdminTextArea, AdminToggle, slugify } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/gemstones")({
-  component: AdminGemstones,
+  component: () => (<AdminOnly><AdminGemstones /></AdminOnly>),
 });
 
 type Draft = {

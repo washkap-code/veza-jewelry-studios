@@ -11,7 +11,7 @@ import { logEvent } from "../lib/analytics";
 
 export const Route = createFileRoute("/admin/newsletter")({
   head: () => ({ meta: [{ title: "Newsletter — VEZA Admin" }] }),
-  component: NewsletterAdmin,
+  component: () => (<AdminOnly><NewsletterAdmin /></AdminOnly>),
 });
 
 type GalleryRow = { id: string; url: string; alt: string | null };

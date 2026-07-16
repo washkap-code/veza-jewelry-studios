@@ -8,7 +8,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminField, AdminToggle } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/settings")({
-  component: AdminSettings,
+  component: () => (<AdminOnly><AdminSettings /></AdminOnly>),
 });
 
 function AdminSettings() {

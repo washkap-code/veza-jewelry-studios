@@ -7,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, StatusBadge } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/commissions")({
-  component: AdminCommissions,
+  component: () => (<AdminOnly><AdminCommissions /></AdminOnly>),
 });
 
 type CommissionRow = {

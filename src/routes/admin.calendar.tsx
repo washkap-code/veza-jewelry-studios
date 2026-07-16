@@ -7,7 +7,7 @@ import { AdminEmpty } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/calendar")({
   head: () => ({ meta: [{ title: "Calendar — VEZA Admin" }] }),
-  component: CalendarAdmin,
+  component: () => (<AdminOnly><CalendarAdmin /></AdminOnly>),
 });
 
 function CalendarAdmin() {

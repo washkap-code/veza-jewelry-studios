@@ -7,7 +7,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { AdminEmpty, AdminField, AdminTextArea, AdminToggle, slugify } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/collections")({
-  component: AdminCollections,
+  component: () => (<AdminOnly><AdminCollections /></AdminOnly>),
 });
 
 type Draft = {

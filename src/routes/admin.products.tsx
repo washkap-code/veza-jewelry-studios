@@ -9,7 +9,7 @@ import {
 } from "../components/AdminUI";
 
 export const Route = createFileRoute("/admin/products")({
-  component: AdminProducts,
+  component: () => (<AdminOnly><AdminProducts /></AdminOnly>),
 });
 
 type Draft = {
