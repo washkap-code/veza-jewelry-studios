@@ -20,7 +20,7 @@ function AccountPage() {
   if (loading) {
     return (
       <div className="min-h-[80vh] bg-ivory">
-        <AuthLoader minHeight="80vh" />
+        <AuthLoader minHeight="80vh" showHomeLink />
       </div>
     );
   }

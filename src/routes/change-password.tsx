@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { FadeIn } from "../components/FadeIn";
 import { AuthLoader } from "../components/AuthLoader";
@@ -52,7 +52,7 @@ function ChangePasswordPage() {
     }
   }
 
-  if (loading || !user) return <AuthLoader minHeight="70vh" />;
+  if (loading || !user) return <AuthLoader minHeight="70vh" showHomeLink />;
 
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-lg items-center px-6 py-20">
@@ -105,6 +105,14 @@ function ChangePasswordPage() {
               {submitting ? "Saving" : "Set password"}
             </button>
           </form>
+          <div className="mt-10 text-center">
+            <Link
+              to="/"
+              className="text-[0.62rem] font-light uppercase tracking-[0.22em] text-charcoal-soft/70 transition-colors duration-500 hover:text-teal"
+            >
+              ← Return home
+            </Link>
+          </div>
         </div>
       </FadeIn>
     </div>
