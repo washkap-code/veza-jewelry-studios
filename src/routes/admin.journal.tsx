@@ -38,7 +38,7 @@ const EMPTY: Draft = { title: "", slug: "", excerpt: "", content: "", category: 
 
 function AdminJournal() {
   const qc = useQueryClient();
-  const { isAdmin, isStaff } = useAuth();
+  const { isAdmin } = useAuth();
   const [draft, setDraft] = useState<Draft | null>(null);
   const [error, setError] = useState<string | null>(null);
 
