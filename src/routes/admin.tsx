@@ -11,7 +11,6 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-
 const ALL_LINKS = [
   { to: "/admin", label: "Dashboard", exact: true, staff: true },
   { to: "/admin/products", label: "Products", staff: false },
@@ -48,10 +47,12 @@ function AdminLayout() {
         <p className="label-eyebrow mt-8">Restricted</p>
         <h1 className="mt-4 font-serif text-4xl text-charcoal">The atelier only.</h1>
         <p className="mt-4 max-w-sm text-sm font-light leading-relaxed text-charcoal-soft">
-          This area is reserved for VEZA staff. If you believe you should have access,
-          please contact the studio.
+          This area is reserved for VEZA staff. If you believe you should have access, please
+          contact the studio.
         </p>
-        <Link to="/" className="btn-outline-charcoal mt-10">Return home</Link>
+        <Link to="/" className="btn-outline-charcoal mt-10">
+          Return home
+        </Link>
       </div>
     );
   }
@@ -65,11 +66,16 @@ function AdminLayout() {
         </div>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[200px_1fr]">
-        <nav className="flex flex-row flex-wrap gap-x-6 gap-y-2 border-b border-border/60 pb-4 lg:flex-col lg:gap-1 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6">
+        <nav
+          data-testid="admin-sidebar"
+          data-role={isAdmin ? "admin" : "staff"}
+          className="flex flex-row flex-wrap gap-x-6 gap-y-2 border-b border-border/60 pb-4 lg:flex-col lg:gap-1 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6"
+        >
           {LINKS.map((l) => (
             <Link
               key={l.to}
               to={l.to}
+              data-testid={`admin-nav-${l.label.toLowerCase()}`}
               activeOptions={{ exact: !!("exact" in l && l.exact) }}
               className="py-1.5 text-[0.72rem] font-light uppercase tracking-[0.22em] text-charcoal/60 transition-colors duration-500 hover:text-charcoal"
               activeProps={{ className: "text-teal" }}

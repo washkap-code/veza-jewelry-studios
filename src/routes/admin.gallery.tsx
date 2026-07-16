@@ -3,6 +3,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useCallback, useRef, type DragEvent } from "react";
 import { supabase } from "../lib/supabase";
 import { AuthLoader } from "../components/AuthLoader";
+import { useAuth } from "../lib/auth";
+import { logAudit } from "../lib/audit";
 
 export const Route = createFileRoute("/admin/gallery")({
   component: AdminGallery,
@@ -56,6 +58,8 @@ async function compressImage(
 
 function AdminGallery() {
   const qc = useQueryClient();
+  const { isAdmin } = useAuth();
+  const role: "admin" | "staff" = isAdmin ? "admin" : "staff";
   const inputRef = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -83,6 +87,13 @@ function AdminGallery() {
       }
       const { error } = await supabase.from("gallery_images").delete().eq("id", row.id);
       if (error) throw error;
+      await logAudit({
+        action: "gallery.delete",
+        entity: "gallery_images",
+        entity_id: row.id,
+        meta: { url: row.url, source: row.source },
+        actor_role: role,
+      });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "gallery"] }),
   });
@@ -151,9 +162,17 @@ function AdminGallery() {
         `${uploaded} uploaded · ${skipped} duplicate skipped${failed ? ` · ${failed} failed` : ""}`,
       );
       setBusy(false);
+      if (uploaded > 0) {
+        await logAudit({
+          action: "gallery.upload",
+          entity: "gallery_images",
+          meta: { uploaded, skipped, failed, batch: arr.length },
+          actor_role: role,
+        });
+      }
       qc.invalidateQueries({ queryKey: ["admin", "gallery"] });
     },
-    [qc],
+    [qc, role],
   );
 
   function onDrop(e: DragEvent<HTMLDivElement>) {
@@ -163,9 +182,7 @@ function AdminGallery() {
   }
 
   const filtered = (rows ?? []).filter((r) =>
-    search
-      ? [r.alt, r.url].join(" ").toLowerCase().includes(search.toLowerCase())
-      : true,
+    search ? [r.alt, r.url].join(" ").toLowerCase().includes(search.toLowerCase()) : true,
   );
 
   if (!rows) return <AuthLoader minHeight="30vh" />;
@@ -199,9 +216,7 @@ function AdminGallery() {
           dragOver ? "border-teal bg-teal/5" : "border-border/60 bg-warm-white"
         }`}
       >
-        <p className="font-serif text-lg text-charcoal">
-          Drop images here or click to select
-        </p>
+        <p className="font-serif text-lg text-charcoal">Drop images here or click to select</p>
         <p className="mt-2 text-xs font-light text-charcoal-soft">
           Up to {MAX_BATCH} files per batch · duplicates automatically skipped
         </p>
@@ -221,15 +236,11 @@ function AdminGallery() {
           className="hidden"
           onChange={(e) => e.target.files && handleFiles(e.target.files)}
         />
-        {status ? (
-          <p className="mt-4 text-xs font-light text-teal">{status}</p>
-        ) : null}
+        {status ? <p className="mt-4 text-xs font-light text-teal">{status}</p> : null}
       </div>
 
       {filtered.length === 0 ? (
-        <p className="py-10 text-center text-sm font-light text-charcoal-soft">
-          No images match.
-        </p>
+        <p className="py-10 text-center text-sm font-light text-charcoal-soft">No images match.</p>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((r) => (
@@ -255,14 +266,18 @@ function AdminGallery() {
                 />
                 <div className="mt-2 flex items-center justify-between text-[0.62rem] font-light uppercase tracking-[0.18em] text-charcoal-soft/70">
                   <span>{r.source}</span>
-                  <button
-                    onClick={() => {
-                      if (confirm("Delete this image?")) del.mutate(r);
-                    }}
-                    className="hover:text-destructive"
-                  >
-                    Delete
-                  </button>
+                  {isAdmin ? (
+                    <button
+                      onClick={() => {
+                        if (confirm("Delete this image?")) del.mutate(r);
+                      }}
+                      className="hover:text-destructive"
+                    >
+                      Delete
+                    </button>
+                  ) : (
+                    <span className="text-charcoal-soft/40">Admin only</span>
+                  )}
                 </div>
               </figcaption>
             </figure>
