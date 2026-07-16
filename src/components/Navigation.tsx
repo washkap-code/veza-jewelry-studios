@@ -33,7 +33,18 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const showMark = isHome && !scrolled;
+  const overDark = isHome && !scrolled;
+  const showMark = overDark;
+
+  const linkBase =
+    "text-[0.72rem] font-light uppercase tracking-[0.24em] transition-colors duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+  const linkTone = overDark
+    ? "text-ivory/90 hover:text-gold focus-visible:ring-gold"
+    : "text-charcoal/80 hover:text-teal focus-visible:ring-teal";
+  const iconTone = overDark
+    ? "text-ivory hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+    : "text-charcoal hover:text-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:ring-offset-transparent";
+  const badgeBg = overDark ? "bg-gold text-charcoal" : "bg-teal text-ivory";
 
   return (
     <header
@@ -46,15 +57,23 @@ export function Navigation() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 md:px-10 md:py-6">
         <Link
           to="/"
-          className="flex items-center gap-3 text-charcoal"
+          className={`flex items-center gap-3 ${overDark ? "text-ivory" : "text-charcoal"}`}
           aria-label="VEZA — Home"
         >
-          <img
-            src="/images/brand/veza-logo-teal-on-white.jpg?v=3"
-            alt="VEZA"
-            className={`w-auto transition-all duration-700 ${showMark ? "h-12 md:h-14" : "h-9 md:h-10"}`}
-            style={{ mixBlendMode: "multiply" }}
-          />
+          {overDark ? (
+            <img
+              src="/images/brand/veza-logo-gold-on-teal.jpg?v=3"
+              alt="VEZA"
+              className="h-12 w-auto transition-all duration-700 md:h-14"
+            />
+          ) : (
+            <img
+              src="/images/brand/veza-logo-teal-on-white.jpg?v=3"
+              alt="VEZA"
+              className={`w-auto transition-all duration-700 ${showMark ? "h-12 md:h-14" : "h-9 md:h-10"}`}
+              style={{ mixBlendMode: "multiply" }}
+            />
+          )}
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -62,8 +81,8 @@ export function Navigation() {
             <Link
               key={l.to}
               to={l.to}
-              className="text-[0.72rem] font-light uppercase tracking-[0.24em] text-charcoal/80 transition-colors duration-500 hover:text-teal"
-              activeProps={{ className: "text-teal" }}
+              className={`${linkBase} ${linkTone}`}
+              activeProps={{ className: overDark ? "text-gold" : "text-teal" }}
               activeOptions={{ exact: l.to === "/" }}
             >
               {l.label}
@@ -71,20 +90,20 @@ export function Navigation() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-5 text-charcoal">
-          <button aria-label="Search" className="transition-colors hover:text-teal">
+        <div className={`flex items-center gap-5 ${overDark ? "text-ivory" : "text-charcoal"}`}>
+          <button aria-label="Search" className={`transition-colors ${iconTone}`}>
             <Search strokeWidth={1} size={20} />
           </button>
           <Link
             to="/account"
             aria-label={user ? "Account (signed in)" : "Account"}
-            className="relative transition-colors hover:text-teal"
+            className={`relative transition-colors ${iconTone}`}
           >
             <User strokeWidth={1} size={20} />
             {user ? (
               <span
                 aria-hidden
-                className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-teal"
+                className={`absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full ${overDark ? "bg-gold" : "bg-teal"}`}
               />
             ) : null}
           </Link>
@@ -92,13 +111,13 @@ export function Navigation() {
             type="button"
             onClick={openCart}
             aria-label={count > 0 ? `Shopping bag (${count})` : "Shopping bag"}
-            className="relative transition-colors hover:text-teal"
+            className={`relative transition-colors ${iconTone}`}
           >
             <ShoppingBag strokeWidth={1} size={20} />
             {count > 0 ? (
               <span
                 aria-hidden
-                className="absolute -right-2 -top-2 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-teal px-1 text-[0.6rem] font-light text-ivory"
+                className={`absolute -right-2 -top-2 flex h-4 min-w-[1rem] items-center justify-center rounded-full px-1 text-[0.6rem] font-light ${badgeBg}`}
               >
                 {count}
               </span>
@@ -107,7 +126,7 @@ export function Navigation() {
 
           <button
             aria-label="Menu"
-            className="lg:hidden"
+            className={`lg:hidden ${iconTone}`}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X strokeWidth={1} size={22} /> : <Menu strokeWidth={1} size={22} />}
