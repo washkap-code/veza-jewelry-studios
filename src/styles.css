@@ -159,6 +159,19 @@
   background-color: var(--color-gold);
 }
 
+@keyframes cinematic-drift {
+  0%   { transform: scale(1);    }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1);    }
+}
+.cinematic-drift {
+  animation: cinematic-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-drift { animation: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
