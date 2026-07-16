@@ -99,16 +99,33 @@ function CollectionRow({ collection, index }: { collection: Collection; index: n
           delay={0.1}
           y={24}
         >
-          <p className="label-eyebrow" style={{ color: "var(--color-teal)" }}>
-            Collection {String(index + 1).padStart(2, "0")}
-          </p>
+          {collection.status === "coming_soon" ? (
+            <p className="label-eyebrow" style={{ color: "var(--color-gold)" }}>
+              Coming soon
+            </p>
+          ) : (
+            <p className="label-eyebrow" style={{ color: "var(--color-teal)" }}>
+              Collection {String(index + 1).padStart(2, "0")}
+            </p>
+          )}
           <h2 className="mt-6 font-serif text-4xl leading-tight text-charcoal md:text-6xl">
             {collection.name}
           </h2>
           <span className="mt-6 block h-px w-16 bg-gold" />
-          {collection.description ? (
+          {collection.status === "coming_soon" && collection.teaser ? (
+            <p className="mt-8 max-w-lg font-serif text-lg font-light italic leading-relaxed text-charcoal-soft md:text-xl">
+              {collection.teaser}
+            </p>
+          ) : collection.description ? (
             <p className="mt-8 max-w-lg text-base font-light leading-relaxed text-charcoal-soft md:text-lg">
               {collection.description}
+            </p>
+          ) : null}
+          {collection.status === "coming_soon" && collection.launch_at ? (
+            <p className="mt-4 text-xs font-light uppercase tracking-[0.24em] text-charcoal-soft">
+              Launching {new Date(collection.launch_at).toLocaleDateString(undefined, {
+                month: "long", day: "numeric", year: "numeric",
+              })}
             </p>
           ) : null}
           <Link
@@ -116,7 +133,7 @@ function CollectionRow({ collection, index }: { collection: Collection; index: n
             params={{ slug: collection.slug }}
             className="group mt-10 inline-flex w-fit flex-col text-[0.72rem] font-light uppercase tracking-[0.28em] text-charcoal transition-colors duration-500 hover:text-teal"
           >
-            Explore
+            {collection.status === "coming_soon" ? "Preview" : "Explore"}
             <span className="mt-2 block h-px w-16 origin-left bg-teal transition-transform duration-700 ease-out group-hover:scale-x-150" />
           </Link>
         </FadeIn>
