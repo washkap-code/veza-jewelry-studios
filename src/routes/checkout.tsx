@@ -103,6 +103,15 @@ function CheckoutPage() {
       );
       if (itemsErr) throw itemsErr;
 
+      // Notify admins of the new order (best-effort)
+      await notifyAdmins({
+        kind: "order.new",
+        title: `New order — ${formatPrice(total, items[0]?.currency ?? "USD")}`,
+        message: `${address.fullName.trim()} · ${items.reduce((n, i) => n + i.quantity, 0)} item(s)`,
+        link: "/admin/orders",
+        meta: { order_id: order.id, total, currency: items[0]?.currency ?? "USD" },
+      });
+
       // If card payments are enabled and a Stripe publishable key is set,
       // try to create a Stripe Checkout session. If the edge function reports
       // dormant/missing secret key, we gracefully fall back to the current
