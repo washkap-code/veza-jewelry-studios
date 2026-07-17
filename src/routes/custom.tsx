@@ -6,6 +6,7 @@ import { PageHeader } from "../components/PageHeader";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
+import { notifyAdmins } from "../lib/notifications";
 import { LUXE_EASE } from "../lib/motion";
 
 export const Route = createFileRoute("/custom")({
