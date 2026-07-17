@@ -36,8 +36,6 @@ export function InstallAppInstructions() {
 
     function onPrompt(e: Event) {
       e.preventDefault();
-      setDeferred(e as unknown as typeof deferred extends null ? never : never);
-      // Above cast is unreliable — set directly:
       setDeferred(e as never);
     }
     function onInstalled() {
