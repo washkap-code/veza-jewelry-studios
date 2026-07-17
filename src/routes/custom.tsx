@@ -71,6 +71,13 @@ function CustomPage() {
         status: "new",
       });
       if (err) throw err;
+      await notifyAdmins({
+        kind: "commission.new",
+        title: `New commission from ${finalName}`,
+        message: description.trim().slice(0, 140),
+        link: "/admin/commissions",
+        meta: { email: finalEmail, gemstone, metal, budget, occasion },
+      });
       setDone(true);
     } catch {
       setError("Something interrupted our craft. Please try again.");
