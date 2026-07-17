@@ -4,6 +4,7 @@ import { Instagram, Facebook } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
 import { CinematicVideo } from "./CinematicVideo";
 import { supabase } from "../lib/supabase";
+import { notifyAdmins } from "../lib/notifications";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -23,6 +24,13 @@ export function Footer() {
           { onConflict: "email" },
         );
       if (error) throw error;
+      await notifyAdmins({
+        kind: "newsletter.subscribed",
+        title: "New newsletter sign-up",
+        message: email.trim().toLowerCase(),
+        link: "/admin/newsletter",
+        meta: { email: email.trim().toLowerCase() },
+      });
       setStatus("done");
       setMessage("Thank you — you'll hear from us soon.");
       setEmail("");
