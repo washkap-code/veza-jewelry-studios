@@ -212,6 +212,7 @@ function AuthCard() {
               Studio access
             </Link>
           </div>
+          <InstallAppInstructions />
         </div>
       </FadeIn>
     </div>
