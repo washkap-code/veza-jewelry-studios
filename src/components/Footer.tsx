@@ -4,6 +4,7 @@ import { Instagram, Facebook } from "lucide-react";
 import { VezaLogo } from "./VezaLogo";
 import { CinematicVideo } from "./CinematicVideo";
 import { supabase } from "../lib/supabase";
+import { notifyAdmins } from "../lib/notifications";
 
 export function Footer() {
   const year = new Date().getFullYear();
