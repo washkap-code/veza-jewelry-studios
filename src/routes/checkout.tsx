@@ -8,6 +8,7 @@ import { useAuth } from "../lib/auth";
 import { useCart, formatPrice } from "../lib/cart";
 import { supabase } from "../lib/supabase";
 import { paymentSettingsQuery } from "../lib/queries";
+import { notifyAdmins } from "../lib/notifications";
 import { LUXE_EASE } from "../lib/motion";
 
 export const Route = createFileRoute("/checkout")({
