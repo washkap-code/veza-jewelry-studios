@@ -24,6 +24,13 @@ export function Footer() {
           { onConflict: "email" },
         );
       if (error) throw error;
+      await notifyAdmins({
+        kind: "newsletter.subscribed",
+        title: "New newsletter sign-up",
+        message: email.trim().toLowerCase(),
+        link: "/admin/newsletter",
+        meta: { email: email.trim().toLowerCase() },
+      });
       setStatus("done");
       setMessage("Thank you — you'll hear from us soon.");
       setEmail("");
