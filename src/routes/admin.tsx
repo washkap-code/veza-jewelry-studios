@@ -2,6 +2,7 @@ import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-rout
 import { useEffect } from "react";
 import { AuthLoader } from "../components/AuthLoader";
 import { VezaLogo } from "../components/VezaLogo";
+import { AdminNotifications } from "../components/AdminNotifications";
 import { useAuth } from "../lib/auth";
 
 export const Route = createFileRoute("/admin")({
