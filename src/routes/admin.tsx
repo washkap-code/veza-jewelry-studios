@@ -60,10 +60,13 @@ function AdminLayout() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-      <div className="flex flex-wrap items-baseline justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="label-eyebrow">The Atelier — Internal</p>
           <h1 className="mt-3 font-serif text-4xl text-charcoal md:text-5xl">Admin</h1>
+        </div>
+        <div className="pt-2">
+          <AdminNotifications />
         </div>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[200px_1fr]">
