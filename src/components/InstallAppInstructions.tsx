@@ -63,19 +63,38 @@ export function InstallAppInstructions({ tone = "light" }: { tone?: "light" | "d
 
   if (installed) return null;
 
+  const dark = tone === "dark";
+  const wrap = dark
+    ? "mt-6 border border-ivory/20 bg-ivory/5"
+    : "mt-6 border border-border/60 bg-warm-white/60";
+  const trigger = dark
+    ? "flex w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors duration-300 hover:bg-ivory/10"
+    : "flex w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors duration-300 hover:bg-warm-white";
+  const icon = dark ? "h-4 w-4 text-gold" : "h-4 w-4 text-teal";
+  const eyebrow = dark
+    ? "text-[0.68rem] font-light uppercase tracking-[0.24em] text-ivory/80"
+    : "label-eyebrow";
+  const hint = dark
+    ? "text-[0.65rem] font-light uppercase tracking-[0.22em] text-ivory/50"
+    : "text-[0.65rem] font-light uppercase tracking-[0.22em] text-charcoal-soft";
+  const body = dark
+    ? "border-t border-ivory/15 px-5 py-5 text-xs font-light leading-relaxed text-ivory/70"
+    : "border-t border-border/60 px-5 py-5 text-xs font-light leading-relaxed text-charcoal-soft";
+  const emph = dark ? "text-ivory" : "text-charcoal";
+
   return (
-    <div className="mt-6 border border-border/60 bg-warm-white/60">
+    <div className={wrap}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors duration-300 hover:bg-warm-white"
+        className={trigger}
       >
         <span className="flex items-center gap-3">
-          <Smartphone className="h-4 w-4 text-teal" strokeWidth={1.4} />
-          <span className="label-eyebrow">Install the VEZA app</span>
+          <Smartphone className={icon} strokeWidth={1.4} />
+          <span className={eyebrow}>Install the VEZA app</span>
         </span>
-        <span className="text-[0.65rem] font-light uppercase tracking-[0.22em] text-charcoal-soft">
+        <span className={hint}>
           {open ? "Hide" : "How"}
         </span>
       </button>
