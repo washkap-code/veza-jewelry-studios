@@ -100,17 +100,17 @@ export function InstallAppInstructions({ tone = "light" }: { tone?: "light" | "d
       </button>
 
       {open ? (
-        <div className="border-t border-border/60 px-5 py-5 text-xs font-light leading-relaxed text-charcoal-soft">
+        <div className={body}>
           {deferred ? (
             <div className="mb-4">
               <button
                 type="button"
                 onClick={install}
-                className="btn-outline-charcoal inline-flex items-center gap-2"
+                className={`${dark ? "border border-ivory/60 px-4 py-2 text-[0.68rem] font-light uppercase tracking-[0.24em] text-ivory hover:border-gold hover:text-gold" : "btn-outline-charcoal"} inline-flex items-center gap-2`}
               >
                 <Download className="h-3.5 w-3.5" strokeWidth={1.5} /> Install VEZA
               </button>
-              <p className="mt-3 text-[0.7rem] text-charcoal-soft/80">
+              <p className={dark ? "mt-3 text-[0.7rem] text-ivory/60" : "mt-3 text-[0.7rem] text-charcoal-soft/80"}>
                 Your browser can install VEZA directly. If nothing happens, follow the manual steps
                 below.
               </p>
@@ -119,50 +119,50 @@ export function InstallAppInstructions({ tone = "light" }: { tone?: "light" | "d
 
           {platform === "ios" ? (
             <ol className="list-decimal space-y-1.5 pl-4">
-              <li>Open this page in <span className="text-charcoal">Safari</span> on your iPhone or iPad.</li>
+              <li>Open this page in <span className={emph}>Safari</span> on your iPhone or iPad.</li>
               <li>
-                Tap the <span className="text-charcoal">Share</span> button
+                Tap the <span className={emph}>Share</span> button
                 <span aria-hidden> (□↑)</span> at the bottom of the screen.
               </li>
-              <li>Scroll and tap <span className="text-charcoal">Add to Home Screen</span>.</li>
-              <li>Tap <span className="text-charcoal">Add</span> — the VEZA icon appears with your other apps.</li>
+              <li>Scroll and tap <span className={emph}>Add to Home Screen</span>.</li>
+              <li>Tap <span className={emph}>Add</span> — the VEZA icon appears with your other apps.</li>
             </ol>
           ) : platform === "android" ? (
             <ol className="list-decimal space-y-1.5 pl-4">
-              <li>Open this page in <span className="text-charcoal">Chrome</span> on your Android device.</li>
+              <li>Open this page in <span className={emph}>Chrome</span> on your Android device.</li>
               <li>
-                Tap the <span className="text-charcoal">⋮</span> menu (top right).
+                Tap the <span className={emph}>⋮</span> menu (top right).
               </li>
               <li>
-                Tap <span className="text-charcoal">Install app</span> or{" "}
-                <span className="text-charcoal">Add to Home screen</span>.
+                Tap <span className={emph}>Install app</span> or{" "}
+                <span className={emph}>Add to Home screen</span>.
               </li>
               <li>Confirm — VEZA installs like any other app.</li>
             </ol>
           ) : (
             <ol className="list-decimal space-y-1.5 pl-4">
               <li>
-                Open this site in <span className="text-charcoal">Chrome</span>,{" "}
-                <span className="text-charcoal">Edge</span> or{" "}
-                <span className="text-charcoal">Brave</span> on your computer.
+                Open this site in <span className={emph}>Chrome</span>,{" "}
+                <span className={emph}>Edge</span> or{" "}
+                <span className={emph}>Brave</span> on your computer.
               </li>
               <li>
-                Look for the <span className="text-charcoal">install icon</span> at the right edge
+                Look for the <span className={emph}>install icon</span> at the right edge
                 of the address bar (a small monitor with an arrow).
               </li>
               <li>
                 Or open the browser menu and choose{" "}
-                <span className="text-charcoal">Install VEZA</span> /{" "}
-                <span className="text-charcoal">Apps &rarr; Install this site as an app</span>.
+                <span className={emph}>Install VEZA</span> /{" "}
+                <span className={emph}>Apps &rarr; Install this site as an app</span>.
               </li>
               <li>
-                On <span className="text-charcoal">Safari (macOS 14+)</span>: File &rarr;{" "}
-                <span className="text-charcoal">Add to Dock</span>.
+                On <span className={emph}>Safari (macOS 14+)</span>: File &rarr;{" "}
+                <span className={emph}>Add to Dock</span>.
               </li>
             </ol>
           )}
 
-          <p className="mt-4 text-[0.68rem] text-charcoal-soft/70">
+          <p className={dark ? "mt-4 text-[0.68rem] text-ivory/50" : "mt-4 text-[0.68rem] text-charcoal-soft/70"}>
             Once installed, VEZA opens in its own window — no browser bar, faster launch, and
             straight to sign-in.
           </p>
