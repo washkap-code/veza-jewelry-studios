@@ -65,8 +65,9 @@ function AdminLayout() {
           <p className="label-eyebrow">The Atelier — Internal</p>
           <h1 className="mt-3 font-serif text-4xl text-charcoal md:text-5xl">Admin</h1>
         </div>
-        <div className="pt-2">
+        <div className="flex items-center gap-5 pt-2">
           <AdminNotifications />
+          <SignOutButton />
         </div>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[200px_1fr]">
@@ -95,3 +96,21 @@ function AdminLayout() {
     </div>
   );
 }
+
+function SignOutButton() {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        await signOut();
+        navigate({ to: "/", replace: true });
+      }}
+      className="text-[0.7rem] font-light uppercase tracking-[0.24em] text-charcoal/70 transition-colors duration-500 hover:text-teal"
+    >
+      Sign out
+    </button>
+  );
+}
+

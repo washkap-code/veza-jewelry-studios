@@ -264,7 +264,7 @@ function polishAuthError(msg: string): string {
 /* -------------------------------------------------------------------------- */
 
 function Dashboard() {
-  const { user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const greeting = useMemo(() => {
     const name = profile?.full_name?.split(" ")[0];
     return name ? `Welcome, ${name}.` : "Welcome.";
@@ -273,13 +273,24 @@ function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 md:py-24">
       <FadeIn>
-        <p className="label-eyebrow">Your Atelier</p>
-        <h1 className="mt-4 font-serif text-4xl leading-tight text-charcoal md:text-6xl">
-          {greeting}
-        </h1>
-        <p className="mt-4 max-w-xl text-sm font-light leading-relaxed text-charcoal-soft">
-          {user?.email}
-        </p>
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p className="label-eyebrow">Your Atelier</p>
+            <h1 className="mt-4 font-serif text-4xl leading-tight text-charcoal md:text-6xl">
+              {greeting}
+            </h1>
+            <p className="mt-4 max-w-xl text-sm font-light leading-relaxed text-charcoal-soft">
+              {user?.email}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="btn-outline-charcoal shrink-0"
+          >
+            Sign out
+          </button>
+        </div>
         <span className="gold-rule mt-8" />
       </FadeIn>
 
