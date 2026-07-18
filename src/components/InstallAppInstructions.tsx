@@ -16,7 +16,7 @@ function detectPlatform(): Platform {
  * `beforeinstallprompt` event when available (Chrome/Edge desktop + Android),
  * and falls back to platform-specific manual steps for iOS Safari.
  */
-export function InstallAppInstructions() {
+export function InstallAppInstructions({ tone = "light" }: { tone?: "light" | "dark" } = {}) {
   const [open, setOpen] = useState(false);
   const [platform, setPlatform] = useState<Platform>("desktop");
   const [deferred, setDeferred] = useState<null | {
