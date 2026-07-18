@@ -4,6 +4,7 @@ import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
 import { VezaLogo } from "../components/VezaLogo";
 import { PasswordInput } from "../components/PasswordInput";
+import { InstallAppInstructions } from "../components/InstallAppInstructions";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({
