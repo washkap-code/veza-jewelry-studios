@@ -120,6 +120,8 @@ function StudioLogin() {
             Forgot password?
           </Link>
         </div>
+
+        <InstallAppInstructions tone="dark" />
       </div>
     </div>
   );
