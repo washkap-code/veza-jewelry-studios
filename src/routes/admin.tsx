@@ -96,3 +96,21 @@ function AdminLayout() {
     </div>
   );
 }
+
+function SignOutButton() {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  return (
+    <button
+      type="button"
+      onClick={async () => {
+        await signOut();
+        navigate({ to: "/", replace: true });
+      }}
+      className="text-[0.7rem] font-light uppercase tracking-[0.24em] text-charcoal/70 transition-colors duration-500 hover:text-teal"
+    >
+      Sign out
+    </button>
+  );
+}
+
