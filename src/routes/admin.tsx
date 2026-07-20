@@ -104,6 +104,8 @@ function SignOutButton() {
     <button
       type="button"
       onClick={async () => {
+        const confirmed = window.confirm("Sign out of the VEZA admin portal?");
+        if (!confirmed) return;
         await signOut();
         navigate({ to: "/", replace: true });
       }}

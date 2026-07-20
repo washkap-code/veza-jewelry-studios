@@ -265,6 +265,10 @@ function polishAuthError(msg: string): string {
 
 function Dashboard() {
   const { user, profile, signOut } = useAuth();
+  const confirmSignOut = () => {
+    const confirmed = window.confirm("Sign out of your VEZA account?");
+    if (confirmed) void signOut();
+  };
   const greeting = useMemo(() => {
     const name = profile?.full_name?.split(" ")[0];
     return name ? `Welcome, ${name}.` : "Welcome.";
@@ -285,7 +289,7 @@ function Dashboard() {
           </div>
           <button
             type="button"
-            onClick={() => signOut()}
+            onClick={confirmSignOut}
             className="btn-outline-charcoal shrink-0"
           >
             Sign out
@@ -534,7 +538,10 @@ function ProfilePanel() {
         </button>
         <button
           type="button"
-          onClick={() => signOut()}
+          onClick={() => {
+            const confirmed = window.confirm("Sign out of your VEZA account?");
+            if (confirmed) void signOut();
+          }}
           className="label-eyebrow text-charcoal-soft transition-colors duration-500 hover:text-teal"
         >
           Sign out

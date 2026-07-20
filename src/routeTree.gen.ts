@@ -13,6 +13,7 @@ import { Route as UnsubscribeRouteImport } from './routes/unsubscribe'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoryRouteImport } from './routes/story'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as GemstonesRouteImport } from './routes/gemstones'
@@ -64,6 +65,11 @@ const StudioRoute = StudioRouteImport.update({
 const StoryRoute = StoryRouteImport.update({
   id: '/story',
   path: '/story',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -242,6 +248,7 @@ export interface FileRoutesByFullPath {
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -276,6 +283,7 @@ export interface FileRoutesByTo {
   '/custom': typeof CustomRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/gemstones': typeof GemstonesRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/story': typeof StoryRoute
   '/studio': typeof StudioRoute
   '/terms': typeof TermsRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/gemstones'
     | '/journal'
     | '/privacy'
+    | '/reset-password'
     | '/story'
     | '/studio'
     | '/terms'
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/custom'
     | '/forgot-password'
     | '/privacy'
+    | '/reset-password'
     | '/story'
     | '/studio'
     | '/terms'
@@ -427,6 +438,7 @@ export interface FileRouteTypes {
     | '/gemstones'
     | '/journal'
     | '/privacy'
+    | '/reset-password'
     | '/story'
     | '/studio'
     | '/terms'
@@ -466,6 +478,7 @@ export interface RootRouteChildren {
   GemstonesRoute: typeof GemstonesRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   StoryRoute: typeof StoryRoute
   StudioRoute: typeof StudioRoute
   TermsRoute: typeof TermsRoute
@@ -501,6 +514,13 @@ declare module '@tanstack/react-router' {
       path: '/story'
       fullPath: '/story'
       preLoaderRoute: typeof StoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -816,6 +836,7 @@ const rootRouteChildren: RootRouteChildren = {
   GemstonesRoute: GemstonesRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   StoryRoute: StoryRoute,
   StudioRoute: StudioRoute,
   TermsRoute: TermsRoute,

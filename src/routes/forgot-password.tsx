@@ -32,7 +32,7 @@ function ForgotPasswordPage() {
     try {
       const redirectTo =
         typeof window !== "undefined"
-          ? `${window.location.origin}/change-password`
+          ? `${window.location.origin}/reset-password`
           : undefined;
       const { error: err } = await supabase.auth.resetPasswordForEmail(trimmed, {
         redirectTo,
