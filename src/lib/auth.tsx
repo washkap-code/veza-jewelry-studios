@@ -39,13 +39,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       return;
     }
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("profiles")
-      .select("id, full_name, email, phone, is_admin, must_change_password, created_at")
+      .select("id, full_name, email, phone, is_admin, is_staff, must_change_password, created_at")
       .eq("id", userId)
       .maybeSingle();
+
+    if (error?.code === "42703" && error.message.includes("is_staff")) {
+      const fallback = await supabase
+        .from("profiles")
+        .select("id, full_name, email, phone, is_admin, must_change_password, created_at")
+        .eq("id", userId)
+        .maybeSingle();
+      data = fallback.data ? ({ ...fallback.data, is_staff: false } as typeof data) : null;
+      error = fallback.error;
+    }
+
     if (token === profileFetchToken.current) {
-      setProfile(error || !data ? null : ({ ...data, is_staff: false } as Profile));
+      setProfile(error || !data ? null : (data as Profile));
     }
   }, []);
 

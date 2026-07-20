@@ -3,11 +3,13 @@
 -- Run in the Supabase SQL Editor for project whyznavacdxizkrztdsi.
 -- Safe to re-run.
 --
--- Also promotes waskap@me.com to admin (it was created as a client by mistake)
--- and forces both accounts through the change-password screen on next login.
+-- Keeps waskap@me.com as a client account and forces both accounts through
+-- the change-password screen on next login.
 --
 --   New admin:   washington@africaprocure.com
 --   Temp pass:   VezaAdmin#2026    (must change on first login)
+--   Client:      waskap@me.com
+--   Temp pass:   VezaClient#2026   (must change on first login)
 -- =============================================================================
 
 create extension if not exists pgcrypto;
@@ -76,8 +78,26 @@ begin
 end $$;
 
 -- ---------------------------------------------------------------------------
--- 2. Promote waskap@me.com to admin (was created as a client by mistake)
+-- 2. Keep waskap@me.com as a client and reset the password
 -- ---------------------------------------------------------------------------
-update public.profiles
-   set is_admin = true
- where email = 'waskap@me.com';
+do $$
+declare
+  v_uid uuid;
+begin
+  select id into v_uid from auth.users where email = 'waskap@me.com';
+
+  if v_uid is not null then
+    update auth.users
+       set encrypted_password = crypt('VezaClient#2026', gen_salt('bf')),
+           email_confirmed_at = coalesce(email_confirmed_at, now()),
+           updated_at = now()
+     where id = v_uid;
+
+    insert into public.profiles (id, full_name, email, is_admin, must_change_password)
+    values (v_uid, 'Washington Kapapiro', 'waskap@me.com', false, true)
+    on conflict (id) do update
+      set email = 'waskap@me.com',
+          is_admin = false,
+          must_change_password = true;
+  end if;
+end $$;
