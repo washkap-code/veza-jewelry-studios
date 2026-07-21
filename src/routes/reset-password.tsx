@@ -25,6 +25,7 @@ function ResetPasswordPage() {
   const [err, setErr] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     let active = true;
@@ -60,14 +61,26 @@ function ResetPasswordPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password: pw1 });
       if (error) throw error;
+      // Sign the user out so they return via the sign-in form with the new password.
+      await supabase.auth.signOut();
       setOk(true);
-      setTimeout(() => navigate({ to: "/account", replace: true }), 900);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Something interrupted our craft.");
     } finally {
       setSubmitting(false);
     }
   }
+
+  // Countdown + redirect to the sign-in page after a successful reset.
+  useEffect(() => {
+    if (!ok) return;
+    if (countdown <= 0) {
+      navigate({ to: "/account", replace: true });
+      return;
+    }
+    const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [ok, countdown, navigate]);
 
   if (loading) return <AuthLoader minHeight="70vh" showHomeLink />;
 
@@ -84,7 +97,42 @@ function ResetPasswordPage() {
             <span className="gold-rule mt-6" />
           </div>
 
-          {ready ? (
+          {ok ? (
+            <div className="mt-10 text-center">
+              <div
+                role="status"
+                aria-live="polite"
+                className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-teal/40 bg-teal/5 text-teal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  className="h-7 w-7"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l5 5 10-11" />
+                </svg>
+              </div>
+              <p className="label-eyebrow mt-6 text-teal">Password updated</p>
+              <h2 className="mt-4 font-serif text-2xl text-charcoal md:text-3xl">
+                You're all set.
+              </h2>
+              <p className="mt-4 text-sm font-light leading-relaxed text-charcoal-soft">
+                Your new password has been saved. Redirecting you to sign in
+                {countdown > 0 ? <> in <span className="text-charcoal">{countdown}</span>…</> : "…"}
+              </p>
+              <button
+                type="button"
+                onClick={() => navigate({ to: "/account", replace: true })}
+                className="btn-outline-charcoal mt-8"
+              >
+                Go to sign in now
+              </button>
+            </div>
+          ) : ready ? (
             <form onSubmit={onSubmit} className="mt-10 space-y-6">
               <PasswordInput
                 label="New password"
@@ -101,7 +149,6 @@ function ResetPasswordPage() {
                 required
               />
               {err ? <p className="text-xs font-light text-destructive">{err}</p> : null}
-              {ok ? <p className="text-xs font-light text-teal">Password reset. Welcome.</p> : null}
               <button
                 type="submit"
                 disabled={submitting}
