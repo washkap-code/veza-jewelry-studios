@@ -61,14 +61,26 @@ function ResetPasswordPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password: pw1 });
       if (error) throw error;
+      // Sign the user out so they return via the sign-in form with the new password.
+      await supabase.auth.signOut();
       setOk(true);
-      setTimeout(() => navigate({ to: "/account", replace: true }), 900);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Something interrupted our craft.");
     } finally {
       setSubmitting(false);
     }
   }
+
+  // Countdown + redirect to the sign-in page after a successful reset.
+  useEffect(() => {
+    if (!ok) return;
+    if (countdown <= 0) {
+      navigate({ to: "/account", replace: true });
+      return;
+    }
+    const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [ok, countdown, navigate]);
 
   if (loading) return <AuthLoader minHeight="70vh" showHomeLink />;
 
