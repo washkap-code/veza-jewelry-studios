@@ -17,6 +17,13 @@ export interface CartItem {
   currency: string;
   image: string | null;
   quantity: number;
+  metal?: "silver" | "gold";
+}
+
+export interface AddItemOptions {
+  quantity?: number;
+  metal?: "silver" | "gold";
+  price?: number;
 }
 
 interface CartContextValue {
@@ -26,7 +33,7 @@ interface CartContextValue {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addItem: (product: Product, quantity?: number) => void;
+  addItem: (product: Product, options?: AddItemOptions | number) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clear: () => void;
@@ -67,12 +74,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items, hydrated]);
 
-  const addItem = useCallback((product: Product, quantity = 1) => {
+  const addItem = useCallback((product: Product, options: AddItemOptions | number = {}) => {
+    const opts: AddItemOptions = typeof options === "number" ? { quantity: options } : options;
+    const quantity = opts.quantity ?? 1;
+    const metal = opts.metal;
+    const price = opts.price ?? Number(product.price);
+    const lineKey = metal ? `${product.id}:${metal}` : product.id;
     setItems((prev) => {
-      const existing = prev.find((i) => i.id === product.id);
+      const existing = prev.find((i) => i.id === lineKey);
       if (existing) {
         return prev.map((i) =>
-          i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i,
+          i.id === lineKey ? { ...i, quantity: i.quantity + quantity } : i,
         );
       }
       const image =
@@ -80,13 +92,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [
         ...prev,
         {
-          id: product.id,
+          id: lineKey,
           slug: product.slug,
-          name: product.name,
-          price: Number(product.price),
+          name: metal ? `${product.name} — ${metal === "gold" ? "9ct Gold" : "925 Silver"}` : product.name,
+          price,
           currency: product.currency,
           image,
           quantity,
+          metal,
         },
       ];
     });

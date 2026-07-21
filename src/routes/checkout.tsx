@@ -96,7 +96,7 @@ function CheckoutPage() {
       const { error: itemsErr } = await supabase.from("order_items").insert(
         items.map((i) => ({
           order_id: order.id,
-          product_id: i.id,
+          product_id: i.id.includes(":") ? i.id.split(":")[0] : i.id,
           quantity: i.quantity,
           unit_price: i.price,
         })),
