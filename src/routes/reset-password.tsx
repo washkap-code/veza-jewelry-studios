@@ -25,6 +25,7 @@ function ResetPasswordPage() {
   const [err, setErr] = useState<string | null>(null);
   const [ok, setOk] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
     let active = true;
