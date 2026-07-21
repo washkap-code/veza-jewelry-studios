@@ -17,6 +17,13 @@ export interface CartItem {
   currency: string;
   image: string | null;
   quantity: number;
+  metal?: "silver" | "gold";
+}
+
+export interface AddItemOptions {
+  quantity?: number;
+  metal?: "silver" | "gold";
+  price?: number;
 }
 
 interface CartContextValue {
@@ -26,7 +33,7 @@ interface CartContextValue {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addItem: (product: Product, quantity?: number) => void;
+  addItem: (product: Product, options?: AddItemOptions | number) => void;
   removeItem: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clear: () => void;
