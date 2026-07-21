@@ -26,33 +26,30 @@ function ResetPasswordPage() {
   const [ok, setOk] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const hasRecoveryIntent = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-    const search = new URLSearchParams(window.location.search);
-    return hash.get("type") === "recovery" || search.get("type") === "recovery";
-  }, []);
-
   useEffect(() => {
     let active = true;
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
-      if (event === "PASSWORD_RECOVERY" || (session && hasRecoveryIntent)) {
+      if (event === "PASSWORD_RECOVERY" || (event === "SIGNED_IN" && session)) {
         setReady(true);
         setLoading(false);
       }
     });
 
+    // Supabase's detectSessionInUrl consumes the recovery hash before this
+    // component mounts, so a URL marker cannot be relied on. If a session is
+    // present when we arrive here, treat it as a valid recovery context and
+    // allow the password to be set.
     supabase.auth.getSession().then(({ data }) => {
       if (!active) return;
-      setReady(!!data.session && hasRecoveryIntent);
+      setReady(!!data.session);
       setLoading(false);
     });
     return () => {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [hasRecoveryIntent]);
+  }, []);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
