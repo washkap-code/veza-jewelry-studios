@@ -258,8 +258,8 @@ function ProductBody({ product }: { product: Product }) {
             ) : (
               <button
                 onClick={() => {
-                  addItem(product, qty);
-                  logEvent("add_to_cart", { product_id: product.id, meta: { qty, metal } });
+                  addItem(product, { quantity: qty, metal: hasBoth ? metal : undefined, price: Number(activePrice) });
+                  logEvent("add_to_cart", { product_id: product.id, meta: { qty, metal, price: Number(activePrice) } });
                 }}
                 className="btn-outline-charcoal flex-1"
               >
