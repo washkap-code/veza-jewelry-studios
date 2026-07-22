@@ -6,6 +6,7 @@ import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
+import { markPasswordUpdated } from "../lib/password-updated-flag";
 
 export const Route = createFileRoute("/change-password")({
   head: () => ({
@@ -44,6 +45,7 @@ function ChangePasswordPage() {
         if (flagErr) throw flagErr;
       }
       await refreshProfile();
+      markPasswordUpdated();
       setOk(true);
       setTimeout(() => navigate({ to: isAdmin ? "/admin" : "/account", replace: true }), 900);
     } catch (e) {

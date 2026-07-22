@@ -5,6 +5,7 @@ import { AuthLoader } from "../components/AuthLoader";
 import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { supabase } from "../lib/supabase";
+import { markPasswordUpdated } from "../lib/password-updated-flag";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
@@ -63,6 +64,7 @@ function ResetPasswordPage() {
       if (error) throw error;
       // Sign the user out so they return via the sign-in form with the new password.
       await supabase.auth.signOut();
+      markPasswordUpdated();
       setOk(true);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "Something interrupted our craft.");
