@@ -4,7 +4,9 @@ import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
 import { VezaLogo } from "../components/VezaLogo";
 import { PasswordInput } from "../components/PasswordInput";
+import { PasswordUpdatedBanner } from "../components/PasswordUpdatedBanner";
 import { InstallAppInstructions } from "../components/InstallAppInstructions";
+import { consumePasswordUpdated } from "../lib/password-updated-flag";
 
 export const Route = createFileRoute("/studio")({
   head: () => ({

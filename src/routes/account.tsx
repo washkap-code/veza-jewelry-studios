@@ -8,8 +8,10 @@ import { AuthLoader } from "../components/AuthLoader";
 import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { InstallAppInstructions } from "../components/InstallAppInstructions";
+import { PasswordUpdatedBanner } from "../components/PasswordUpdatedBanner";
 import { useAuth } from "../lib/auth";
 import { supabase, type Order, type Product, type Profile } from "../lib/supabase";
+import { consumePasswordUpdated } from "../lib/password-updated-flag";
 import { LUXE_EASE } from "../lib/motion";
 
 export const Route = createFileRoute("/account")({
@@ -71,6 +73,11 @@ function AuthCard() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [pwUpdated, setPwUpdated] = useState(false);
+
+  useEffect(() => {
+    if (consumePasswordUpdated()) setPwUpdated(true);
+  }, []);
 
   const isSignIn = mode === "signin";
 
@@ -125,6 +132,10 @@ function AuthCard() {
             </h1>
             <span className="gold-rule mt-6" />
           </div>
+
+          {pwUpdated && isSignIn ? (
+            <PasswordUpdatedBanner onDismiss={() => setPwUpdated(false)} />
+          ) : null}
 
           <form onSubmit={onSubmit} className="mt-10 space-y-6">
             {!isSignIn ? (

@@ -6,6 +6,7 @@ import { PasswordInput } from "../components/PasswordInput";
 import { VezaLogo } from "../components/VezaLogo";
 import { useAuth } from "../lib/auth";
 import { supabase } from "../lib/supabase";
+import { markPasswordUpdated } from "../lib/password-updated-flag";
 
 export const Route = createFileRoute("/change-password")({
   head: () => ({
