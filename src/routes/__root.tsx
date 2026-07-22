@@ -19,6 +19,7 @@ import { AuthProvider } from "../lib/auth";
 import { CartProvider } from "../lib/cart";
 import CartDrawer from "../components/CartDrawer";
 import Preloader from "../components/Preloader";
+import PasswordChangeGate from "../components/PasswordChangeGate";
 
 
 function NotFoundComponent() {
@@ -159,6 +160,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
+          <PasswordChangeGate />
           <Preloader />
           <div className="min-h-screen bg-ivory text-charcoal">
             {isStudio ? null : <Navigation />}
