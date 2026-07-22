@@ -25,6 +25,11 @@ function StudioLogin() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const [pwUpdated, setPwUpdated] = useState(false);
+
+  useEffect(() => {
+    if (consumePasswordUpdated()) setPwUpdated(true);
+  }, []);
 
   useEffect(() => {
     if (loading) return;
@@ -72,6 +77,12 @@ function StudioLogin() {
           <h1 className="mt-4 font-serif text-3xl text-ivory">Studio Access</h1>
           <span className="mt-6 block h-px w-10 bg-gold" />
         </div>
+
+        {pwUpdated ? (
+          <div className="mt-10">
+            <PasswordUpdatedBanner tone="dark" onDismiss={() => setPwUpdated(false)} />
+          </div>
+        ) : null}
 
         <form onSubmit={onSubmit} className="mt-12 space-y-6">
           <label className="block">
