@@ -45,6 +45,7 @@ function ChangePasswordPage() {
         if (flagErr) throw flagErr;
       }
       await refreshProfile();
+      markPasswordUpdated();
       setOk(true);
       setTimeout(() => navigate({ to: isAdmin ? "/admin" : "/account", replace: true }), 900);
     } catch (e) {
